@@ -31,9 +31,9 @@ class RegisterPage extends React.Component{
     handleSubmit(e) {
         e.preventDefault();
 
-        const { password, repeatPassword } = this.state;
+        const { _password, _repeatPassword } = this.state;
         
-        if(password.trim() !== repeatPassword.trim()){
+        if(_password.trim() !== _repeatPassword.trim()){
             alert('Passwords do not match');
         }
 
@@ -92,7 +92,7 @@ class RegisterPage extends React.Component{
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control
                                     required
-                                    id="email"
+                                    id="_email"
                                     value={_email}
                                     type="email"
                                     placeholder="Email"
@@ -103,7 +103,7 @@ class RegisterPage extends React.Component{
                                 <Form.Label>Social security number</Form.Label>
                                 <Form.Control
                                     required
-                                    id="socialSecurityNumber"
+                                    id="_socialSecurityNumber"
                                     value={_socialSecurityNumber}
                                     type="text"
                                     placeholder="Social security number"
@@ -116,7 +116,7 @@ class RegisterPage extends React.Component{
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
                                     required
-                                    id="password"
+                                    id="_password"
                                     type="password"
                                     value={_password}
                                     placeholder="Password"
@@ -127,7 +127,7 @@ class RegisterPage extends React.Component{
                             <Form.Label>Repeat password</Form.Label>
                                 <Form.Control
                                     required
-                                    id="repeatPassword"
+                                    id="_repeatPassword"
                                     value={_repeatPassword}
                                     type="password"
                                     placeholder="Password"
@@ -140,7 +140,7 @@ class RegisterPage extends React.Component{
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control
                                     required
-                                    id="name"
+                                    id="_name"
                                     value={_name}
                                     type="text"
                                     placeholder="Name"
@@ -151,7 +151,7 @@ class RegisterPage extends React.Component{
                                 <Form.Label>Surname</Form.Label>
                                 <Form.Control
                                     required
-                                    id="surname"
+                                    id="_surname"
                                     value={_surname}
                                     type="text"
                                     placeholder="Surname"
@@ -162,7 +162,7 @@ class RegisterPage extends React.Component{
                                 <Form.Label>Phone number</Form.Label>
                                 <Form.Control
                                     required
-                                    id="phone"
+                                    id="_phone"
                                     value={_phone}
                                     type="text"
                                     placeholder="Phone"
@@ -175,7 +175,7 @@ class RegisterPage extends React.Component{
                                 <Form.Label>Street name</Form.Label>
                                 <Form.Control
                                     required
-                                    id="street"
+                                    id="_street"
                                     value={_street}
                                     type="text"
                                     placeholder="Street name"
@@ -186,7 +186,7 @@ class RegisterPage extends React.Component{
                                 <Form.Label>Street number</Form.Label>
                                 <Form.Control
                                     required
-                                    id="number"
+                                    id="_number"
                                     value={_number}
                                     type="text"
                                     placeholder="Street number"
@@ -199,7 +199,7 @@ class RegisterPage extends React.Component{
                                 <Form.Label>City</Form.Label>
                                 <Form.Control
                                     required
-                                    id="city"
+                                    id="_city"
                                     value={_city}
                                     type="text"
                                     placeholder="City"
@@ -211,7 +211,7 @@ class RegisterPage extends React.Component{
                                 <Form.Control
                                     required
                                     placeholder="Postcode"
-                                    id="postcode"
+                                    id="_postcode"
                                     value={_postcode}
                                     type="text"
                                     onChange={this.handleChange}
@@ -221,7 +221,7 @@ class RegisterPage extends React.Component{
                                 <Form.Label>Country</Form.Label>
                                 <Form.Control
                                     required
-                                    id="country"
+                                    id="_country"
                                     value={_country}
                                     type="text"
                                     placeholder="Country"
