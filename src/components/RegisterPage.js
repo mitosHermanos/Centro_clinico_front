@@ -6,18 +6,18 @@ class RegisterPage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            email: '',
-            socialSecurityNumber: "",
-            password: '',
-            repeatPassword: '',
-            name: '',
-            surname: '',
-            phone: '',
-            street: '',
-            number: '',
-            city: '',
-            postcode: '',
-            country: '',          
+            _email: '',
+            _socialSecurityNumber: "",
+            _password: '',
+            _repeatPassword: '',
+            _name: '',
+            _surname: '',
+            _phone: '',
+            _street: '',
+            _number: '',
+            _city: '',
+            _postcode: '',
+            _country: '',          
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,19 +42,21 @@ class RegisterPage extends React.Component{
     }
 
     register(){
+        
+        const {_email, _socialSecurityNumber, _password, _repeatPassword, _name, _surname, _phone, _street, _number, _city, _postcode, _country } = this.state;
 
         const patientRequest = {
-            email: this.state.email,
-            password: this.state.password,
-            name: this.state.name,
-            surname: this.state.surname,            
-            street: this.state.street,
-            streetNumber: this.state.number,
-            city: this.state.city,
-            postcode: this.state.postcode,
-            country: this.state.country,
-            phoneNumber: this.state.phone,
-            socialSecurityNumber: this.state.socialSecurityNumber
+            email: _email,
+            password: _password,
+            name: _name,
+            surname: _surname,            
+            street: _street,
+            streetNumber: _number,
+            city: _city,
+            postcode: _postcode,
+            country: _country,
+            phoneNumber: _phone,
+            socialSecurityNumber: _socialSecurityNumber
         }
 
         const requestOptions = {
@@ -79,7 +81,7 @@ class RegisterPage extends React.Component{
     }
     
     render(){
-        const {email, socialSecurityNumber,password, repeatPassword, name, surname, phone, street, number, city, postcode, country } = this.state;
+        const {_email, _socialSecurityNumber, _password, _repeatPassword, _name, _surname, _phone, _street, _number, _city, _postcode, _country } = this.state;
         return(
             <Container>
                 <div className='register-div'>
@@ -91,7 +93,7 @@ class RegisterPage extends React.Component{
                                 <Form.Control
                                     required
                                     id="email"
-                                    value={email}
+                                    value={_email}
                                     type="email"
                                     placeholder="Email"
                                     onChange={this.handleChange}
@@ -102,7 +104,7 @@ class RegisterPage extends React.Component{
                                 <Form.Control
                                     required
                                     id="socialSecurityNumber"
-                                    value={socialSecurityNumber}
+                                    value={_socialSecurityNumber}
                                     type="text"
                                     placeholder="Social security number"
                                     onChange={this.handleChange}
@@ -116,7 +118,7 @@ class RegisterPage extends React.Component{
                                     required
                                     id="password"
                                     type="password"
-                                    value={password}
+                                    value={_password}
                                     placeholder="Password"
                                     onChange={this.handleChange}
                                 />
@@ -126,7 +128,7 @@ class RegisterPage extends React.Component{
                                 <Form.Control
                                     required
                                     id="repeatPassword"
-                                    value={repeatPassword}
+                                    value={_repeatPassword}
                                     type="password"
                                     placeholder="Password"
                                     onChange={this.handleChange}
@@ -139,7 +141,7 @@ class RegisterPage extends React.Component{
                                 <Form.Control
                                     required
                                     id="name"
-                                    value={name}
+                                    value={_name}
                                     type="text"
                                     placeholder="Name"
                                     onChange={this.handleChange}
@@ -150,7 +152,7 @@ class RegisterPage extends React.Component{
                                 <Form.Control
                                     required
                                     id="surname"
-                                    value={surname}
+                                    value={_surname}
                                     type="text"
                                     placeholder="Surname"
                                     onChange={this.handleChange}
@@ -161,7 +163,7 @@ class RegisterPage extends React.Component{
                                 <Form.Control
                                     required
                                     id="phone"
-                                    value={phone}
+                                    value={_phone}
                                     type="text"
                                     placeholder="Phone"
                                     onChange={this.handleChange}
@@ -174,7 +176,7 @@ class RegisterPage extends React.Component{
                                 <Form.Control
                                     required
                                     id="street"
-                                    value={street}
+                                    value={_street}
                                     type="text"
                                     placeholder="Street name"
                                     onChange={this.handleChange}
@@ -185,7 +187,7 @@ class RegisterPage extends React.Component{
                                 <Form.Control
                                     required
                                     id="number"
-                                    value={number}
+                                    value={_number}
                                     type="text"
                                     placeholder="Street number"
                                     onChange={this.handleChange}
@@ -198,7 +200,7 @@ class RegisterPage extends React.Component{
                                 <Form.Control
                                     required
                                     id="city"
-                                    value={city}
+                                    value={_city}
                                     type="text"
                                     placeholder="City"
                                     onChange={this.handleChange}
@@ -210,7 +212,7 @@ class RegisterPage extends React.Component{
                                     required
                                     placeholder="Postcode"
                                     id="postcode"
-                                    value={postcode}
+                                    value={_postcode}
                                     type="text"
                                     onChange={this.handleChange}
                                 />
@@ -220,7 +222,7 @@ class RegisterPage extends React.Component{
                                 <Form.Control
                                     required
                                     id="country"
-                                    value={country}
+                                    value={_country}
                                     type="text"
                                     placeholder="Country"
                                     onChange={this.handleChange}
