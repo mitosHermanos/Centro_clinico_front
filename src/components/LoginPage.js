@@ -16,12 +16,12 @@ class LoginPage extends React.Component{
                         <Form>
                             <Form.Group>
                                 <Form.Label>
-                                    Username
+                                    Email
                                 </Form.Label>
                                 <Form.Control
-                                    id="username"
+                                    id="email"
                                     type="text"
-                                    placeholder="Username"
+                                    placeholder="Email"
                                 />
                             </Form.Group>
                             <Form.Group>
