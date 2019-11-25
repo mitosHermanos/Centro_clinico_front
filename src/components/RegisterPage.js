@@ -35,6 +35,7 @@ class RegisterPage extends React.Component{
         
         if(_password.trim() !== _repeatPassword.trim()){
             alert('Passwords do not match');
+            return;
         }
 
         this.register();
@@ -43,7 +44,7 @@ class RegisterPage extends React.Component{
 
     register(){
         
-        const {_email, _socialSecurityNumber, _password, _repeatPassword, _name, _surname, _phone, _street, _number, _city, _postcode, _country } = this.state;
+        const {_email, _socialSecurityNumber, _password,  _name, _surname, _phone, _street, _number, _city, _postcode, _country } = this.state;
 
         const patientRequest = {
             email: _email,
@@ -76,7 +77,10 @@ class RegisterPage extends React.Component{
             this.props.history.push('/');
         })
         .catch(response => {
-            alert('Unsuccessfull register')
+            return response.text();
+        })
+        .then((message) => {
+            alert(message);
         });
     }
     
