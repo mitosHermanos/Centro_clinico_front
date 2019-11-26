@@ -9,6 +9,7 @@ import ClinicCentAdmin from './components/ClinicCentAdmin.js';
 import CCPerson from './components/CCPerson.js';
 import EditClinicProfile from './components/EditClinicProfile.js';
 import EditClinicAdminProfile from './components/EditClinicAdminProfile.js';
+import ViewBusinessReportPage from './components/ViewBusinessReportPage.js';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/clinicCentAdmin" component={CCPerson}/>
       <Route path="/editClinicProfile" component={EditClinicProfile}/>
       <Route path="/editClinicAdminProfile" component={EditClinicAdminProfile} />
+      <Route path="/viewBusinessReport" component={ViewBusinessReportPage}/>
     </div>
   );
 }
