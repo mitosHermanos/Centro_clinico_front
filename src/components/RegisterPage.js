@@ -77,10 +77,11 @@ class RegisterPage extends React.Component{
             this.props.history.push('/');
         })
         .catch(response => {
-            return response.text();
+            return response.json();
         })
-        .then((message) => {
-            alert(message);
+        .then((data) => {
+            console.log(data)
+            alert(data.message);
         });
     }
     
