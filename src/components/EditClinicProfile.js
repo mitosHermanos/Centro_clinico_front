@@ -1,8 +1,132 @@
 import React, {Component} from 'react';
 import {Container, Form, Col, Button} from 'react-bootstrap'
+import {serviceConfig} from '../appSettings.js'
 
-function EditClinicProfile(){
-    
+class EditClinicProfile extends React.Component{
+
+        constructor(props){
+            super(props);
+            this.state = {
+                _newCheckupDate : '',
+                _newRoomName: '',
+                _newCheckupType: '',
+                _checkupDates : [
+                    {date: 'Zogatinela'},
+                    {date: 'Veca zogatinela'}
+                ],
+            };
+            this.handleAddDate = this.handleAddDate.bind(this);
+            this.handleChange = this.handleChange.bind(this);
+            this.handleAddDoctor = this.handleAddDoctor.bind(this);
+            this.handleAddType = this.handleAddType.bind(this);
+            this.handleAddRoom = this.handleAddRoom.bind(this);
+        }
+
+        handleChange(e) {
+            const { id, value } = e.target;
+            this.setState({ [id]: value });
+        }
+
+        handleAddType(){
+            const {_newCheckupType} = this.state;
+
+            const checkupTypeRequest = {
+                date : _newCheckupType,
+            }
+
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(checkupTypeRequest)
+            };
+
+            fetch(`${serviceConfig.baseURL}/clinic/addCheckupType/1`, requestOptions)
+            .then(response => {
+                if(!response.ok){
+                    return Promise.reject(response);
+                }
+                return response.statusText;
+            })
+            .then(() => {
+                this.props.history.push('/editClinicProfile');
+            })
+            .catch(response => {
+                const promise = Promise.resolve(response.json());
+                promise.then(data => {
+                    alert(data.message);
+                })
+            })
+        }
+
+        handleAddRoom(){
+            const {_newRoomName} = this.state;
+
+            const roomRequest = {
+                name : _newRoomName,
+            }
+
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(roomRequest)
+            };
+
+            fetch(`${serviceConfig.baseURL}/clinic/addRoom/1`, requestOptions)
+            .then(response => {
+                if(!response.ok){
+                    return Promise.reject(response);
+                }
+                return response.statusText;
+            })
+            .then(() => {
+                this.props.history.push('/editClinicProfile');
+            })
+            .catch(response => {
+                const promise = Promise.resolve(response.json());
+                promise.then(data => {
+                    alert(data.message);
+                })
+            })
+        }
+
+        handleAddDate(){
+
+            const {_newCheckupDate} = this.state;
+
+            const checkupDateRequest = {
+                date : _newCheckupDate,
+            }
+
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(checkupDateRequest)
+            };
+
+            fetch(`${serviceConfig.baseURL}/clinic/addCheckupDate/1`, requestOptions)
+            .then(response => {
+                if(!response.ok){
+                    return Promise.reject(response);
+                }
+                return response.statusText;
+            })
+            .then(() => {
+                this.props.history.push('/editClinicProfile');
+            })
+            .catch(response => {
+                const promise = Promise.resolve(response.json());
+                promise.then(data => {
+                    alert(data.message);
+                })
+            })
+        }
+
+        handleAddDoctor(){
+            this.props.history.push('/registerDoctor');
+        }
+
+        render(){
+        const {_newCheckupDate, _checkupDates, _newRoomName, _newCheckupType} = this.state;
         return(
             <Container>
                 <div className='register-div'>
@@ -35,22 +159,36 @@ function EditClinicProfile(){
 
                         <Form.Row>
                             
-                            <Form.Group as={Col} md="6">
+                            <Form.Group as={Col} md="4">
                                 
                                 <Form.Control as="select">
-                                        <option>1. novembar</option>
-                                        <option>2. januar</option>
+                                        {_checkupDates.map((e, key) => {
+                                            return <option key={key} value={e.date}>{e.date}</option>;
+                                        })}
                                     </Form.Control>
                             </Form.Group>
+
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="primary">Add</Button>
+                                <Button variant="secondary" onClick={this.handleRemoveDate}>Remove</Button>
+                                </Form.Group>  
+
+                            <Form.Group as={Col} md="4">
+                                <Form.Control
+                                    id="_newCheckupDate"
+                                    value={_newCheckupDate}
+                                    type="text"
+                                    placeholder="NewCheckupDate"
+                                    onChange={this.handleChange}
+                                />
+                            </Form.Group>
+
+                            <Form.Group as={Col} md="2">
+                                <Form.Label></Form.Label>
+                                <Button variant="primary" onClick={this.handleAddDate}>Add</Button>
                                 
                                 </Form.Group>
-                            <Form.Group as={Col} md="2">
-                                <Form.Label></Form.Label>
-                                <Button variant="secondary">Remove</Button>
-                                </Form.Group>                       
+                                                 
                             </Form.Row>
 
                         <Form.Row>
@@ -68,7 +206,7 @@ function EditClinicProfile(){
                             </Form.Group>
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="primary">Add</Button>
+                                <Button variant="primary" onClick={this.handleAddDoctor}>Add</Button>
                                 
                                 </Form.Group>
                             <Form.Group as={Col} md="2">
@@ -83,7 +221,7 @@ function EditClinicProfile(){
 
                         <Form.Row>
                             
-                            <Form.Group as={Col} md="6">
+                            <Form.Group as={Col} md="4">
                                 
                                 <Form.Control as="select">
                                         <option>Room 1</option>
@@ -92,13 +230,25 @@ function EditClinicProfile(){
                             </Form.Group>
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="primary">Add</Button>
-                                
-                                </Form.Group>
+                                <Button variant="secondary">Remove</Button>
+                                </Form.Group> 
+                            
+                            <Form.Group as={Col} md="4">
+                                <Form.Control
+                                    id="_newRoomName"
+                                    value={_newRoomName}
+                                    type="text"
+                                    placeholder="NewRoomName"
+                                    onChange={this.handleChange}
+                                />
+                            </Form.Group>
+
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="secondary">Remove</Button>
-                                </Form.Group>                       
+                                <Button variant="primary" onClick={this.handleAddRoom}>Add</Button>
+                                
+                                </Form.Group>
+                                                  
                             </Form.Row>
 
                         <Form.Row>
@@ -107,22 +257,35 @@ function EditClinicProfile(){
 
                         <Form.Row>
                             
-                            <Form.Group as={Col} md="6">
+                            <Form.Group as={Col} md="4">
                                 
                                 <Form.Control as="select">
                                         <option>Checkup type 1</option>
                                         <option>Checkup type 2</option>
                                     </Form.Control>
                             </Form.Group>
-                            <Form.Group as={Col} md="2">
-                                <Form.Label></Form.Label>
-                                <Button variant="primary">Add</Button>
-                                
-                                </Form.Group>
+                            
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
                                 <Button variant="secondary">Remove</Button>
-                                </Form.Group>                       
+                                </Form.Group>  
+
+                            <Form.Group as={Col} md="4">
+                                <Form.Control
+                                    id="_newCheckupType"
+                                    value={_newCheckupType}
+                                    type="text"
+                                    placeholder="NewCheckupType"
+                                    onChange={this.handleChange}
+                                />
+                            </Form.Group>
+                            
+                            <Form.Group as={Col} md="2">
+                                <Form.Label></Form.Label>
+                                <Button variant="primary" onClick={this.handleAddType}>Add</Button>
+                                
+                                </Form.Group>
+                                                 
                             </Form.Row>
                         
                         <Form.Row>
@@ -183,6 +346,7 @@ function EditClinicProfile(){
                 </div>
             </Container>
         );
+        }
     
 }
 export default EditClinicProfile; 

@@ -13,6 +13,7 @@ import CCPerson from './components/CCPerson.js';
 import EditClinicProfile from './components/EditClinicProfile.js';
 import EditClinicAdminProfile from './components/EditClinicAdminProfile.js';
 import ViewBusinessReportPage from './components/ViewBusinessReportPage.js';
+import RegisterDoctorPage from './components/RegisterDoctorPage.js';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route path="/editClinicProfile" component={EditClinicProfile}/>
       <Route path="/editClinicAdminProfile" component={EditClinicAdminProfile} />
       <Route path="/viewBusinessReport" component={ViewBusinessReportPage}/>
+      <Route path="/registerDoctor" component={RegisterDoctorPage} />
     </div>
   );
 }

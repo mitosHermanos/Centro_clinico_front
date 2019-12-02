@@ -1,17 +1,24 @@
 import React, {Component} from 'react';
 import {Container, Form, Col, Button} from 'react-bootstrap'
 import DoctorsAverageRatingTable from './DoctorsAverageRatingTable.js'
-
+import {serviceConfig} from '../appSettings.js'
 
 class ViewBusinessReportPage extends Component{
     constructor(props){
         super(props)
         this.state = {
-            docrating :[
-                {id: 1, name: 'Doca', surname: 'Prvi', avgrating : 3},
-                {id: 2, name: 'Doca', surname: 'Drugi', avgrating : 4}
-            ]
+            docrating : [],
         }
+    }
+
+
+    componentDidMount(){
+        fetch(`${serviceConfig.baseURL}/viewBusinessReport/1`, {
+            method: 'GET', 
+            headers: {'Content-Type': 'application/json'},
+        })
+        .then(response => response.json())
+        .then(parsedJSON =>  console.log(parsedJSON.results))
     }
 
     render(){
