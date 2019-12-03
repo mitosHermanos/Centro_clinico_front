@@ -47,17 +47,17 @@ class LoginPage extends React.Component{
             if (!response.ok) {
                 return Promise.reject(response);
             }
-            return response.statusText;
-        })
-        .then(() => {
-            this.props.history.push('/');
-        })
-        .catch(response => {
             return response.json();
         })
         .then((data) => {
-            alert(data.message);
-        });
+            localStorage.setItem('token', JSON.stringify(data));
+        })
+        .catch(response => {
+            const promise = Promise.resolve(response.json())
+            promise.then(data => {
+                alert(data.message);
+            })
+        })
     }
 
     render(){

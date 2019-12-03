@@ -42,7 +42,7 @@ class RegisterDoctorPage extends React.Component{
     }
 
     register(){
-        
+        const token = JSON.parse(localStorage.getItem('token'));
         const {_email, _password,  _name, _surname, _phone, _street, _number, _city, _postcode, _country } = this.state;
 
         const doctorRequest = {
@@ -60,11 +60,14 @@ class RegisterDoctorPage extends React.Component{
 
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${token.accessToken}`,
+            },
             body: JSON.stringify(doctorRequest)
         };
 
-        fetch(`${serviceConfig.baseURL}/clinic/addDoctor/1`, requestOptions)
+        fetch(`${serviceConfig.baseURL}/clinic/addDoctor`, requestOptions)
         .then(response => {
             if (!response.ok) {
                 return Promise.reject(response);

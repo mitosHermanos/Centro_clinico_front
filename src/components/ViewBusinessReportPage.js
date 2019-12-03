@@ -13,12 +13,29 @@ class ViewBusinessReportPage extends Component{
 
 
     componentDidMount(){
-        fetch(`${serviceConfig.baseURL}/viewBusinessReport/1`, {
-            method: 'GET', 
-            headers: {'Content-Type': 'application/json'},
+        const token = JSON.parse(localStorage.getItem('token'));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${token.accessToken}`},
+        }
+
+        fetch(`${serviceConfig.baseURL}/viewBusinessReport/0`, requestOptions)
+        .then(response => {
+            return response.json();   
         })
-        .then(response => response.json())
-        .then(parsedJSON =>  console.log(parsedJSON.results))
+        .then((data) =>  {
+            this.setState({docrating: data});
+            console.log(data);
+        })
+        .catch(response => {
+            const promise = Promise.resolve(response.json());
+            promise.then(data => {
+                alert(data.message);
+            })
+        })
     }
 
     render(){
