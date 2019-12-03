@@ -75,7 +75,7 @@ class RegisterDoctorPage extends React.Component{
             return response.statusText;
         })
         .then(() => {
-            this.props.history.push('/');
+            this.props.history.push('/editClinicProfile');
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());
