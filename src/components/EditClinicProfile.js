@@ -136,7 +136,8 @@ class EditClinicProfile extends React.Component{
 
         }
 
-        handleSubmit(){
+        handleSubmit(e){
+            e.preventDefault();
             const token = JSON.parse(localStorage.getItem('token'));
 
             const {_name,_description,_street,_number,_city,_postcode,_country} = this.state;

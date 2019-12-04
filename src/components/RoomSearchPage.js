@@ -20,7 +20,9 @@ class RoomSearchPage extends Component{
         this.setState({ [id]: value });
     }
 
-    handleSearch(){
+    handleSearch(e){
+        e.preventDefault();
+
         const {_searchText} = this.state;
         const token = JSON.parse(localStorage.getItem('token'));
 
@@ -58,7 +60,7 @@ class RoomSearchPage extends Component{
             <Container>
                 <div className='register-div'>
                     <h2>Search for rooms</h2>
-                    <Form>
+                    <Form onSubmit={this.handleSearch}>
                     <Form.Row>
                         <Form.Group as={Col} md="12">
                                 <Form.Control
@@ -68,7 +70,7 @@ class RoomSearchPage extends Component{
                                     placeholder="Enter text here..."
                                     onChange={this.handleChange}
                                 />
-                                <Button variant="primary" onClick={this.handleSearch}>Search</Button>
+                                <Button variant="primary" type="submit">Search</Button>
                             </Form.Group>
                         </Form.Row>
                     <Form.Row>
