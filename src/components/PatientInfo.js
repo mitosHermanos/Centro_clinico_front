@@ -47,6 +47,10 @@ class PatientInfo extends React.Component{
 
     }
 
+    nextPath(path) {
+        this.props.history.push(path);
+    }
+
 
     render(){
         const {name, surname, email, phoneNumber, street, streetNumber, city, postcode, country, socialSecurityNumber} = this.state.patient;
@@ -58,7 +62,7 @@ class PatientInfo extends React.Component{
                     <Card.Header style={{display: 'flex', justifyContent: 'space-between'}}>
                         Patient information
                         <div>
-                            <Button variant="outline-primary" size="sm">
+                            <Button variant="outline-primary" size="sm" onClick={() => this.nextPath('/patientProfile/edit') }>
                                 Edit
                             </Button>
                             <OverlayTrigger
@@ -99,7 +103,7 @@ class PatientInfo extends React.Component{
                         </Container>
                     </Card.Body>
                     <Card.Footer style={{display: 'flex', justifyContent: 'center'}}>
-                        <Button variant="outline-primary" size="sm">
+                        <Button variant="outline-primary" size="sm" onClick={() => this.nextPath('/patientProfile/password') }>
                             Change password
                         </Button>
                     </Card.Footer>

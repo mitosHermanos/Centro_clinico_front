@@ -71,9 +71,6 @@ class RegisterPage extends React.Component{
             if (!response.ok) {
                 return Promise.reject(response);
             }
-            return response.statusText;
-        })
-        .then(() => {
             this.props.history.push('/');
         })
         .catch(response => {
