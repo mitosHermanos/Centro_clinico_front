@@ -7,16 +7,15 @@ class DoctorsAverageRatingTable extends Component{
         super(props);
         console.log(this.props)
     }
-
+    
     renderTableData() {
-        return this.props.docrating.map((docrating, index) => {
-           const { id, name, surname, avgrating} = docrating //destructuring
+        return this.props.docrating.map((e, index) => {
            return (
-              <tr key={id}>
-                 <td>{id}</td>
-                 <td>{name}</td>
-                 <td>{surname}</td>
-                 <td>{avgrating}</td>
+              <tr key={e.id}>
+                 <td>{e.id}</td>
+                 <td>{e.name}</td>
+                 <td>{e.surname}</td>
+                 <td>{e.avgrating}</td>
               </tr>
            )
         })

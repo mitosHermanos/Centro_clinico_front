@@ -53,10 +53,10 @@ class LoginPage extends React.Component{
             localStorage.setItem('token', JSON.stringify(data));
         })
         .catch(response => {
-            const promise = Promise.resolve(response.json());
+            const promise = Promise.resolve(response.json())
             promise.then(data => {
                 alert(data.message);
-            })    
+            })
         })
     }
 

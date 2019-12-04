@@ -6,15 +6,13 @@ import RegisterPage from './components/RegisterPage.js'
 import RegisterClinic from './components/RegisterClinic.js'
 import PatientInfo from './components/PatientInfo.js'
 import EditPatientInfo from './components/EditPatientInfo.js'
-
-
-import './styles/App.css';
+import EditPatientPassword from './components/EditPatientPassword.js'
 import ClinicCentAdmin from './components/ClinicCentAdmin.js';
 import CCPerson from './components/CCPerson.js';
 import EditClinicProfile from './components/EditClinicProfile.js';
 import EditClinicAdminProfile from './components/EditClinicAdminProfile.js';
-import EditPatientPassword from './components/EditPatientPassword.js'
 import ViewBusinessReportPage from './components/ViewBusinessReportPage.js';
+import RegisterDoctorPage from './components/RegisterDoctorPage.js';
 
 function App() {
   return (
@@ -26,6 +24,7 @@ function App() {
       <Route path="/editClinicProfile" component={EditClinicProfile}/>
       <Route path="/editClinicAdminProfile" component={EditClinicAdminProfile} /> 
       <Route path="/viewBusinessReport" component={ViewBusinessReportPage}/>
+      <Route path="/registerDoctor" component={RegisterDoctorPage} />
 
       <Route
         path="/patientProfile"
