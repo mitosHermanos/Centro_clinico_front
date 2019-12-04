@@ -46,12 +46,12 @@ class RegisterClinic extends React.Component{
             address: _address,            
             description: _description,
         }
-
+        const token = JSON.parse(localStorage.getItem('token'));
         const requestOptions = {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token.accessToken}`,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json'           
             },
             body: JSON.stringify(clinicRequest)
         };
