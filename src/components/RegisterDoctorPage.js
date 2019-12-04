@@ -2,12 +2,11 @@ import React, {useState} from 'react';
 import {Container, Form, Col, Button} from 'react-bootstrap'
 import {serviceConfig} from '../appSettings.js'
 
-class RegisterPage extends React.Component{
+class RegisterDoctorPage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             _email: '',
-            _socialSecurityNumber: "",
             _password: '',
             _repeatPassword: '',
             _name: '',
@@ -43,10 +42,10 @@ class RegisterPage extends React.Component{
     }
 
     register(){
-        
-        const {_email, _socialSecurityNumber, _password,  _name, _surname, _phone, _street, _number, _city, _postcode, _country } = this.state;
+        const token = JSON.parse(localStorage.getItem('token'));
+        const {_email, _password,  _name, _surname, _phone, _street, _number, _city, _postcode, _country } = this.state;
 
-        const patientRequest = {
+        const doctorRequest = {
             email: _email,
             password: _password,
             name: _name,
@@ -57,21 +56,26 @@ class RegisterPage extends React.Component{
             postcode: _postcode,
             country: _country,
             phoneNumber: _phone,
-            socialSecurityNumber: _socialSecurityNumber
         }
 
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(patientRequest)
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${token.accessToken}`,
+            },
+            body: JSON.stringify(doctorRequest)
         };
 
-        fetch(`${serviceConfig.baseURL}/auth/register`, requestOptions)
+        fetch(`${serviceConfig.baseURL}/clinic/addDoctor`, requestOptions)
         .then(response => {
             if (!response.ok) {
                 return Promise.reject(response);
             }
-            this.props.history.push('/');
+            return response.statusText;
+        })
+        .then(() => {
+            this.props.history.push('/editClinicProfile');
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());
@@ -86,10 +90,10 @@ class RegisterPage extends React.Component{
         return(
             <Container>
                 <div className='register-div'>
-                    <h2>Create a patient account</h2>
+                    <h2>Create a doctor account</h2>
                     <Form onSubmit={this.handleSubmit}>
                     <Form.Row>
-                        <Form.Group as={Col} md="6">
+                        <Form.Group as={Col} md="12">
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control
                                     required
@@ -100,17 +104,7 @@ class RegisterPage extends React.Component{
                                     onChange={this.handleChange}
                                 />
                             </Form.Group>
-                            <Form.Group as={Col} md="6">
-                                <Form.Label>Social security number</Form.Label>
-                                <Form.Control
-                                    required
-                                    id="_socialSecurityNumber"
-                                    value={_socialSecurityNumber}
-                                    type="text"
-                                    placeholder="Social security number"
-                                    onChange={this.handleChange}
-                                />
-                            </Form.Group>
+                            
                         </Form.Row>
                         <Form.Row>
                         <Form.Group as={Col} md="6">
@@ -241,4 +235,4 @@ class RegisterPage extends React.Component{
         );
     }
 }
-export default RegisterPage; 
+export default RegisterDoctorPage; 

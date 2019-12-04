@@ -3,16 +3,25 @@ import {Container, Form, Col, Button} from 'react-bootstrap'
 import DoctorsAverageRatingTable from './DoctorsAverageRatingTable.js'
 import {serviceConfig} from '../appSettings.js'
 
-class ViewBusinessReportPage extends Component{
+class DoctorSearchPage extends Component{
     constructor(props){
         super(props)
         this.state = {
-            docrating : [],
+            _searchText:'',
+            _docrating : [],
         }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
+    handleChange(e) {
+        const { id, value } = e.target;
+        this.setState({ [id]: value });
+    }
 
-    componentDidMount(){
+    handleSearch(e){
+        e.preventDefault();
+        const {_searchText} = this.state;
         const token = JSON.parse(localStorage.getItem('token'));
 
         const requestOptions = {
@@ -22,12 +31,12 @@ class ViewBusinessReportPage extends Component{
                 'Authorization' : `Bearer ${token.accessToken}`},
         }
 
-        fetch(`${serviceConfig.baseURL}/viewBusinessReport/0`, requestOptions)
+        fetch(`${serviceConfig.baseURL}/clinic/searchDoctors/${_searchText}`, requestOptions)
         .then(response => {
             return response.json();   
         })
         .then((data) =>  {
-            this.setState({docrating: data});
+            this.setState({_docrating: data});
             console.log(data);
         })
         .catch(response => {
@@ -36,50 +45,42 @@ class ViewBusinessReportPage extends Component{
                 alert(data.message);
             })
         })
+
+    }
+
+    componentDidMount(){
+        
     }
 
     render(){
+        const {_searchText} = this.state;
         return(
             <Container>
                 <div className='register-div'>
-                    <h2>Clinic Business Report</h2>
-                    <Form>
+                    <h2>Search for doctors</h2>
+                    <Form onSubmit={this.handleSearch}>
                     <Form.Row>
                         <Form.Group as={Col} md="12">
-                                <Form.Label>Clinics average rating:</Form.Label>
                                 <Form.Control
-                                    plaintext
-                                    readOnly
-                                    defaultValue="-display avg rating here-"
+                                    id="_searchText"
+                                    value={_searchText}
+                                    type="text"
+                                    placeholder="Enter text here..."
+                                    onChange={this.handleChange}
                                 />
+                                <Button variant="primary" type="submit">Search</Button>
                             </Form.Group>
                         </Form.Row>
                     <Form.Row>
                         <Form.Group as={Col} md="12">
-                                <Form.Label>Doctors average rating:</Form.Label>
-                                <DoctorsAverageRatingTable docrating={this.state.docrating}/>
+                                <Form.Label>Doctors:</Form.Label>
+                                <DoctorsAverageRatingTable docrating={this.state._docrating}/>
                             </Form.Group>
                         </Form.Row>
-                    <Form.Row>
-                        <Form.Group as={Col} md="12">
-                            <Form.Label>Clinic income:</Form.Label>
-                            <Form.Control
-                                plaintext
-                                readOnly
-                                defaultValue="-display clinics income here-"
-                            />
-                        </Form.Group>
-
-                    </Form.Row>
-                        <div className="text-center">
-                                <Button variant="primary" type="submit">
-                                    Ok
-                                </Button>
-                        </div>
                     </Form>
                 </div>
             </Container>
         );
     }
 }
-export default ViewBusinessReportPage; 
+export default DoctorSearchPage; 
