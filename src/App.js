@@ -12,6 +12,8 @@ import CCPerson from './components/CCPerson.js';
 import EditClinicProfile from './components/EditClinicProfile.js';
 import EditClinicAdminProfile from './components/EditClinicAdminProfile.js';
 import ViewBusinessReportPage from './components/ViewBusinessReportPage.js';
+import EnterDiagnosis from './components/EnterDiagnosis.js';
+import EnterMedicine from './components/EnterMedicine.js';
 import RegisterDoctorPage from './components/RegisterDoctorPage.js';
 import RoomSearchPage from './components/RoomSearchPage.js';
 import DoctorSearchPage from './components/DoctorSearchPage.js';
@@ -29,6 +31,8 @@ function App() {
       <Route path="/editClinicProfile" component={EditClinicProfile}/>
       <Route path="/editClinicAdminProfile" component={EditClinicAdminProfile} /> 
       <Route path="/viewBusinessReport" component={ViewBusinessReportPage}/>
+      <Route path="/newDiagnosis" component={EnterDiagnosis} />
+      <Route path="/newMedicine" component={EnterMedicine}/>
       <Route path="/registerDoctor" component={RegisterDoctorPage} />
       <Route path="/searchRooms" component={RoomSearchPage}/>
       <Route path="/searchDoctors" component={DoctorSearchPage}/>
