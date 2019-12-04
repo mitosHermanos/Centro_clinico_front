@@ -519,14 +519,15 @@ class EditClinicProfile extends React.Component{
                             </Form.Group>
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="primary" onClick={this.handleAddDoctor}>Add</Button>
-                                
-                                </Form.Group>
-                            <Form.Group as={Col} md="2">
-                                <Form.Label></Form.Label>
                                 <Button variant="secondary" onClick={this.handleRemoveDoctor}>Remove</Button>
                                 </Form.Group>                       
                             </Form.Row>
+                            <Form.Group as={Col} md="2">
+                                <Form.Label></Form.Label>
+                                <Button variant="primary" onClick={this.handleAddDoctor}>Add</Button>
+                                
+                                </Form.Group>
+                            
                         
                         <Form.Row>
                             <Form.Label>Rooms list</Form.Label>

@@ -13,6 +13,11 @@ import EditClinicProfile from './components/EditClinicProfile.js';
 import EditClinicAdminProfile from './components/EditClinicAdminProfile.js';
 import ViewBusinessReportPage from './components/ViewBusinessReportPage.js';
 import RegisterDoctorPage from './components/RegisterDoctorPage.js';
+import RoomSearchPage from './components/RoomSearchPage.js';
+import DoctorSearchPage from './components/DoctorSearchPage.js';
+import CheckupTypeSearchPage from './components/CheckupTypeSearchPage';
+import CheckupDateSearchPage from './components/CheckupDateSearchPage';
+import ClinicAdminHomePage from './components/ClinicAdminHomePage';
 
 function App() {
   return (
@@ -25,6 +30,11 @@ function App() {
       <Route path="/editClinicAdminProfile" component={EditClinicAdminProfile} /> 
       <Route path="/viewBusinessReport" component={ViewBusinessReportPage}/>
       <Route path="/registerDoctor" component={RegisterDoctorPage} />
+      <Route path="/searchRooms" component={RoomSearchPage}/>
+      <Route path="/searchDoctors" component={DoctorSearchPage}/>
+      <Route path="/searchCheckupTypes" component={CheckupTypeSearchPage}/>
+      <Route path="/searchCheckupDates" component={CheckupDateSearchPage}/>
+      <Route path="/clinicAdminHomePage" component={ClinicAdminHomePage}/>
 
       <Route
         path="/patientProfile"
