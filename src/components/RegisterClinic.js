@@ -32,6 +32,7 @@ class RegisterClinic extends React.Component{
 
     register(){
         const{_name, _street, _number, _city, _postcode, _country, _description} = this.state;
+        const token = JSON.parse(localStorage.getItem('token'));
 
         const _address = {
             street: _street,
@@ -48,7 +49,10 @@ class RegisterClinic extends React.Component{
 
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Authorization': `Bearer ${token.accessToken}`,
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(clinicRequest)
         };
 
@@ -151,7 +155,7 @@ render(){
                     </Form.Row>
                     </Form.Row>
                     <Form.Row>
-                    <Form.Group as={Col} md="6">
+                        <Form.Group as={Col} md="6">
                             <Form.Label>Description</Form.Label>
                             <Form.Control
                                 required
