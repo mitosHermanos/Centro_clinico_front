@@ -40,7 +40,7 @@ function App() {
       <Route path="/searchCheckupTypes" component={CheckupTypeSearchPage}/>
       <Route path="/searchCheckupDates" component={CheckupDateSearchPage}/>
       <Route path="/clinicAdminHomePage" component={ClinicAdminHomePage}/>
-      <Route path="/patientHomePage" component={Header}/>
+      <Route path="/home" component={Header}/>
 
       <Route
         path="/patientProfile"

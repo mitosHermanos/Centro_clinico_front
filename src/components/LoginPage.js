@@ -51,6 +51,7 @@ class LoginPage extends React.Component{
         })
         .then((data) => {
             localStorage.setItem('token', JSON.stringify(data));
+            this.props.history.push('/home');
         })
         .catch(response => {
             const promise = Promise.resolve(response.json())
