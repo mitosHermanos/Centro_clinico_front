@@ -467,7 +467,12 @@ class EditClinicProfile extends React.Component{
                         </Form.Row>
                         
                         <Form.Row>
-                            <Form.Label>Free checkup dates</Form.Label>
+                        <Form.Group as={Col} md="6">
+                                <Form.Label>Checkup dates list</Form.Label>
+                            </Form.Group>
+                            <Form.Group as={Col} md="6">
+                                <Form.Label>Add new Checkup date</Form.Label>
+                            </Form.Group>
                         </Form.Row>
 
                         <Form.Row>
@@ -505,12 +510,17 @@ class EditClinicProfile extends React.Component{
                             </Form.Row>
 
                         <Form.Row>
-                            <Form.Label>Doctors list</Form.Label>
+                            <Form.Group as={Col} md="6">
+                                <Form.Label>Doctors list</Form.Label>
+                            </Form.Group>
+                            <Form.Group as={Col} md="6">
+                                <Form.Label>Add new Doctor</Form.Label>
+                            </Form.Group>
                         </Form.Row>
 
                         <Form.Row>
                             
-                            <Form.Group as={Col} md="6">
+                            <Form.Group as={Col} md="4">
                                 
                                 <Form.Control as="select" ref='_selectedDoctor'>
                                     {_doctors.map((e, key) => {
@@ -522,16 +532,22 @@ class EditClinicProfile extends React.Component{
                                 <Form.Label></Form.Label>
                                 <Button variant="secondary" onClick={this.handleRemoveDoctor}>Remove</Button>
                                 </Form.Group>                       
-                            </Form.Row>
-                            <Form.Group as={Col} md="2">
+                            
+                            <Form.Group as={Col} md="6">
                                 <Form.Label></Form.Label>
                                 <Button variant="primary" onClick={this.handleAddDoctor}>Add</Button>
                                 
                                 </Form.Group>
+                            </Form.Row>
                             
                         
                         <Form.Row>
-                            <Form.Label>Rooms list</Form.Label>
+                            <Form.Group as={Col} md="6">
+                                <Form.Label>Rooms list</Form.Label>
+                            </Form.Group>
+                            <Form.Group as={Col} md="6">
+                                <Form.Label>Add new Room</Form.Label>
+                            </Form.Group>
                         </Form.Row>
 
                         <Form.Row>
@@ -568,7 +584,12 @@ class EditClinicProfile extends React.Component{
                             </Form.Row>
 
                         <Form.Row>
-                            <Form.Label>Checkup types</Form.Label>
+                            <Form.Group as={Col} md="6">
+                                <Form.Label>Checkup types list</Form.Label>
+                            </Form.Group>
+                            <Form.Group as={Col} md="6">
+                                <Form.Label>Add new Checkup type</Form.Label>
+                            </Form.Group>
                         </Form.Row>
 
                         <Form.Row>
@@ -604,7 +625,12 @@ class EditClinicProfile extends React.Component{
                                 </Form.Group>
                                                  
                             </Form.Row>
-                        
+                        <Form.Row>
+                            <Form.Group as={Col} md="12">
+                                <Form.Label>Change clinics address (fill in the fields below)</Form.Label>
+                            </Form.Group>
+                        </Form.Row>
+
                         <Form.Row>
                         <Form.Group as={Col} md="8">
                                 <Form.Label>Street name</Form.Label>
