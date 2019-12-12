@@ -20,6 +20,7 @@ import DoctorSearchPage from './components/DoctorSearchPage.js';
 import CheckupTypeSearchPage from './components/CheckupTypeSearchPage';
 import CheckupDateSearchPage from './components/CheckupDateSearchPage';
 import ClinicAdminHomePage from './components/ClinicAdminHomePage';
+import Header from './components/Header';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
       <Route path="/searchCheckupTypes" component={CheckupTypeSearchPage}/>
       <Route path="/searchCheckupDates" component={CheckupDateSearchPage}/>
       <Route path="/clinicAdminHomePage" component={ClinicAdminHomePage}/>
+      <Route path="/home" component={Header}/>
 
       <Route
         path="/patientProfile"
