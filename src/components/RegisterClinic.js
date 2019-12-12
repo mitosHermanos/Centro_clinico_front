@@ -43,7 +43,7 @@ class RegisterClinic extends React.Component{
         const clinicRequest = {
             name: _name,
             address: _address,            
-            description: _description,
+            description: _description
         }
         const token = JSON.parse(localStorage.getItem('token'));
         const requestOptions = {
@@ -79,101 +79,100 @@ render(){
             <div className='register-div'>
                 <h2>Register new clinic</h2>
                 <Form onSubmit={this.handleSubmit}>
-                <Form.Row>
-                    <Form.Group as={Col} md="6">
+                    <Form.Row>
+                        <Form.Group as={Col} md="6">
                             <Form.Label>Clinic name</Form.Label>
                             <Form.Control
-                                required
-                                id="_name"
-                                type="text"
-                                value={_name}
-                                placeholder="name"
-                                onChange={this.handleChange}
-                            />
-                        </Form.Group>
-                        
+                                    required
+                                    id="_name"
+                                    type="text"
+                                    value={_name}
+                                    placeholder="name"
+                                    onChange={this.handleChange}
+                                />
+                            </Form.Group>
+                            <Form.Row>
+                                <Form.Group as={Col} md="8">
+                                    <Form.Label>Street name</Form.Label>
+                                    <Form.Control
+                                        required
+                                        id="_street"
+                                        type="text"
+                                        value={_street}
+                                        placeholder="Street name"
+                                        onChange={this.handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group as={Col} md="4">
+                                    <Form.Label>Street number</Form.Label>
+                                    <Form.Control
+                                        required
+                                        id="_number"
+                                        type="text"
+                                        value={_number}
+                                        placeholder="Street number"
+                                        onChange={this.handleChange}
+                                    />
+                                </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                                <Form.Group as={Col} md="4">
+                                    <Form.Label>City</Form.Label>
+                                    <Form.Control
+                                        required
+                                        id="_city"
+                                        type="text"
+                                        value={_city}
+                                        placeholder="City"
+                                        onChange={this.handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group as={Col} md="4">
+                                    <Form.Label>Postcode</Form.Label>
+                                    <Form.Control
+                                        required
+                                        id="_postcode"
+                                        type="text"
+                                        value={_postcode}
+                                        placeholder="Postcode"
+                                        onChange={this.handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group as={Col} md="4">
+                                    <Form.Label>Country</Form.Label>
+                                    <Form.Control
+                                        required
+                                        id="_country"
+                                        type="text"
+                                        value={_country}
+                                        placeholder="Country"
+                                        onChange={this.handleChange}
+                                    />
+                                </Form.Group>
+                            </Form.Row>
+                    </Form.Row>
                         <Form.Row>
-                    <Form.Group as={Col} md="8">
-                            <Form.Label>Street name</Form.Label>
-                            <Form.Control
-                                required
-                                id="_street"
-                                type="text"
-                                value={_street}
-                                placeholder="Street name"
-                                onChange={this.handleChange}
-                            />
-                        </Form.Group>
-                        <Form.Group as={Col} md="4">
-                            <Form.Label>Street number</Form.Label>
-                            <Form.Control
-                                required
-                                id="_number"
-                                type="text"
-                                value={_number}
-                                placeholder="Street number"
-                                onChange={this.handleChange}
-                            />
-                        </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Group as={Col} md="4">
-                            <Form.Label>City</Form.Label>
-                            <Form.Control
-                                required
-                                id="_city"
-                                type="text"
-                                value={_city}
-                                placeholder="City"
-                                onChange={this.handleChange}
-                            />
-                        </Form.Group>
-                        <Form.Group as={Col} md="4">
-                            <Form.Label>Postcode</Form.Label>
-                            <Form.Control
-                                required
-                                id="_postcode"
-                                type="text"
-                                value={_postcode}
-                                placeholder="Postcode"
-                                onChange={this.handleChange}
-                            />
-                        </Form.Group>
-                        <Form.Group as={Col} md="4">
-                            <Form.Label>Country</Form.Label>
-                            <Form.Control
-                                required
-                                id="_country"
-                                type="text"
-                                value={_country}
-                                placeholder="Country"
-                                onChange={this.handleChange}
-                            />
-                        </Form.Group>
-                    </Form.Row>
-                    </Form.Row>
-                    <Form.Row>
-                    <Form.Group as={Col} md="6">
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control
-                                required
-                                id="_description"
-                                type="text"
-                                value={_description}
-                                placeholder="description"
-                                onChange={this.handleChange}
-                            />
-                        </Form.Group>
-                    </Form.Row>
+                            <Form.Group as={Col} md="6">
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control
+                                    required
+                                    id="_description"
+                                    type="text"
+                                    value={_description}
+                                    placeholder="description"
+                                    onChange={this.handleChange}
+                                />
+                            </Form.Group>
+                        </Form.Row>
                     <div className="text-center">
-                            <Button variant="primary" type="submit">
-                                Submit
-                            </Button>
+                        <Button variant="primary" type="submit">
+                            Submit
+                        </Button>
                     </div>
                 </Form>
             </div>
         </Container>
-    );
-}
+        );
+    }
 }
 export default RegisterClinic; 
