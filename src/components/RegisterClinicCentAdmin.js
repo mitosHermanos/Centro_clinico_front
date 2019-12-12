@@ -70,7 +70,6 @@ class RegisterClinicCentAdmin extends React.Component{
             body: JSON.stringify(patientRequest)
         };
 
-        fetch(`${serviceConfig.baseURL}/auth/registerClinicCentAdmin`, requestOptions)
         fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/registerClinicCentAdmin`, requestOptions)
         .then(response => {
             if (!response.ok) {
