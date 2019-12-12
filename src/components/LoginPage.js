@@ -16,6 +16,13 @@ class LoginPage extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount(){
+        const token = JSON.parse(localStorage.getItem('token'));
+        if(token !== null){
+            this.props.history.push('/home');
+        }
+    }
+
 
     handleChange(e) {
         const { id, value } = e.target;
@@ -67,7 +74,7 @@ class LoginPage extends React.Component{
         return(
             <Container>
                     <div className='login-div'>
-                        <h2>Centro clinico</h2> 
+                        <h2 style={{textAlign:"center"}}>Centro clinico</h2> 
                         <Form onSubmit={this.handleSubmit}>
                             <Form.Group>
                                 <Form.Label>

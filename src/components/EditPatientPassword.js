@@ -166,7 +166,7 @@ class EditPatientPassword extends React.Component{
                         </Card.Body>
                         <Card.Footer>
                             <Button variant="success" type="submit" size="sm">Submit</Button>
-                            <Button variant="danger" size="sm" onClick={() => this.nextPath('/patientProfile') }>Cancel</Button>
+                            <Button variant="danger" size="sm" onClick={() => this.nextPath('/patientProfile')}>Cancel</Button>
                         </Card.Footer>
                     </Form>
                 </Card>

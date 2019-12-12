@@ -81,7 +81,7 @@ class Header extends React.Component {
         const {role} = this.state;
 
         return(
-            <Navbar> 
+            <Navbar style={{position:'sticky'}}> 
                 <Navbar.Brand>
                     Centro clinico
                 </Navbar.Brand>

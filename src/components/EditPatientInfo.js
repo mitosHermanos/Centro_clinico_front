@@ -88,6 +88,7 @@ class EditPatientInfo extends React.Component{
             if (!response.ok) {
                 return Promise.reject(response);
             }
+            this.props.history.push('/patientProfile');
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());
