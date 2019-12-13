@@ -6,33 +6,11 @@ import { serviceConfig } from '../appSettings';
 var list;
 
 class CCPerson extends Component {
-   /*constructor(props) {
-      super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
-      this.state = { //state is by default an object
-         person: [
-            { id: 1, name: 'Wasif', surname: 'Lukac', street: 'Wakawaka', number: 3, city: 'BagaBaga', country: 'Hracka', email: 'wasif@email.com' },
-            { id: 2, name: 'Ali', surname: 'Stojanov', street: 'Wakawaka', number: 3, city: 'BagaBaga', country: 'Hracka', email: 'ali@email.com' },
-            { id: 3, name: 'Saad', surname: 'Garic', street: 'Wakawaka', number: 3, city: 'BagaBaga', country: 'Hracka', email: 'saad@email.com' },
-            { id: 4, name: 'Asad', surname: 'Ca', street: 'Wakawaka', number: 3, city: 'BagaBaga', country: 'Hracka', email: 'asad@email.com' }
-         ]
-      }*/
    constructor(props){
       super(props);
       this.state = {
          lista: []
       }
-      // this.state = {
-      //    _socialSecurityNumber: '',
-      //    _name: '',
-      //    _surname: '',
-      //    _street: '',
-      //    _number: '',
-      //    _city: '',
-      //    _country: '',
-      //    _email: '',
-      //    _phone: '',
-      //    _postcode: ''
-      // };
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this); 
    }
@@ -53,7 +31,6 @@ class CCPerson extends Component {
   }
 
   getRequests(){
-      //const{_socialSecurityNumber, _name, _surname, _street, _number, _city, _country, _email, _phone, _postcode} = this.state;
       const token = JSON.parse(localStorage.getItem('token'));
       const requestOptions = {
          method: 'GET',
