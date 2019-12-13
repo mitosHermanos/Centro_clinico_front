@@ -46,16 +46,20 @@ class RegisterClinicCentAdmin extends React.Component{
         
         const {_email, _socialSecurityNumber, _password,  _name, _surname, _phone, _street, _number, _city, _postcode, _country } = this.state;
 
+        const _address = {
+            street: _street,
+            number: _number,
+            city: _city,
+            postcode: _postcode,
+            country: _country
+        }
+
         const patientRequest = {
             email: _email,
             password: _password,
             name: _name,
             surname: _surname,            
-            street: _street,
-            streetNumber: _number,
-            city: _city,
-            postcode: _postcode,
-            country: _country,
+            address: _address,
             phoneNumber: _phone,
             socialSecurityNumber: _socialSecurityNumber
         }
