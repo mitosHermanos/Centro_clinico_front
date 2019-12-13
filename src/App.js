@@ -21,6 +21,8 @@ import CheckupTypeSearchPage from './components/CheckupTypeSearchPage';
 import CheckupDateSearchPage from './components/CheckupDateSearchPage';
 import ClinicAdminHomePage from './components/ClinicAdminHomePage';
 import Header from './components/Header';
+import Report from './components/Report'
+import RegisterClinicCentAdmin from './components/RegisterClinicCentAdmin';
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
       <Route path="/searchCheckupTypes" component={CheckupTypeSearchPage}/>
       <Route path="/searchCheckupDates" component={CheckupDateSearchPage}/>
       <Route path="/clinicAdminHomePage" component={ClinicAdminHomePage}/>
+      <Route path="/registerClinicCentAdmin" component={RegisterClinicCentAdmin}/>
+      <Route path="/report" component={Report}/>
       <Route path="/home" component={Header}/>
 
       <Route
