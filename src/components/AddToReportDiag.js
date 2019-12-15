@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
 import {Container, Form, Col, Button, Table} from 'react-bootstrap';
-import {serviceConfig} from '../appSettings.js'
+import {serviceConfig} from '../appSettings.js';
+import Report from './Report'
 
-class ClinicCentAdmin extends Component{
-
+class AddToReportDiag extends Component{
+   
     constructor(props) {
         super(props);
         console.log(this.props)
+        this.state={
+           send: ''
+        }
     }
 
     renderTableData() {
@@ -20,38 +24,17 @@ class ClinicCentAdmin extends Component{
            )
         })
     }
-
     assignDiagnosis(el){
-     const send ={
-         code : el.code,
-         description : el.description
-      }
-      const token = JSON.parse(localStorage.getItem('token'));
-      
-       const requestOptions ={
-          method: 'POST',
-          headers: {
-                    'Content-Type': 'application/json', 
-                    'Authorization' : `Bearer ${token.accessToken}`
-                },
-          body: JSON.stringify(send)
-       };
-       fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/assignDiagnosis`, requestOptions)
-       .then(response => {
-           if (!response.ok) {
-               return Promise.reject(response);
-               window.location('/clinicCentAdmin');
-           }
-           return response.statusText;
-       })
-       .then((message) => {
-           alert(message);
-       });
+       this.state.send = el;
+       return(
+         <Report diagnosis={this.state.send}/>
+       )
     }
 
     
 
     render(){
+    console.log(this.state.send);
     return (
          <Container>
             <div>
@@ -68,4 +51,4 @@ class ClinicCentAdmin extends Component{
 
 
 
-export default ClinicCentAdmin; 
+export default AddToReportDiag; 
