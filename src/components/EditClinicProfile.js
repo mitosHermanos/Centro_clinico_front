@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Container, Form, Col, Button} from 'react-bootstrap';
 import {serviceConfig} from '../appSettings.js';
 import ReactDOM from 'react-dom';
+import ModalAlert from './ModalAlert.js'
+
 
 class EditClinicProfile extends React.Component{
 
@@ -28,7 +30,12 @@ class EditClinicProfile extends React.Component{
                 _city: '',
                 _postcode: '',
                 _country: '',
+
+                message: "",
             };
+
+            this.child = React.createRef();
+            
             this.handleSubmit = this.handleSubmit.bind(this);
 
             this.handleAddDate = this.handleAddDate.bind(this);
@@ -170,11 +177,15 @@ class EditClinicProfile extends React.Component{
             })
             .then(() => {
                 this.componentDidMount();
+                this.setState({message:"Clinic information successfully changed."})
+                this.child.current.showModal(); 
             })
             .catch(response => {
                 const promise = Promise.resolve(response.json());
                 promise.then(data => {
-                    alert(data.message);
+                    
+                    this.setState({message:"Clinic information could not be changed."})
+                    this.child.current.showModal(); 
                 })
             })
         }
@@ -210,12 +221,17 @@ class EditClinicProfile extends React.Component{
                 return response.statusText;
             })
             .then(() => {
-                this.componentDidMount();
+                this.componentDidMount();            
+                
+                this.setState({message:"A new checkup type has been added"})
+                this.child.current.showModal(); 
             })
             .catch(response => {
                 const promise = Promise.resolve(response.json());
                 promise.then(data => {
-                    alert(data.message);
+                    
+                this.setState({message:"Checkup type could not be added."})
+                this.child.current.showModal(); 
                 })
             })
         }
@@ -246,11 +262,16 @@ class EditClinicProfile extends React.Component{
             })
             .then(() => {
                 this.componentDidMount();
+                
+                this.setState({message:"A new room has been added"})
+                this.child.current.showModal(); 
             })
             .catch(response => {
                 const promise = Promise.resolve(response.json());
                 promise.then(data => {
-                    alert(data.message);
+                    
+                this.setState({message:"Room could not be added."})
+                this.child.current.showModal(); 
                 })
             })
         }
@@ -281,11 +302,16 @@ class EditClinicProfile extends React.Component{
             })
             .then(() => {
                 this.componentDidMount();
+                
+                this.setState({message:"A new checkup date has been added"})
+                this.child.current.showModal(); 
             })
             .catch(response => {
                 const promise = Promise.resolve(response.json());
                 promise.then(data => {
-                    alert(data.message);
+                    
+                    this.setState({message:"Checkup date could not be added."})
+                    this.child.current.showModal(); 
                 })
             })
         }
@@ -320,11 +346,16 @@ class EditClinicProfile extends React.Component{
             })
             .then(() => {
                 this.componentDidMount();
+                
+                this.setState({message:"Selected date removed successfully."})
+                this.child.current.showModal(); 
             })
             .catch(response => {
                 const promise = Promise.resolve(response.json());
                 promise.then(data => {
-                    alert(data.message);
+                    
+                    this.setState({message:"Date could not be removed."})
+                    this.child.current.showModal(); 
                 })
             })
         }
@@ -355,11 +386,16 @@ class EditClinicProfile extends React.Component{
             })
             .then(() => {
                 this.componentDidMount();
+                
+                this.setState({message:"Selected checkup type removed successfully."})
+                this.child.current.showModal(); 
             })
             .catch(response => {
                 const promise = Promise.resolve(response.json());
                 promise.then(data => {
-                    alert(data.message);
+                    
+                    this.setState({message:"Checkup type could not be removed."})
+                    this.child.current.showModal(); 
                 })
             })
         }
@@ -390,11 +426,15 @@ class EditClinicProfile extends React.Component{
             })
             .then(() => {
                 this.componentDidMount();
+                
+                this.setState({message:"Selected room removed successfully."})
+                this.child.current.showModal(); 
             })
             .catch(response => {
                 const promise = Promise.resolve(response.json());
                 promise.then(data => {
-                    alert(data.message);
+                    this.setState({message:"Selected room could not be removed."})
+                    this.child.current.showModal(); 
                 })
             })
         }
@@ -425,11 +465,16 @@ class EditClinicProfile extends React.Component{
             })
             .then(() => {
                 this.componentDidMount();
+                
+                this.setState({message:"Selected doctor removed successfully."})
+                this.child.current.showModal(); 
             })
             .catch(response => {
                 const promise = Promise.resolve(response.json());
                 promise.then(data => {
-                    alert(data.message);
+                    
+                    this.setState({message:"Selected doctor could not be removed."})
+                    this.child.current.showModal(); 
                 })
             })
         }
@@ -467,12 +512,7 @@ class EditClinicProfile extends React.Component{
                         </Form.Row>
                         
                         <Form.Row>
-                        <Form.Group as={Col} md="6">
-                                <Form.Label>Checkup dates list</Form.Label>
-                            </Form.Group>
-                            <Form.Group as={Col} md="6">
-                                <Form.Label>Add new Checkup date</Form.Label>
-                            </Form.Group>
+                            <Form.Label>Free checkup dates</Form.Label>
                         </Form.Row>
 
                         <Form.Row>
@@ -488,7 +528,7 @@ class EditClinicProfile extends React.Component{
 
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="secondary" onClick={this.handleRemoveDate}>Remove</Button>
+                                <Button variant="danger" onClick={this.handleRemoveDate}>Remove</Button>
                                 </Form.Group>  
 
                             <Form.Group as={Col} md="4">
@@ -503,19 +543,14 @@ class EditClinicProfile extends React.Component{
 
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="primary" onClick={this.handleAddDate}>Add</Button>
+                                <Button variant="success" onClick={this.handleAddDate}>Add</Button>
                                 
                                 </Form.Group>
                                                  
                             </Form.Row>
 
                         <Form.Row>
-                            <Form.Group as={Col} md="6">
-                                <Form.Label>Doctors list</Form.Label>
-                            </Form.Group>
-                            <Form.Group as={Col} md="6">
-                                <Form.Label>Add new Doctor</Form.Label>
-                            </Form.Group>
+                            <Form.Label>Doctors list</Form.Label>
                         </Form.Row>
 
                         <Form.Row>
@@ -530,24 +565,23 @@ class EditClinicProfile extends React.Component{
                             </Form.Group>
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="secondary" onClick={this.handleRemoveDoctor}>Remove</Button>
-                                </Form.Group>                       
+                                <Button variant="danger" onClick={this.handleRemoveDoctor}>Remove</Button>
+                            </Form.Group>
                             
-                            <Form.Group as={Col} md="6">
+
+                            <Form.Group as={Col} md="4">
+                            </Form.Group>
+
+                            <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="primary" onClick={this.handleAddDoctor}>Add</Button>
+                                <Button variant="success" onClick={this.handleAddDoctor}>Add</Button>
                                 
-                                </Form.Group>
+                                </Form.Group>                       
                             </Form.Row>
                             
                         
                         <Form.Row>
-                            <Form.Group as={Col} md="6">
-                                <Form.Label>Rooms list</Form.Label>
-                            </Form.Group>
-                            <Form.Group as={Col} md="6">
-                                <Form.Label>Add new Room</Form.Label>
-                            </Form.Group>
+                            <Form.Label>Rooms list</Form.Label>
                         </Form.Row>
 
                         <Form.Row>
@@ -562,7 +596,7 @@ class EditClinicProfile extends React.Component{
                             </Form.Group>
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="secondary" onClick={this.handleRemoveRoom}>Remove</Button>
+                                <Button variant="danger" onClick={this.handleRemoveRoom}>Remove</Button>
                                 </Form.Group> 
                             
                             <Form.Group as={Col} md="4">
@@ -577,19 +611,14 @@ class EditClinicProfile extends React.Component{
 
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="primary" onClick={this.handleAddRoom}>Add</Button>
+                                <Button variant="success" onClick={this.handleAddRoom}>Add</Button>
                                 
                                 </Form.Group>
                                                   
                             </Form.Row>
 
                         <Form.Row>
-                            <Form.Group as={Col} md="6">
-                                <Form.Label>Checkup types list</Form.Label>
-                            </Form.Group>
-                            <Form.Group as={Col} md="6">
-                                <Form.Label>Add new Checkup type</Form.Label>
-                            </Form.Group>
+                            <Form.Label>Checkup types</Form.Label>
                         </Form.Row>
 
                         <Form.Row>
@@ -605,7 +634,7 @@ class EditClinicProfile extends React.Component{
                             
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="secondary" onClick={this.handleRemoveType}>Remove</Button>
+                                <Button variant="danger" onClick={this.handleRemoveType}>Remove</Button>
                                 </Form.Group>  
 
                             <Form.Group as={Col} md="4">
@@ -620,17 +649,12 @@ class EditClinicProfile extends React.Component{
                             
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
-                                <Button variant="primary" onClick={this.handleAddType}>Add</Button>
+                                <Button variant="success" onClick={this.handleAddType}>Add</Button>
                                 
                                 </Form.Group>
                                                  
                             </Form.Row>
-                        <Form.Row>
-                            <Form.Group as={Col} md="12">
-                                <Form.Label>Change clinics address (fill in the fields below)</Form.Label>
-                            </Form.Group>
-                        </Form.Row>
-
+                        
                         <Form.Row>
                         <Form.Group as={Col} md="8">
                                 <Form.Label>Street name</Form.Label>
@@ -698,6 +722,7 @@ class EditClinicProfile extends React.Component{
                         </div>
                     </Form>
                 </div>
+                <ModalAlert message={this.state.message} ref={this.child}/>
             </Container>
         );
         }

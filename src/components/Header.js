@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav , Row, Button, Col} from 'react-bootstrap';
+import { Navbar, Nav , Row, Button, Col, Image} from 'react-bootstrap';
 import {serviceConfig} from '../appSettings.js'
 
 class Header extends React.Component {
@@ -74,16 +74,24 @@ class Header extends React.Component {
     }
 
     nextPath(path) {
-        this.props.history.push(path);
+        window.location.href=`${path}`;
     }
 
     render(){
         const {role} = this.state;
 
         return(
-            <Navbar> 
+            <Navbar style={{position:'sticky'}}> 
                 <Navbar.Brand>
-                    Centro clinico
+                    <Image 
+                        style={{cursor:"pointer"}}
+                        onClick={() => this.nextPath('/home') }
+                        src={require("../resources/logo48x48.png")}
+                        width="30"
+                        height="30"
+                        className="d-inline-block align-top"
+                        alt="Centro clinico logo"
+                    />
                 </Navbar.Brand>
                 {
                    role === "PATIENT" &&
@@ -110,20 +118,20 @@ class Header extends React.Component {
                         <Nav.Link  onClick={() => this.nextPath('/newDiagnosis') }>New diagnosis</Nav.Link>
                         <Nav.Link  onClick={() => this.nextPath('/newMedicine') }>New medicine</Nav.Link>
                         <Nav.Link  onClick={() => this.nextPath('/clinicCentAdmin') }>Patient registration requests</Nav.Link>
-                        <Nav.Link  onClick={() => this.nextPath('/registerClinic') }>Register clinic</Nav.Link>
-                        <Nav.Link  onClick={() => this.nextPath('/registerClinic') }>Register administrator</Nav.Link>
+                        <Nav.Link  onClick={() => this.nextPath('/registerClient') }>Register clinic</Nav.Link>
+                        <Nav.Link  onClick={() => this.nextPath('/registerClinicCentAdmin') }>Register administrator</Nav.Link>
                     </Row>
                 }
-                {
-                    role === "DOCTOR" && 
-                    <Row>
-                        <Nav.Link>View profile</Nav.Link>
-                        <Nav.Link>Start checkup</Nav.Link>
-                        <Nav.Link>Search patients</Nav.Link>
-                        <Nav.Link>View work calendar</Nav.Link>
-                        <Nav.Link>Request a vacation/leave</Nav.Link>
-                        <Nav.Link>Schedule a checkup/operation</Nav.Link>
-                    </Row>
+                {	
+                    role === "DOCTOR" && 	
+                    <Row>	
+                        <Nav.Link>View profile</Nav.Link>	
+                        <Nav.Link>Start checkup</Nav.Link>	
+                        <Nav.Link>Search patients</Nav.Link>	
+                        <Nav.Link>View work calendar</Nav.Link>	
+                        <Nav.Link>Request a vacation/leave</Nav.Link>	
+                        <Nav.Link>Schedule a checkup/operation</Nav.Link>	
+                    </Row>	
                 }
                 <Col>
                 </Col>

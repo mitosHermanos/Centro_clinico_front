@@ -22,7 +22,7 @@ class ViewBusinessReportPage extends Component{
                 'Authorization' : `Bearer ${token.accessToken}`},
         }
 
-        fetch(`${serviceConfig.baseURL}/viewBusinessReport`, requestOptions)
+        fetch(`${serviceConfig.baseURL}/viewBusinessReport/0`, requestOptions)
         .then(response => {
             return response.json();   
         })
