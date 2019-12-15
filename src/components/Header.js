@@ -122,6 +122,17 @@ class Header extends React.Component {
                         <Nav.Link  onClick={() => this.nextPath('/registerClinic') }>Register administrator</Nav.Link>
                     </Row>
                 }
+                {	
+                    role === "DOCTOR" && 	
+                    <Row>	
+                        <Nav.Link>View profile</Nav.Link>	
+                        <Nav.Link>Start checkup</Nav.Link>	
+                        <Nav.Link>Search patients</Nav.Link>	
+                        <Nav.Link>View work calendar</Nav.Link>	
+                        <Nav.Link>Request a vacation/leave</Nav.Link>	
+                        <Nav.Link>Schedule a checkup/operation</Nav.Link>	
+                    </Row>	
+                }
                 <Col>
                 </Col>
                 <Button size="sm" variant="outline-danger" onClick={this.logout}>Sign out</Button>             
