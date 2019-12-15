@@ -18,6 +18,10 @@ import RoomSearchPage from './components/RoomSearchPage.js';
 import DoctorSearchPage from './components/DoctorSearchPage.js';
 import CheckupTypeSearchPage from './components/CheckupTypeSearchPage';
 import CheckupDateSearchPage from './components/CheckupDateSearchPage';
+import Header from './components/Header';
+import Report from './components/Report'
+import RegisterClinicCentAdmin from './components/RegisterClinicCentAdmin';
+import ReportDiagnosis from './components/ReportDiagnosis';
 import AccountActivated from './components/AccountActivated';
 import Homepage from './components/Homepage';
 import RegisterClinicCentAdmin from './components/RegisterClinicCentAdmin'
@@ -39,9 +43,11 @@ function App() {
       <Route path="/searchDoctors" component={DoctorSearchPage}/>
       <Route path="/searchCheckupTypes" component={CheckupTypeSearchPage}/>
       <Route path="/searchCheckupDates" component={CheckupDateSearchPage}/>
+      <Route path="/registerClinicCentAdmin" component={RegisterClinicCentAdmin}/>
+      <Route path="/report" component={Report}/>
+      <Route path="/addToReport" component={ReportDiagnosis}/>
       <Route path="/home" component={Homepage}/>
       <Route path="/activated" component={AccountActivated}/>
-      <Route path="/registerClinicCentAdmin" component={RegisterClinicCentAdmin}/>
 
       <Route
         path="/patientProfile"

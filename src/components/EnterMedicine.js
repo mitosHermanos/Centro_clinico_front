@@ -47,6 +47,7 @@ class EnterMedicine extends React.Component{
             if (!response.ok) {
                 return Promise.reject(response);
             }
+            window.location.href = '/home';
             return response.statusText;
         })
         // .then(() => {

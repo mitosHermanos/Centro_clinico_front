@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Container, Form, Col, Button, Table} from 'react-bootstrap';
 import {serviceConfig} from '../appSettings.js'
-
+import {useHistory} from "react-router-dom";
+import { browserHistory } from 'react-router-dom';
 class ClinicCentAdmin extends Component{
 
     constructor(props) {
@@ -32,6 +33,7 @@ class ClinicCentAdmin extends Component{
     }
 
     acceptRegistration(el){
+
       const _address = {
          street: el.street,
          number: el.streetNumber,
@@ -64,7 +66,6 @@ class ClinicCentAdmin extends Component{
        .then(response => {
            if (!response.ok) {
                return Promise.reject(response);
-           }
            window.location.href="/clinicCentAdmin";
            return response.statusText;
        })
@@ -109,8 +110,8 @@ class ClinicCentAdmin extends Component{
        .then(response => {
            if (!response.ok) {
                return Promise.reject(response);
-               window.location('/clinicCentAdmin');
            }
+           window.location.href = '/home';
            return response.statusText;
        })
       //  .then(() => {

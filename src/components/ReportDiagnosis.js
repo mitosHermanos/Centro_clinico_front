@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import ClinicCentAdmin from './ClinicCentAdmin.js';
 import {Container, Form, Col, Button, Table} from 'react-bootstrap';
+import AddToReportDiag from './AddToReportDiag';
 import { serviceConfig } from '../appSettings';
+import Report from './Report'
 
 var list;
 
-class CCPerson extends Component {
+class ReportDiagnosis extends Component {
    constructor(props){
       super(props);
       this.state = {
@@ -23,14 +25,14 @@ class CCPerson extends Component {
   handleSubmit(e) {
       e.preventDefault();
 
-      this.getRequests();
+      this.getDiagnosis();
   }
 
   componentDidMount(){
-     this.getRequests();
+     this.getDiagnosis();
   }
 
-  getRequests(){
+  getDiagnosis(){
       const token = JSON.parse(localStorage.getItem('token'));
       const requestOptions = {
          method: 'GET',
@@ -41,7 +43,7 @@ class CCPerson extends Component {
          //body: JSON.stringify(clinicRequest)
      };
 
-     fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/getPendingRequests`, requestOptions)
+     fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/getDiagnosis`, requestOptions)
         .then(response => {
             return response.json();
         })
@@ -61,12 +63,12 @@ class CCPerson extends Component {
    render() { //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
       return (
          <div className='center-text'>
-            <h1>Pending registrations</h1>
-            {/* <ClinicCentAdmin person={this.state.person}/> */}
-            <ClinicCentAdmin lista = {this.state.lista}/>
+            <h1>Choose diagnosis</h1>
+            {/* <AddToReportDiag lista = {this.state.lista}/> */}
+            <Report lista = {this.state.lista}/>
          </div>
       )
    }
 }
 
-export default CCPerson //exporting a component make it reusable and this is the beauty of react
+export default ReportDiagnosis //exporting a component make it reusable and this is the beauty of react

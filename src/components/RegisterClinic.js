@@ -61,10 +61,11 @@ class RegisterClinic extends React.Component{
             if (!response.ok) {
                 return Promise.reject(response);
             }
+            window.location.href = '/home';
             return response.statusText;
         })
         .then(() => {
-            this.props.history.push('/');
+            //this.props.history.push('/');
         })
         .catch(response => {
             alert('Unsuccessfull register')
