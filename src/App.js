@@ -23,6 +23,7 @@ import ClinicAdminHomePage from './components/ClinicAdminHomePage';
 import Header from './components/Header';
 import Report from './components/Report'
 import RegisterClinicCentAdmin from './components/RegisterClinicCentAdmin';
+import ReportDiagnosis from './components/ReportDiagnosis';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
       <Route path="/clinicAdminHomePage" component={ClinicAdminHomePage}/>
       <Route path="/registerClinicCentAdmin" component={RegisterClinicCentAdmin}/>
       <Route path="/report" component={Report}/>
+      <Route path="/addToReport" component={ReportDiagnosis}/>
       <Route path="/home" component={Header}/>
 
       <Route
