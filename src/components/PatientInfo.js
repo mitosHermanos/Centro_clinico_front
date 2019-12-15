@@ -1,7 +1,8 @@
 import React from 'react';
-import {Card, Container, FormControl, Button, Form, Col, Row, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Card, Container, FormControl, Button, Form, Col, Row, OverlayTrigger, Tooltip, Image} from 'react-bootstrap';
 import {serviceConfig} from '../appSettings.js'
 import '../styles/PatientInfo.css';
+import Header from './Header';
 
 class PatientInfo extends React.Component{
     constructor(props){
@@ -57,12 +58,14 @@ class PatientInfo extends React.Component{
 
 
         return(
+            <div>
+                <Header/>
             <Container style={{display: 'flex', justifyContent: 'center', marginTop: '5rem'}}>
-                <Card border="primary" style={{ width: '30rem'}}>
+                <Card style={{ width: '30rem'}}>
                     <Card.Header style={{display: 'flex', justifyContent: 'space-between'}}>
                         Patient information
                         <div>
-                            <Button variant="outline-primary" size="sm" onClick={() => this.nextPath('/patientProfile/edit') }>
+                            <Button variant="primary" size="sm" onClick={() => this.nextPath('/patientProfile/edit') }>
                                 Edit
                             </Button>
                             <OverlayTrigger
@@ -73,13 +76,14 @@ class PatientInfo extends React.Component{
                                     </Tooltip>
                                 }
                             >
-                            <Button variant="outline-info" size="sm">?</Button>
+                            <Button style={{marginLeft:"5px"}} variant="info" size="sm">?</Button>
                             </OverlayTrigger>
                         </div>
                     </Card.Header>                    
                     <Card.Body>
-                        <Card.Title>{name} {surname}</Card.Title>
-                        <Card.Text>
+                        <Card.Title style={{marginLeft:"10px"}}>{name} {surname}</Card.Title>
+                        <Card.Text style={{fontSize:"large"}}>
+                            <Image src={require('../resources/location.png')}></Image>
                             {city}
                         </Card.Text>
                         <hr/>
@@ -103,12 +107,13 @@ class PatientInfo extends React.Component{
                         </Container>
                     </Card.Body>
                     <Card.Footer style={{display: 'flex', justifyContent: 'center'}}>
-                        <Button variant="outline-primary" size="sm" onClick={() => this.nextPath('/patientProfile/password') }>
+                        <Button variant="primary" size="sm" onClick={() => this.nextPath('/patientProfile/password') }>
                             Change password
                         </Button>
                     </Card.Footer>
                 </Card>
             </Container>
+            </div>
         );
     }
 }

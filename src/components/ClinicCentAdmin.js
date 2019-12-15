@@ -66,10 +66,7 @@ class ClinicCentAdmin extends Component{
        .then(response => {
            if (!response.ok) {
                return Promise.reject(response);
-            }
-            window.location.href = '/home';
-            //browserHistory.push("/home");
-            //this.props.router.push('/home');
+           window.location.href="/clinicCentAdmin";
            return response.statusText;
        })
       //  .then(() => {
@@ -78,9 +75,6 @@ class ClinicCentAdmin extends Component{
       //  .catch(response => {
       //      return response.text();
       //  })
-       .then((message) => {
-           alert(message);
-       });
     }
 
     declineRegistration(el){

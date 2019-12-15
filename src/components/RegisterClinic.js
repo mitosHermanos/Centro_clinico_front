@@ -46,7 +46,7 @@ class RegisterClinic extends React.Component{
             address: _address,            
             description: _description
         }
-        
+
         const requestOptions = {
             method: 'POST',
             headers: {

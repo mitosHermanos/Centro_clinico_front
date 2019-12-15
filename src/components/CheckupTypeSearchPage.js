@@ -49,29 +49,29 @@ class CheckupTypeSearchPage extends Component{
     }
 
     componentDidMount(){
-        const {_searchText} = this.state;
-        const token = JSON.parse(localStorage.getItem('token'));
+        const {_searchText} = this.state;	
+        const token = JSON.parse(localStorage.getItem('token'));	
 
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization' : `Bearer ${token.accessToken}`},
-        }
+        const requestOptions = {	
+            method: 'GET',	
+            headers: {	
+                'Content-Type': 'application/json',	
+                'Authorization' : `Bearer ${token.accessToken}`},	
+        }	
 
-        fetch(`${serviceConfig.baseURL}/clinic/getCheckupTypes`, requestOptions)
-        .then(response => {
-            return response.json();   
-        })
-        .then((data) =>  {
-            this.setState({_checkuptypes: data});
-            console.log(data);
-        })
-        .catch(response => {
-            const promise = Promise.resolve(response.json());
-            promise.then(data => {
-                alert(data.message);
-            })
+        fetch(`${serviceConfig.baseURL}/clinic/getCheckupTypes`, requestOptions)	
+        .then(response => {	
+            return response.json();   	
+        })	
+        .then((data) =>  {	
+            this.setState({_checkuptypes: data});	
+            console.log(data);	
+        })	
+        .catch(response => {	
+            const promise = Promise.resolve(response.json());	
+            promise.then(data => {	
+                alert(data.message);	
+            })	
         })
     }
 

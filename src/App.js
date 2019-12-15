@@ -7,7 +7,6 @@ import RegisterClinic from './components/RegisterClinic.js'
 import PatientInfo from './components/PatientInfo.js'
 import EditPatientInfo from './components/EditPatientInfo.js'
 import EditPatientPassword from './components/EditPatientPassword.js'
-import ClinicCentAdmin from './components/ClinicCentAdmin.js';
 import CCPerson from './components/CCPerson.js';
 import EditClinicProfile from './components/EditClinicProfile.js';
 import EditClinicAdminProfile from './components/EditClinicAdminProfile.js';
@@ -19,11 +18,13 @@ import RoomSearchPage from './components/RoomSearchPage.js';
 import DoctorSearchPage from './components/DoctorSearchPage.js';
 import CheckupTypeSearchPage from './components/CheckupTypeSearchPage';
 import CheckupDateSearchPage from './components/CheckupDateSearchPage';
-import ClinicAdminHomePage from './components/ClinicAdminHomePage';
 import Header from './components/Header';
 import Report from './components/Report'
 import RegisterClinicCentAdmin from './components/RegisterClinicCentAdmin';
 import ReportDiagnosis from './components/ReportDiagnosis';
+import AccountActivated from './components/AccountActivated';
+import Homepage from './components/Homepage';
+import RegisterClinicCentAdmin from './components/RegisterClinicCentAdmin'
 
 function App() {
   return (
@@ -42,11 +43,11 @@ function App() {
       <Route path="/searchDoctors" component={DoctorSearchPage}/>
       <Route path="/searchCheckupTypes" component={CheckupTypeSearchPage}/>
       <Route path="/searchCheckupDates" component={CheckupDateSearchPage}/>
-      <Route path="/clinicAdminHomePage" component={ClinicAdminHomePage}/>
       <Route path="/registerClinicCentAdmin" component={RegisterClinicCentAdmin}/>
       <Route path="/report" component={Report}/>
       <Route path="/addToReport" component={ReportDiagnosis}/>
-      <Route path="/home" component={Header}/>
+      <Route path="/home" component={Homepage}/>
+      <Route path="/activated" component={AccountActivated}/>
 
       <Route
         path="/patientProfile"
