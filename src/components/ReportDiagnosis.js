@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import ClinicCentAdmin from './ClinicCentAdmin.js';
 import {Container, Form, Col, Button, Table} from 'react-bootstrap';
+import AddToReportDiag from './AddToReportDiag';
 import { serviceConfig } from '../appSettings';
+import Report from './Report'
 
 var list;
 
@@ -61,11 +63,12 @@ class ReportDiagnosis extends Component {
    render() { //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
       return (
          <div className='center-text'>
-            <h1>Pending registrations</h1>
-            <AddToReportDiag lista = {this.state.lista}/>
+            <h1>Choose diagnosis</h1>
+            {/* <AddToReportDiag lista = {this.state.lista}/> */}
+            <Report lista = {this.state.lista}/>
          </div>
       )
    }
 }
 
-export default CCPerson //exporting a component make it reusable and this is the beauty of react
+export default ReportDiagnosis //exporting a component make it reusable and this is the beauty of react
