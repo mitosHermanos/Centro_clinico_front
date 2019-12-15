@@ -1,6 +1,7 @@
 import React from 'react';
 import {Card, Form, Button, Container} from 'react-bootstrap'
 import {serviceConfig} from '../appSettings.js'
+import ModalAlert from './ModalAlert.js'
 
 class EditPatientPassword extends React.Component{
     constructor(props){
@@ -9,8 +10,10 @@ class EditPatientPassword extends React.Component{
         this.state = {
             _oldPassword : "",
             _newPassword : "",
-            _repeatPassword: ""
+            _repeatPassword: "",
+            message: ""
         }
+        this.child = React.createRef();
 
         this.oldPassword = React.createRef();
         this.newPassword = React.createRef();
@@ -36,7 +39,8 @@ class EditPatientPassword extends React.Component{
         const token = JSON.parse(localStorage.getItem('token'));
         
         if(_newPassword.trim() !== _repeatPassword.trim()){
-            alert('Passwords do not match.');
+            this.setState({message:"Passwords do not match"})
+            this.child.current.showModal(); 
             return;
         }
 
@@ -66,7 +70,8 @@ class EditPatientPassword extends React.Component{
         .catch(response => {
             const promise = Promise.resolve(response.json());
             promise.then(data => {
-                alert(data.message);
+                this.setState({message:data.message})
+                this.child.current.showModal(); 
             })    
         })
 
@@ -164,12 +169,14 @@ class EditPatientPassword extends React.Component{
                                 </div>
                             </Form.Group>
                         </Card.Body>
-                        <Card.Footer>
-                            <Button variant="success" type="submit" size="sm">Submit</Button>
+                        <Card.Footer style={{display:"flex", justifyContent:"flex-end"}}>
+                            <Button variant="success" type="submit" size="sm" style={{marginRight:"3%"}}>Submit</Button>
                             <Button variant="danger" size="sm" onClick={() => this.nextPath('/patientProfile')}>Cancel</Button>
                         </Card.Footer>
                     </Form>
                 </Card>
+
+                <ModalAlert message={this.state.message} ref={this.child}/>
             </Container>
         );
     }

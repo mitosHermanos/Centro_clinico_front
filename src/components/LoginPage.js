@@ -1,7 +1,8 @@
 import React from 'react';
-import {Form, Button, Container} from 'react-bootstrap';
+import {Form, Button, Container, Image} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {serviceConfig} from '../appSettings.js'
+import ModalAlert from './ModalAlert.js'
 
 class LoginPage extends React.Component{
     constructor(props){
@@ -9,8 +10,11 @@ class LoginPage extends React.Component{
 
         this.state = {
             _email : "",
-            _password : ""
+            _password : "", 
+            message: ""
         }
+
+        this.child = React.createRef();
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -63,17 +67,23 @@ class LoginPage extends React.Component{
         .catch(response => {
             const promise = Promise.resolve(response.json())
             promise.then(data => {
-                alert(data.message);
+                this.setState({message:data.message})
+                this.child.current.showModal(); 
             })
         })
     }
 
     render(){
-        const {_email, _password} = this.state;
+        const {_email, _password, message} = this.state;
 
         return(
-            <Container>
+            <Container style={{position: "relative", top: "50%", transform: "translateY(40%)"}}>
                     <div className='login-div'>
+                        <Image 
+                            style={{marginLeft:"41%"}}
+                            src={require("../resources/logo48x48.png")}
+                            alt="Centro clinico logo"
+                        />
                         <h2 style={{textAlign:"center"}}>Centro clinico</h2> 
                         <Form onSubmit={this.handleSubmit}>
                             <Form.Group>
@@ -116,6 +126,8 @@ class LoginPage extends React.Component{
                                 Sign up
                             </Link>
                     </div>
+
+                    <ModalAlert message={message} ref={this.child}/>
             </Container>
         );
     }

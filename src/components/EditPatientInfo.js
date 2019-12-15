@@ -1,6 +1,7 @@
 import React from 'react';
 import {Card, Form, Col, Button, Container} from 'react-bootstrap'
 import {serviceConfig} from '../appSettings.js'
+import ModalAlert from './ModalAlert.js'
 
 class EditPatientInfo extends React.Component{
     constructor(props){
@@ -14,9 +15,12 @@ class EditPatientInfo extends React.Component{
                 streetNumber : "",
                 city : "",
                 postcode : "",
-                country: ""
+                country: "",
+                message: ""
             }
         }
+        this.child = React.createRef();
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -50,7 +54,8 @@ class EditPatientInfo extends React.Component{
         .catch(response => {
             const promise = Promise.resolve(response.json());
             promise.then(data => {
-                alert(data.message);
+                this.setState({message:data.message})
+                this.child.current.showModal(); 
             })    
         })
 
@@ -93,7 +98,8 @@ class EditPatientInfo extends React.Component{
         .catch(response => {
             const promise = Promise.resolve(response.json());
             promise.then(data => {
-                alert(data.message);
+                this.setState({message:data.message})
+                this.child.current.showModal(); 
             })    
         })
     }
@@ -211,12 +217,14 @@ class EditPatientInfo extends React.Component{
                                 </Form.Group>
                             </Form.Row>
                 </Card.Body>
-                <Card.Footer>
-                    <Button variant="success" type="submit">Submit</Button>
+                <Card.Footer style={{display:"flex", justifyContent:"flex-end"}}>
+                    <Button variant="success" type="submit" style={{marginRight:"3%"}}>Submit</Button>
                     <Button variant="danger" onClick={() => this.nextPath('/patientProfile') }>Cancel</Button>
                 </Card.Footer>
                 </Form>
             </Card>
+
+            <ModalAlert message={this.state.message} ref={this.child}/>
         </Container>
         );
     }

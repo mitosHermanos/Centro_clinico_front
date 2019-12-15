@@ -74,9 +74,6 @@ class ClinicCentAdmin extends Component{
       //  .catch(response => {
       //      return response.text();
       //  })
-       .then((message) => {
-           alert(message);
-       });
     }
 
     declineRegistration(el){
