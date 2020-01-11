@@ -96,7 +96,7 @@ class Header extends React.Component {
                 {
                    role === "PATIENT" &&
                 <Row>
-                    <Nav.Link>Clinics list</Nav.Link>
+                    <Nav.Link onClick={() => this.nextPath('/clinicsList') }>Clinics list</Nav.Link>
                     <Nav.Link>Examinations/Surgeries</Nav.Link>
                     <Nav.Link>Medical record</Nav.Link>
                     <Nav.Link onClick={() => this.nextPath('/patientProfile') }>Profile</Nav.Link>
@@ -120,6 +120,7 @@ class Header extends React.Component {
                         <Nav.Link  onClick={() => this.nextPath('/clinicCentAdmin') }>Patient registration requests</Nav.Link>
                         <Nav.Link  onClick={() => this.nextPath('/registerClinic') }>Register clinic</Nav.Link>
                         <Nav.Link  onClick={() => this.nextPath('/registerClinicCentAdmin') }>Register administrator</Nav.Link>
+                        <Nav.Link  onClick={() => this.nextPath('/addToReport') }>Diagnosis list</Nav.Link>
                     </Row>
                 }
                 {	

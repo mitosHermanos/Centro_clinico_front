@@ -18,13 +18,12 @@ import RoomSearchPage from './components/RoomSearchPage.js';
 import DoctorSearchPage from './components/DoctorSearchPage.js';
 import CheckupTypeSearchPage from './components/CheckupTypeSearchPage';
 import CheckupDateSearchPage from './components/CheckupDateSearchPage';
-import Header from './components/Header';
 import Report from './components/Report'
 import RegisterClinicCentAdmin from './components/RegisterClinicCentAdmin';
 import ReportDiagnosis from './components/ReportDiagnosis';
 import AccountActivated from './components/AccountActivated';
 import Homepage from './components/Homepage';
-import RegisterClinicCentAdmin from './components/RegisterClinicCentAdmin'
+import PatientClinicList from './components/PatientClinicList';
 
 function App() {
   return (
@@ -48,6 +47,7 @@ function App() {
       <Route path="/addToReport" component={ReportDiagnosis}/>
       <Route path="/home" component={Homepage}/>
       <Route path="/activated" component={AccountActivated}/>
+      <Route path="/clinicsList" component={PatientClinicList}/>
 
       <Route
         path="/patientProfile"

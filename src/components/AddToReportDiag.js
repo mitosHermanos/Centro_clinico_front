@@ -19,7 +19,7 @@ class AddToReportDiag extends Component{
               <tr key={el.code}>
                  <td>{el.code}</td>
                  <td>{el.description}</td>
-                 <td><Button variant="primary" onClick={()=> this.assignDiagnosis(el)} type="submit">Assign</Button></td>
+                 {/* <td><Button variant="primary" onClick={()=> this.assignDiagnosis(el)} type="submit">Assign</Button></td> */}
               </tr>
            )
         })
@@ -38,7 +38,11 @@ class AddToReportDiag extends Component{
     return (
          <Container>
             <div>
-               <Table  striped bordered hover id='person'>
+               <Table  striped bordered hover id='person' style={{width:"75%"}}>
+               <tr>
+                  <th>Code</th>
+                  <th>Description</th>
+               </tr>
                  <tbody>
                     {this.renderTableData()}
                  </tbody>

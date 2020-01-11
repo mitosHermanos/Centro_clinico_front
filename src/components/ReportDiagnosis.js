@@ -63,9 +63,8 @@ class ReportDiagnosis extends Component {
    render() { //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
       return (
          <div className='center-text'>
-            <h1>Choose diagnosis</h1>
-            {/* <AddToReportDiag lista = {this.state.lista}/> */}
-            <Report lista = {this.state.lista}/>
+            <h1>Diagnosis list</h1>
+            <AddToReportDiag lista = {this.state.lista}/> 
          </div>
       )
    }
