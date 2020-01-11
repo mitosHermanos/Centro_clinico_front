@@ -76,7 +76,7 @@ class EnterDiagnosis extends React.Component{
                                     id="_code"
                                     value={_code}
                                     type="text"
-                                    placeholder="diagnosis"
+                                    placeholder="Diagnosis"
                                     onChange={this.handleChange}
                                 />
                             </Form.Group>
