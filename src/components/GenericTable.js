@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTable, useSortBy, useFilters, usePagination} from 'react-table'  
-import { Table, InputGroup, FormControl, ListGroup, Pagination } from 'react-bootstrap';
+import { Table, InputGroup, FormControl, Pagination } from 'react-bootstrap';
 
 function GenericTable({ columns, data, fetchData }) {
   const filterTypes = React.useMemo(
@@ -61,7 +61,7 @@ function GenericTable({ columns, data, fetchData }) {
 
     function renderSelect(){
       return (            
-        <InputGroup style={{width:"50%"}}>              
+        <InputGroup>              
             <InputGroup.Prepend>
               <InputGroup.Text>Show:</InputGroup.Text>
             </InputGroup.Prepend>
@@ -89,10 +89,12 @@ function GenericTable({ columns, data, fetchData }) {
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th>
-                  <h4 {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render('Header')}</h4>
-                  <span>{column.canFilter ? column.render('Filter') : renderSelect()}</span>
-                </th>                
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  <div style={{display: column.canFilter ? 'block' : 'flex', justifyContent:  column.canFilter ? null : 'space-between'}}>
+                    <h4>{column.render('Header')}</h4>
+                    <div>{column.canFilter ? column.render('Filter') : renderSelect()}</div>
+                  </div>
+                </th>      
               ))}
             </tr>
           ))}
@@ -111,6 +113,7 @@ function GenericTable({ columns, data, fetchData }) {
           )}
         </tbody>
         <tfoot>
+          <tr>
           <td>
           <div style={{display:"flex", justifyContent:"flex-start", alignItems:"center"}}>
             <InputGroup style={{width:"auto"}}>
@@ -129,6 +132,11 @@ function GenericTable({ columns, data, fetchData }) {
             </InputGroup>                     
           </div>
           </td>
+          {
+          headerGroups.map((_, i) => {
+            if(i < headerGroups.length-1)
+              return <td key={i}></td>
+          })}
           <td>
             <div style={{display:"flex", justifyContent:"flex-end", alignItems:"center"}}>
               <span style={{marginRight:"5%"}}>
@@ -145,6 +153,7 @@ function GenericTable({ columns, data, fetchData }) {
               </Pagination>
             </div>	
           </td>
+          </tr>
         </tfoot>        
       </Table>
     )
