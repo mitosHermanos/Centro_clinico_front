@@ -24,6 +24,7 @@ import ReportDiagnosis from './components/ReportDiagnosis';
 import AccountActivated from './components/AccountActivated';
 import Homepage from './components/Homepage';
 import PatientClinicList from './components/PatientClinicList';
+import ClinicInfo from './components/ClinicInfo';
 
 function App() {
   return (
@@ -59,6 +60,8 @@ function App() {
         </>
         )}
       />
+
+      <Route path="/clinicInfo" component={ClinicInfo}/>
 
     </div>
   );
