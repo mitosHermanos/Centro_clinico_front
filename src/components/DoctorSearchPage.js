@@ -1,27 +1,41 @@
 import React, {Component} from 'react';
 import {Container, Form, Col, Button} from 'react-bootstrap'
-import DoctorsAverageRatingTable from './DoctorsAverageRatingTable.js'
 import {serviceConfig} from '../appSettings.js'
+import GenericTable from "./GenericTable.js"
+import Header from "./Header.js"
 
-class DoctorSearchPage extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            _searchText:'',
-            _docrating : [],
-        }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
-    }
+function DoctorSearchPage() {
 
-    handleChange(e) {
-        const { id, value } = e.target;
-        this.setState({ [id]: value });
-    }
+    const [data, setData] = React.useState([]);
+    
+    const columns = React.useMemo(
+        () => [
+          {
+            Header: 'Doctors list',
+            columns: [
+              {
+                Header: 'Id',
+                accessor: 'id',
+              },
+              {
+                Header: 'Name',
+                accessor: 'name',
+              },
+              {
+                Header: 'Surname',
+                accessor: 'surname',
+              },
+              {
+                Header: 'Avgrating',
+                accessor: 'avgrating',
+              },
+            ],
+          },
+        ],
+        []
+    )  
 
-    handleSearch(e){
-        e.preventDefault();
-        const {_searchText} = this.state;
+    const fetchData = React.useCallback(() => {
         const token = JSON.parse(localStorage.getItem('token'));
 
         const requestOptions = {
@@ -31,79 +45,31 @@ class DoctorSearchPage extends Component{
                 'Authorization' : `Bearer ${token.accessToken}`},
         }
 
-        fetch(`${serviceConfig.baseURL}/clinic/searchDoctors/${_searchText}`, requestOptions)
+        fetch(`${serviceConfig.baseURL}/clinic/searchDoctors`, requestOptions)
         .then(response => {
-            return response.json();   
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            return response.json(); 
         })
         .then((data) =>  {
-            this.setState({_docrating: data});
-            console.log(data);
+            setData(data);
         })
         .catch(response => {
-            const promise = Promise.resolve(response.json());
-            promise.then(data => {
-                alert(data.message);
-            })
+            console.log(response);
         })
 
-    }
+    }, []);
 
-    componentDidMount(){
-        const {_searchText} = this.state;	
-        const token = JSON.parse(localStorage.getItem('token'));	
 
-        const requestOptions = {	
-            method: 'GET',	
-            headers: {	
-                'Content-Type': 'application/json',	
-                'Authorization' : `Bearer ${token.accessToken}`},	
-        }	
-
-        fetch(`${serviceConfig.baseURL}/viewBusinessReport/`, requestOptions)	
-        .then(response => {	
-            return response.json();   	
-        })	
-        .then((data) =>  {	
-            this.setState({_docrating: data});	
-            console.log(data);	
-        })	
-        .catch(response => {	
-            const promise = Promise.resolve(response.json());	
-            promise.then(data => {	
-                alert(data.message);	
-            })	
-        })
-    }
-
-    render(){
-        const {_searchText} = this.state;
-        return(
+    return(
+        <div>
+            <Header/>
             <Container>
-                <div className='register-div'>
-                    <h2>Search for doctors</h2>
-                    <Form onSubmit={this.handleSearch}>
-                    <Form.Row>
-                        <Form.Group as={Col} md="12">
-                                <Form.Control
-                                    id="_searchText"
-                                    value={_searchText}
-                                    type="text"
-                                    placeholder="Enter text here..."
-                                    onChange={this.handleChange}
-                                />
-                                <Button variant="primary" type="submit">Search</Button>
-                            </Form.Group>
-                        </Form.Row>
-                    <Form.Row>
-                        <Form.Group as={Col} md="12">
-                                <Form.Label>Doctors:</Form.Label>
-                                <DoctorsAverageRatingTable docrating={this.state._docrating}/>
-                            </Form.Group>
-                        </Form.Row>
-                    </Form>
-                </div>
+                <GenericTable columns={columns} data={data} fetchData={fetchData}/>
             </Container>
-        );
-    }
+        </div>
+    )
+    
 }
 export default DoctorSearchPage; 
