@@ -48,6 +48,7 @@ function App() {
       <Route path="/home" component={Homepage}/>
       <Route path="/activated" component={AccountActivated}/>
       <Route path="/clinicsList" component={PatientClinicList}/>
+      <Route path="/scheduleClinics" component={PatientClinicList}/>
 
       <Route
         path="/patientProfile"
