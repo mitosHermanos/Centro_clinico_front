@@ -39,7 +39,10 @@ function App() {
       <Route path="/newDiagnosis" component={EnterDiagnosis} />
       <Route path="/newMedicine" component={EnterMedicine}/>
       <Route path="/registerDoctor" component={RegisterDoctorPage} />
+
       <Route path="/searchRooms" component={RoomSearchPage}/>
+      <Route path="/seeRoomSchedule" component={RoomSearchPage}/>
+
       <Route path="/searchDoctors" component={DoctorSearchPage}/>
       <Route path="/searchCheckupTypes" component={CheckupTypeSearchPage}/>
       <Route path="/searchCheckupDates" component={CheckupDateSearchPage}/>
