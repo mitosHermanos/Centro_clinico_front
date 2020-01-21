@@ -3,6 +3,7 @@ import {Container, Form, Col, Button} from 'react-bootstrap';
 import {serviceConfig} from '../appSettings.js';
 import ReactDOM from 'react-dom';
 import ModalAlert from './ModalAlert.js'
+import Header from './Header.js'
 
 
 class EditClinicProfile extends React.Component{
@@ -482,6 +483,8 @@ class EditClinicProfile extends React.Component{
         render(){
         const {_newCheckupDate, _checkupDates, _checkupTypes, _rooms, _doctors, _newRoomName, _newCheckupType, _clinic, _name, _description, _street, _number, _city, _postcode, _country} = this.state;
         return(
+            <div>
+            <Header/>
             <Container>
                 <div className='register-div'>
                     <h2>Edit profile of the clinic</h2>
@@ -724,6 +727,7 @@ class EditClinicProfile extends React.Component{
                 </div>
                 <ModalAlert message={this.state.message} ref={this.child}/>
             </Container>
+            </div>
         );
         }
     
