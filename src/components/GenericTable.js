@@ -2,7 +2,7 @@ import React from 'react';
 import { useTable, useSortBy, useFilters, usePagination} from 'react-table'  
 import { Table, InputGroup, FormControl, Pagination } from 'react-bootstrap';
 
-function GenericTable({ columns, data, fetchData }) {
+function GenericTable({ columns, data, fetchData, handleClick}) {
   const filterTypes = React.useMemo(
     () => ({
       text: (rows, id, filterValue) => {
@@ -101,10 +101,10 @@ function GenericTable({ columns, data, fetchData }) {
         </thead>
         <tbody {...getTableBodyProps()}>
           {page.map(
-            (row, i) => {
+            row => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr onClick={() => handleClick(row.original)} {...row.getRowProps()}>
                   {row.cells.map(cell => {
                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   })}

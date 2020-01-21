@@ -8,8 +8,15 @@ import {serviceConfig} from '../appSettings.js'
 const PatientClinicList = () => {
 
     const [data, setData] = useState([]);
+    const [types, setTypes] = useState([])
     const [modalShow, setModalShow] = useState(false);
-    const [alertShow, setAlertShow] = useState(false);
+    const [alertSuccesShow, setAlertSuccessShow] = useState(false);
+    const [alertFailureShow, setAlertFailureShow] = useState(false);
+
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
+    const [type, setType] = useState('');
+
     const dateRef = useRef(null);
     
     const columns = React.useMemo(
@@ -39,11 +46,59 @@ const PatientClinicList = () => {
 
     useEffect(() => {
         if(location.pathname === '/scheduleClinics'){
+            fetchTypes();      
             setModalShow(true);
-
-            //load appointment types
         }
-    }, [])
+    }, [location])
+
+    function fetchTypes(){
+        const token = JSON.parse(localStorage.getItem('token'));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.accessToken}`
+            },
+        };
+
+
+        fetch(`${serviceConfig.baseURL}/clinic/getAllCheckupTypes`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            setTypes(data);
+            setType(data[0].name)
+        })
+        .catch(response => {
+            console.log(response)
+        })
+    }
+
+    function renderSelect(){
+        return(
+            <InputGroup>              
+                <InputGroup.Prepend>
+                    <InputGroup.Text>Type</InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control
+                as="select"
+                onChange={e => setType(e.target.value)}
+                value={type}
+                >          
+                {types.map((type, i) => 
+                        <option key={i} value={type.name}>
+                            {type.name}
+                        </option>
+                    )}         
+                </Form.Control>    
+            </InputGroup>
+        ) 
+    }
 
     useEffect(() => {
         if(dateRef.current !== null){
@@ -82,20 +137,63 @@ const PatientClinicList = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
+        let filter = {
+            checkupDate : date,
+            checkupTime: time,
+            checkupType: type
+        }
 
-        //handle 
+        fetchFilterInfo(filter)
+
         //get filtered clinics
-
-        setAlertShow(true);
         setModalShow(false);
+    }
+
+    function fetchFilterInfo(filter){
+        const token = JSON.parse(localStorage.getItem('token'));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.accessToken}`
+            },
+            body: JSON.stringify(filter)
+        };
+
+        fetch(`${serviceConfig.baseURL}/clinic/getAvailableClinics`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            setData(data);
+            if(data.length !== 0){
+                setAlertSuccessShow(true);
+            }
+            else{
+                setAlertFailureShow(true);
+            }
+        })
+        .catch(response => {
+            console.log(response)
+        })
+        
+    }
+
+    function handleClick(rowProps){
+        console.log(rowProps)
     }
 
     return(
         <div>
             <Header/>
             <Container>
-                {alertShow &&
-                      <Alert variant="success" onClose={() => setAlertShow(false)} dismissible>
+                {alertSuccesShow &&
+                      <Alert variant="success" onClose={() => setAlertSuccessShow(false)} dismissible>
                       <Alert.Heading>Well done!</Alert.Heading>
                       <p>
                         Now select clinic of your choice in the list below to continue..
@@ -103,7 +201,16 @@ const PatientClinicList = () => {
                     </Alert>
                 }
 
-                <GenericTable columns={columns} data={data} fetchData={fetchData}/>
+                {alertFailureShow &&
+                      <Alert variant="danger" onClose={() => setAlertFailureShow(false)} dismissible>
+                      <Alert.Heading>Try again!</Alert.Heading>
+                      <p>
+                        Unfortunately there are no available clinics for the given values. Please try again with different values...
+                      </p>
+                    </Alert>
+                }
+
+                <GenericTable columns={columns} data={data} fetchData={fetchData} handleClick={handleClick}/>
             </Container>
 
             <Modal show={modalShow} onHide={() => setModalShow(false)}>
@@ -121,11 +228,9 @@ const PatientClinicList = () => {
                                     <Form.Control
                                         required
                                         ref={dateRef}
-                                //     id="_date"
-                                //       value={_date}
+                                        value={date}
                                         type="date"
-                                        placeholder="Date"
-                                //     onChange = {this.handleChange}
+                                        onChange = {e => setDate(e.target.value)}
                                 />
                                 </InputGroup>
                             </Form.Group>
@@ -135,31 +240,20 @@ const PatientClinicList = () => {
                                         <InputGroup.Text>Time</InputGroup.Text>
                                     </InputGroup.Prepend>
                                     <Form.Control                                        
-                                        required
-                                        id="_time"
-                                //       value={_time}
-                                        type="time"
-                                        placeholder="Time"
+                                        required                                        
+                                        value={time}
+                                        type="time"                                        
                                         step="900"
                                         min="07:00"
                                         max="20:00"
-                                //     onChange = {this.handleChange}
+                                        onChange = {e => setTime(e.target.value)}
                                 />
                                 </InputGroup>
                             </Form.Group>
                         </Form.Row>
                         <Form.Row>
                             <Form.Group as={Col} md="12">
-                                <InputGroup>              
-                                    <InputGroup.Prepend>
-                                        <InputGroup.Text>Type</InputGroup.Text>
-                                    </InputGroup.Prepend>
-                                    <Form.Control
-                                    as="select"
-                                //    value={pageSize}
-                                    >                   
-                                    </Form.Control>    
-                                </InputGroup> 
+                                {renderSelect()}
                             </Form.Group>
                         </Form.Row>
                     </Modal.Body>
