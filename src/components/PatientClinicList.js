@@ -15,6 +15,7 @@ const PatientClinicList = () => {
 
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
+    const [type, setType] = useState('');
 
     const dateRef = useRef(null);
     
@@ -71,6 +72,7 @@ const PatientClinicList = () => {
         })
         .then((data) => {
             setTypes(data);
+            setType(data[0].name)
         })
         .catch(response => {
             console.log(response)
@@ -85,6 +87,8 @@ const PatientClinicList = () => {
                 </InputGroup.Prepend>
                 <Form.Control
                 as="select"
+                onChange={e => setType(e.target.value)}
+                value={type}
                 >          
                 {types.map((type, i) => 
                         <option key={i} value={type.name}>
@@ -136,7 +140,8 @@ const PatientClinicList = () => {
         
         let filter = {
             checkupDate : date,
-            checkupTime: time
+            checkupTime: time,
+            checkupType: type
         }
 
         fetchFilterInfo(filter)
