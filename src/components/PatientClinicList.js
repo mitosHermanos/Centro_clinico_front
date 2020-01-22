@@ -82,10 +82,8 @@ const PatientClinicList = () => {
 
 
     function handleSelect(e){
-        setType(e.target.value);
-
         let selected = types.find(type => type.name === e.target.value);
-
+        console.log(selected);
         setType(selected);
     }
 
@@ -98,7 +96,7 @@ const PatientClinicList = () => {
                 <Form.Control
                 as="select"
                 onChange={handleSelect}
-                value={type}
+                value={type.name}
                 >          
                 {types.map((type, i) => 
                         <option key={i} value={type.name}>
@@ -144,21 +142,6 @@ const PatientClinicList = () => {
         })
 
     }, []);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
-        let filter = {
-            checkupDate : date,
-            checkupTime: time,
-            checkupType: type
-        }
-
-        fetchFilterInfo(filter)
-
-        //get filtered clinics
-        setModalShow(false);
-    }
 
     function fetchFilterInfo(filter){
         const token = JSON.parse(localStorage.getItem('token'));
