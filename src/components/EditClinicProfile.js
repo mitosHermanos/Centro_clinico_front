@@ -14,6 +14,7 @@ class EditClinicProfile extends React.Component{
                 _newCheckupDate : '',
                 _newRoomName: '',
                 _newCheckupType: '',
+                _newCheckupTypeDuration: '',
                 _checkupDates : [],
                 _checkupTypes : [],
                 _rooms : [],
@@ -199,10 +200,11 @@ class EditClinicProfile extends React.Component{
         handleAddType(){
             const token = JSON.parse(localStorage.getItem('token'));
 
-            const {_newCheckupType} = this.state;
+            const {_newCheckupType, _newCheckupTypeDuration} = this.state;
 
             const checkupTypeRequest = {
                 name : _newCheckupType,
+                duration: _newCheckupTypeDuration,
             }
 
             const requestOptions = {
@@ -481,7 +483,7 @@ class EditClinicProfile extends React.Component{
         }
 
         render(){
-        const {_newCheckupDate, _checkupDates, _checkupTypes, _rooms, _doctors, _newRoomName, _newCheckupType, _clinic, _name, _description, _street, _number, _city, _postcode, _country} = this.state;
+        const {_newCheckupDate, _checkupDates, _checkupTypes, _rooms, _doctors, _newRoomName, _newCheckupType, _newCheckupTypeDuration, _clinic, _name, _description, _street, _number, _city, _postcode, _country} = this.state;
         return(
             <div>
             <Header/>
@@ -640,12 +642,21 @@ class EditClinicProfile extends React.Component{
                                 <Button variant="danger" onClick={this.handleRemoveType}>Remove</Button>
                                 </Form.Group>  
 
-                            <Form.Group as={Col} md="4">
+                            <Form.Group as={Col} md="2">
                                 <Form.Control
                                     id="_newCheckupType"
                                     value={_newCheckupType}
                                     type="text"
-                                    placeholder="NewCheckupType"
+                                    placeholder="Type"
+                                    onChange={this.handleChange}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md="2">
+                                <Form.Control
+                                    id="_newCheckupTypeDuration"
+                                    value={_newCheckupTypeDuration}
+                                    type="text"
+                                    placeholder="Duration"
                                     onChange={this.handleChange}
                                 />
                             </Form.Group>
