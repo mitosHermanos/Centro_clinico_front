@@ -39,7 +39,10 @@ function App() {
       <Route path="/newDiagnosis" component={EnterDiagnosis} />
       <Route path="/newMedicine" component={EnterMedicine}/>
       <Route path="/registerDoctor" component={RegisterDoctorPage} />
+
       <Route path="/searchRooms" component={RoomSearchPage}/>
+      <Route path="/seeRoomSchedule" component={RoomSearchPage}/>
+
       <Route path="/searchDoctors" component={DoctorSearchPage}/>
       <Route path="/searchCheckupTypes" component={CheckupTypeSearchPage}/>
       <Route path="/searchCheckupDates" component={CheckupDateSearchPage}/>
@@ -48,10 +51,10 @@ function App() {
       <Route path="/addToReport" component={ReportDiagnosis}/>
       <Route path="/home" component={Homepage}/>
       <Route path="/activated" component={AccountActivated}/>
-      <Route path="/clinicsList" component={PatientClinicList}/>
-      
+      <Route path="/clinicsList" component={PatientClinicList}/>      
       <Route path="/scheduleClinics" component={PatientClinicList}/>
       <Route path="/scheduleDoctors" component={DoctorSearchPage}/>
+
 
       <Route
         path="/patientProfile"

@@ -30,6 +30,7 @@ class ClinicInfo extends React.Component{
             
 
         fetch(`${serviceConfig.baseURL}/clinic/getClinic/${this.props.match.params.id}`, requestOptions)
+
         .then((response) => {
             if (!response.ok) {
                 return Promise.reject(response);

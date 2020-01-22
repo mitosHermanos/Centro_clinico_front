@@ -5,7 +5,7 @@ import  GenericTable from "./GenericTable.js"
 import Header from "./Header.js"
 import {serviceConfig} from '../appSettings.js'
 
-function PatientClinicList() {
+const PatientClinicList = () => {
 
     const [data, setData] = useState([]);
     const [types, setTypes] = useState([])
@@ -32,6 +32,10 @@ function PatientClinicList() {
                 Header: 'Description',
                 accessor: 'description',
               },
+              {
+                Header: 'Street',
+                accessor: 'fullAddress',
+              }
             ],
           },
         ],
@@ -75,6 +79,7 @@ function PatientClinicList() {
             console.log(response)
         })
     }
+
 
     function handleSelect(e){
         setType(e.target.value);
@@ -140,6 +145,58 @@ function PatientClinicList() {
 
     }, []);
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        let filter = {
+            checkupDate : date,
+            checkupTime: time,
+            checkupType: type
+        }
+
+        fetchFilterInfo(filter)
+
+        //get filtered clinics
+        setModalShow(false);
+    }
+
+    function fetchFilterInfo(filter){
+        const token = JSON.parse(localStorage.getItem('token'));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.accessToken}`
+            },
+            body: JSON.stringify(filter)
+        };
+
+        fetch(`${serviceConfig.baseURL}/clinic/getAvailableClinics`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            setData(data);
+            if(data.length !== 0){
+                setAlertSuccessShow(true);
+            }
+            else{
+                setAlertFailureShow(true);
+            }
+        })
+        .catch(response => {
+            console.log(response)
+        })
+        
+    }
+
+    function handleClick(rowProps){
+        console.log(rowProps)
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -292,4 +349,5 @@ function PatientClinicList() {
         </div>
     )
     
-} export default PatientClinicList;
+} 
+export default PatientClinicList

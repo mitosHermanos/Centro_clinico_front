@@ -67,12 +67,8 @@ function DoctorSearchPage(){
             setData(data)
         })
         .catch(response => {
-            const promise = Promise.resolve(response.json());
-            promise.then(data => {
-                alert(data.message);
-            })
+            console.log(response);
         })
-
     }, []);	
 
     function handleClick(rowProps){
