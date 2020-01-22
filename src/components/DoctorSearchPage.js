@@ -3,6 +3,7 @@ import {Container,Button, Modal} from 'react-bootstrap'
 import {useLocation} from 'react-router-dom';
 import {serviceConfig} from '../appSettings.js';
 import  GenericTable from "./GenericTable.js";
+import Header from './Header.js';
 
 function DoctorSearchPage(){
 
@@ -72,7 +73,7 @@ function DoctorSearchPage(){
             })
         })
 
-    });	
+    }, []);	
 
     function handleClick(rowProps){
       setModalShow(true);
@@ -81,6 +82,7 @@ function DoctorSearchPage(){
 
     return(
         <div> 
+            <Header/>
             <Container>
                 <GenericTable columns={columns} data={data} fetchData={fetchData} handleClick={handleClick}/>
             </Container>

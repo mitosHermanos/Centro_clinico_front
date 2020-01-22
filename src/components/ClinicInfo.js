@@ -26,10 +26,10 @@ class ClinicInfo extends React.Component{
                 'Authorization': `Bearer ${token.accessToken}`,
                 'Content-Type': 'application/json'
             },
-        };
+        };  
+            
 
-
-        fetch(`${serviceConfig.baseURL}/clinic/getClinic`, requestOptions)
+        fetch(`${serviceConfig.baseURL}/clinic/getClinic/${this.props.match.params.id}`, requestOptions)
         .then((response) => {
             if (!response.ok) {
                 return Promise.reject(response);
