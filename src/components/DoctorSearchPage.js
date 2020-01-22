@@ -8,7 +8,8 @@ import Header from './Header.js';
 function DoctorSearchPage(){
 
     const [data, setData] = useState([]);
-    const [doctor, setDoctor] = useState([]);
+    const [doctor, setDoctor] = useState('');
+    const [doctorId, setDoctorId] = useState('');
     const [modalShow, setModalShow] = useState(false);
     
     const columns = React.useMemo(
@@ -74,7 +75,44 @@ function DoctorSearchPage(){
     function handleClick(rowProps){
       setModalShow(true);
       setDoctor(rowProps.name + ' ' + rowProps.surname);
+      setDoctorId(rowProps.id);
     };
+
+    function confirmAppointment(e){
+      setModalShow(false)
+      fetchAppointment();
+    }
+
+    function fetchAppointment(){
+      let scheduleDTO = {
+        checkupDate: urlParser.get('date'),
+        checkupTime: urlParser.get('time'),
+        checkupType: urlParser.get('type'),
+        doctorId: doctorId
+      }
+      
+      const token = JSON.parse(localStorage.getItem('token'));
+
+      const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${token.accessToken}`
+            },
+            body: JSON.stringify(scheduleDTO)
+      }
+
+      fetch(`${serviceConfig.baseURL}/clinic/schedule`, requestOptions)
+      .then(response => {
+        if (!response.ok) {
+          return Promise.reject(response);
+        }
+        return response.json(); 
+      })
+      .catch(response => {
+          console.log(response);
+      })
+    }
 
     return(
         <div> 
@@ -116,7 +154,7 @@ function DoctorSearchPage(){
                 <Button variant="danger" onClick={() => setModalShow(false)}>
                     Cancel
                   </Button>
-                  <Button variant="success">
+                  <Button variant="success" onClick={confirmAppointment}>
                     Confirm
                   </Button>
                 </Modal.Footer>
