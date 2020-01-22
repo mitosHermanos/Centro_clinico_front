@@ -136,6 +136,11 @@ class Header extends React.Component {
                 }
                 <Col>
                 </Col>
+                {
+                    role === "PATIENT" &&
+                    <Button size="sm" variant="outline-success" style={{marginRight:"1%"}} onClick={() => this.nextPath('/scheduleClinics')}>Schedule an appointment</Button>
+                }
+
                 <Button size="sm" variant="outline-danger" onClick={this.logout}>Sign out</Button>             
             </Navbar>
         );

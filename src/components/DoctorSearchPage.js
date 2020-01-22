@@ -1,43 +1,69 @@
-import React, {Component} from 'react';
-import {Container, Form, Col, Button} from 'react-bootstrap'
-import DoctorsAverageRatingTable from './DoctorsAverageRatingTable.js'
-import {serviceConfig} from '../appSettings.js'
+import React, {useState} from 'react';
+import {Container,Button, Modal} from 'react-bootstrap'
+import {useLocation} from 'react-router-dom';
+import {serviceConfig} from '../appSettings.js';
+import  GenericTable from "./GenericTable.js";
 
-class DoctorSearchPage extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            _searchText:'',
-            _docrating : [],
-        }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
-    }
+function DoctorSearchPage(){
 
-    handleChange(e) {
-        const { id, value } = e.target;
-        this.setState({ [id]: value });
-    }
+    const [data, setData] = useState([]);
+    const [doctor, setDoctor] = useState([]);
+    const [modalShow, setModalShow] = useState(false);
+    
+    const columns = React.useMemo(
+        () => [
+          {
+            Header: 'Doctors list',
+            columns: [
+              {
+                Header: 'Name',
+                accessor: 'name',
+              },
+              {
+                Header: 'Surname',
+                accessor: 'surname',
+              },
+              {
+                Header: 'Average rating',
+                accessor: 'avgrating',
+              },
+            ],
+          },
+        ],
+        []
+    )  
 
-    handleSearch(e){
-        e.preventDefault();
-        const {_searchText} = this.state;
+    let location = useLocation()
+    let urlParser = new URLSearchParams(location.search)
+
+    const fetchData = React.useCallback(() => {
         const token = JSON.parse(localStorage.getItem('token'));
 
         const requestOptions = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization' : `Bearer ${token.accessToken}`},
+                'Authorization' : `Bearer ${token.accessToken}`
+              }
         }
 
-        fetch(`${serviceConfig.baseURL}/clinic/searchDoctors/${_searchText}`, requestOptions)
+        let urlID = '';
+
+        if(location.pathname.includes('/scheduleDoctors')){
+          urlID = `searchDoctors/${urlParser.get('id')}`
+        } else {
+          urlID = 'searchDoctors';
+        }
+
+        fetch(`${serviceConfig.baseURL}/clinic/${urlID}`, requestOptions)
         .then(response => {
-            return response.json();   
+          if (!response.ok) {
+            return Promise.reject(response);
+          }
+          return response.json(); 
         })
         .then((data) =>  {
-            this.setState({_docrating: data});
-            console.log(data);
+            setData(data)
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());
@@ -46,64 +72,59 @@ class DoctorSearchPage extends Component{
             })
         })
 
-    }
+    });	
 
-    componentDidMount(){
-        const {_searchText} = this.state;	
-        const token = JSON.parse(localStorage.getItem('token'));	
+    function handleClick(rowProps){
+      setModalShow(true);
+      setDoctor(rowProps.name + ' ' + rowProps.surname);
+    };
 
-        const requestOptions = {	
-            method: 'GET',	
-            headers: {	
-                'Content-Type': 'application/json',	
-                'Authorization' : `Bearer ${token.accessToken}`},	
-        }	
-
-        fetch(`${serviceConfig.baseURL}/viewBusinessReport/`, requestOptions)	
-        .then(response => {	
-            return response.json();   	
-        })	
-        .then((data) =>  {	
-            this.setState({_docrating: data});	
-            console.log(data);	
-        })	
-        .catch(response => {	
-            const promise = Promise.resolve(response.json());	
-            promise.then(data => {	
-                alert(data.message);	
-            })	
-        })
-    }
-
-    render(){
-        const {_searchText} = this.state;
-        return(
+    return(
+        <div> 
             <Container>
-                <div className='register-div'>
-                    <h2>Search for doctors</h2>
-                    <Form onSubmit={this.handleSearch}>
-                    <Form.Row>
-                        <Form.Group as={Col} md="12">
-                                <Form.Control
-                                    id="_searchText"
-                                    value={_searchText}
-                                    type="text"
-                                    placeholder="Enter text here..."
-                                    onChange={this.handleChange}
-                                />
-                                <Button variant="primary" type="submit">Search</Button>
-                            </Form.Group>
-                        </Form.Row>
-                    <Form.Row>
-                        <Form.Group as={Col} md="12">
-                                <Form.Label>Doctors:</Form.Label>
-                                <DoctorsAverageRatingTable docrating={this.state._docrating}/>
-                            </Form.Group>
-                        </Form.Row>
-                    </Form>
-                </div>
+                <GenericTable columns={columns} data={data} fetchData={fetchData} handleClick={handleClick}/>
             </Container>
-        );
-    }
+
+            <Modal show={modalShow} onHide={() => setModalShow(false)}>
+                <Modal.Header closeButton>
+                    <h3>Confirm appointment</h3>
+                </Modal.Header>
+                <Modal.Body style={{display:"flex"}}>
+                  <Container>
+                    <span>Date:</span>
+                    <i>&nbsp;{urlParser.get('date')}</i>
+                    <br/><br/>
+                    <span>Time:</span>
+                    <i>&nbsp;{urlParser.get('time')}</i>
+                    <br/><br/>
+                    <span>Type:</span>
+                    <i>&nbsp;{urlParser.get('type')}</i>
+                  </Container>
+                  <Container>
+                    <span>Doctor:</span>
+                    <i>&nbsp;{doctor}</i>
+                    <br/><br/>
+                    <span>Clinic:</span>
+                    <i>&nbsp;{urlParser.get('clinic')}</i>
+                    <br/><br/>
+                    <span>Duration:</span>
+                    <i>&nbsp;{urlParser.get('duration')}</i>
+                    <br/><br/>
+                    <span>Price:</span>
+                    <i>&nbsp;{urlParser.get('price')}</i>
+                  </Container>
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="danger" onClick={() => setModalShow(false)}>
+                    Cancel
+                  </Button>
+                  <Button variant="success">
+                    Confirm
+                  </Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+    )
+    
 }
 export default DoctorSearchPage; 
