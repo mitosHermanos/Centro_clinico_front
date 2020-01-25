@@ -67,13 +67,15 @@ class EditClinicProfile extends React.Component{
                 return response.json();   
             })
             .then((data) =>  {
-                this.setState({_checkupDates: data});  
+                this.setState({_checkupDates: data});
+                console.log(data);
             })
             .catch(response => {
                 // const promise = Promise.resolve(response.json());
                 // promise.then(data => {
                 //     alert(data.message);
                 // })
+                console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
             })
 
             fetch(`${serviceConfig.baseURL}/clinic/getCheckupTypes`, requestOptions)
@@ -280,43 +282,8 @@ class EditClinicProfile extends React.Component{
         }
 
         handleAddDate(){
-            const token = JSON.parse(localStorage.getItem('token'));
-            const {_newCheckupDate} = this.state;
-
-            const checkupDateRequest = {
-                date : _newCheckupDate,
-            }
-
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization' : `Bearer ${token.accessToken}`,
-                },
-                body: JSON.stringify(checkupDateRequest)
-            };
-
-            fetch(`${serviceConfig.baseURL}/clinic/addCheckupDate`, requestOptions)
-            .then(response => {
-                if(!response.ok){
-                    return Promise.reject(response);
-                }
-                return response.statusText;
-            })
-            .then(() => {
-                this.componentDidMount();
-                
-                this.setState({message:"A new checkup date has been added"})
-                this.child.current.showModal(); 
-            })
-            .catch(response => {
-                const promise = Promise.resolve(response.json());
-                promise.then(data => {
-                    
-                    this.setState({message:"Checkup date could not be added."})
-                    this.child.current.showModal(); 
-                })
-            })
+            
+            this.props.history.push('/predefineCheckup');
         }
 
         handleAddDoctor(){
@@ -522,11 +489,11 @@ class EditClinicProfile extends React.Component{
 
                         <Form.Row>
                             
-                            <Form.Group as={Col} md="4">
+                            <Form.Group as={Col} md="8">
                                 
                                 <Form.Control as="select" ref='_selectedCheckupDate'>
                                         {_checkupDates.map((e, key) => {
-                                            return <option key={key} value={e.id}>{e.date}</option>;
+                                        return <option key={key} value={e.id}>[Doc: {e.doctor}][Room: {e.room}][Date: {e.date}][{e.startTime}-{e.endTime}]</option>;
                                         })}
                                     </Form.Control>
                             </Form.Group>
@@ -535,16 +502,7 @@ class EditClinicProfile extends React.Component{
                                 <Form.Label></Form.Label>
                                 <Button variant="danger" onClick={this.handleRemoveDate}>Remove</Button>
                                 </Form.Group>  
-
-                            <Form.Group as={Col} md="4">
-                                <Form.Control
-                                    id="_newCheckupDate"
-                                    value={_newCheckupDate}
-                                    type="text"
-                                    placeholder="NewCheckupDate"
-                                    onChange={this.handleChange}
-                                />
-                            </Form.Group>
+                            
 
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>

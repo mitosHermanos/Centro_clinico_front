@@ -25,6 +25,7 @@ import AccountActivated from './components/AccountActivated';
 import Homepage from './components/Homepage';
 import PatientClinicList from './components/PatientClinicList';
 import ClinicInfo from './components/ClinicInfo';
+import PredefineCheckupPage from './components/PredefineCheckupPage.js';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
       <Route path="/activated" component={AccountActivated}/>
       <Route path="/clinicsList" component={PatientClinicList}/>
       <Route path="/scheduleClinics" component={PatientClinicList}/>
+      <Route path="/predefineCheckup" component={PredefineCheckupPage}/>
 
       <Route
         path="/patientProfile"

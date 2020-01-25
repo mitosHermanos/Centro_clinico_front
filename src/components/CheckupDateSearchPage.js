@@ -21,6 +21,22 @@ function CheckupDateSearchPage() {
                 Header: 'Date',
                 accessor: 'date',
               },
+              {
+                Header: 'Start time',
+                accessor: 'startTime',
+              },
+              {
+                Header: 'End time',
+                accessor: 'endTime',
+              },
+              {
+                Header: 'Doctor',
+                accessor: 'doctor',
+              },
+              {
+                Header: 'Room',
+                accessor: 'room',
+              },
             ],
           },
         ],
@@ -46,6 +62,7 @@ function CheckupDateSearchPage() {
         })
         .then((data) =>  {
             setData(data);
+            console.log(data);
         })
         .catch(response => {
             console.log(response);
