@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useRef } from 'react';
-import {useLocation} from 'react-router-dom'
+import {useLocation, useHistory} from 'react-router-dom';
 import {Container, Modal, Form, Col, InputGroup, Button, Alert} from 'react-bootstrap'
 import  GenericTable from "./GenericTable.js"
 import Header from "./Header.js"
@@ -15,7 +15,7 @@ const PatientClinicList = () => {
 
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
-    const [type, setType] = useState('');
+    const [type, setType] = useState({});
 
     const dateRef = useRef(null);
     
@@ -40,9 +40,10 @@ const PatientClinicList = () => {
           },
         ],
         []
-    )    
+    )      
 
     let location = useLocation()
+    let history = useHistory()
 
     useEffect(() => {
         if(location.pathname === '/scheduleClinics'){
@@ -72,11 +73,18 @@ const PatientClinicList = () => {
         })
         .then((data) => {
             setTypes(data);
-            setType(data[0].name)
+            setType(data[0]);
         })
         .catch(response => {
             console.log(response)
         })
+    }
+
+
+    function handleSelect(e){
+        let selected = types.find(type => type.name === e.target.value);
+        console.log(selected);
+        setType(selected);
     }
 
     function renderSelect(){
@@ -87,8 +95,8 @@ const PatientClinicList = () => {
                 </InputGroup.Prepend>
                 <Form.Control
                 as="select"
-                onChange={e => setType(e.target.value)}
-                value={type}
+                onChange={handleSelect}
+                value={type.name}
                 >          
                 {types.map((type, i) => 
                         <option key={i} value={type.name}>
@@ -135,18 +143,56 @@ const PatientClinicList = () => {
 
     }, []);
 
+    function fetchFilterInfo(filter){
+        const token = JSON.parse(localStorage.getItem('token'));
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.accessToken}`
+            },
+            body: JSON.stringify(filter)
+        };
+
+        fetch(`${serviceConfig.baseURL}/clinic/getAvailableClinics`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            setData(data);
+            if(data.length !== 0){
+                setAlertSuccessShow(true);
+            }
+            else{
+                setAlertFailureShow(true);
+            }
+        })
+        .catch(response => {
+            console.log(response)
+        })
+        
+    }
+
+    function handleClick(rowProps){
+        console.log(rowProps)
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         
         let filter = {
             checkupDate : date,
             checkupTime: time,
-            checkupType: type
+            checkupType: type.name,
+            clinicId: ''
         }
 
-        fetchFilterInfo(filter)
+        fetchFilterInfo(filter);
 
-        //get filtered clinics
         setModalShow(false);
     }
 
@@ -185,7 +231,12 @@ const PatientClinicList = () => {
     }
 
     function handleClick(rowProps){
-        console.log(rowProps)
+        console.log(rowProps);
+        if(alertSuccesShow){
+            history.push(`scheduleDoctors?id=${rowProps.id}&date=${date}&time=${time}&type=${type.name}&clinic=${rowProps.name}&duration=${type.duration}&price=${type.price}`);
+        } else {
+            history.push(`clinicInfo/${rowProps.id}`);  
+        }
     }
 
     return(
@@ -255,6 +306,17 @@ const PatientClinicList = () => {
                             <Form.Group as={Col} md="12">
                                 {renderSelect()}
                             </Form.Group>
+                        </Form.Row>
+                        <hr/>
+                        <Form.Row style={{display:"flex", justifyContent:"space-around"}}>
+                            <div>
+                                <span>Duration:</span>
+                                <i>&nbsp;{type.duration}</i>
+                            </div>
+                            <div>
+                                <span>Price:</span>
+                                <i>&nbsp;{type.price}</i>
+                            </div>
                         </Form.Row>
                     </Modal.Body>
                     <Modal.Footer>

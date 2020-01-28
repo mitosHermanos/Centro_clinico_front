@@ -92,7 +92,7 @@ class PatientInfo extends React.Component{
                             <span>Phone number:</span>
                             <i>&nbsp;{phoneNumber}</i>
                             <br/><br/>
-                            <span>Adress:</span>
+                            <span>Address:</span>
                             <i>&nbsp;
                                 {street} {streetNumber}, {postcode} {city}, {country}</i>
                             <br/><br/>
