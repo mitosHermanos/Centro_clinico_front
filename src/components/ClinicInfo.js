@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Container, FormControl, Button, Form, Col, Row, OverlayTrigger, Tooltip, Image} from 'react-bootstrap';
+import {Card, Container, Button, Image} from 'react-bootstrap';
 import {serviceConfig} from '../appSettings.js'
 import '../styles/PatientInfo.css';
 import Header from './Header';
@@ -57,7 +57,7 @@ class ClinicInfo extends React.Component{
 
 
     render(){
-        const {name, description, street, number, city, postcode, country} = this.state.clinic;
+        const {id, name, description, street, number, city, postcode, country} = this.state.clinic;
 
 
         return(
@@ -87,7 +87,7 @@ class ClinicInfo extends React.Component{
                         </Container>
                     </Card.Body>
                     <Card.Footer style={{display: 'flex', justifyContent: 'left'}}>
-                        <Button variant="primary" size="sm" onClick={() => this.nextPath('/searchDoctors') }>
+                        <Button variant="primary" size="sm" onClick={() => this.nextPath(`/doctorsInClinic/${id}`) }>
                             See all employed doctors
                         </Button>
                     </Card.Footer>

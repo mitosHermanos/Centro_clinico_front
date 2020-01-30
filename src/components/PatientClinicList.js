@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useRef } from 'react';
-import {useLocation, useHistory} from 'react-router-dom';
+import {useHistory, useLocation} from 'react-router-dom';
 import {Container, Modal, Form, Col, InputGroup, Button, Alert} from 'react-bootstrap'
 import  GenericTable from "./GenericTable.js"
 import Header from "./Header.js"
@@ -12,6 +12,7 @@ const PatientClinicList = () => {
     const [modalShow, setModalShow] = useState(false);
     const [alertSuccesShow, setAlertSuccessShow] = useState(false);
     const [alertFailureShow, setAlertFailureShow] = useState(false);
+    const [modalSubmited, setModalSubmited] = useState(false);
 
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
@@ -42,15 +43,7 @@ const PatientClinicList = () => {
         []
     )      
 
-    let location = useLocation()
     let history = useHistory()
-
-    useEffect(() => {
-        if(location.pathname === '/scheduleClinics'){
-            fetchTypes();      
-            setModalShow(true);
-        }
-    }, [location])
 
     function fetchTypes(){
         const token = JSON.parse(localStorage.getItem('token'));
@@ -83,7 +76,6 @@ const PatientClinicList = () => {
 
     function handleSelect(e){
         let selected = types.find(type => type.name === e.target.value);
-        console.log(selected);
         setType(selected);
     }
 
@@ -107,6 +99,12 @@ const PatientClinicList = () => {
             </InputGroup>
         ) 
     }
+
+    useEffect(() => {
+        if(date !== '')        
+            setModalSubmited(alertSuccesShow || date);
+        
+    }, [alertSuccesShow]);
 
     useEffect(() => {
         if(dateRef.current !== null){
@@ -143,43 +141,6 @@ const PatientClinicList = () => {
 
     }, []);
 
-    function fetchFilterInfo(filter){
-        const token = JSON.parse(localStorage.getItem('token'));
-
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token.accessToken}`
-            },
-            body: JSON.stringify(filter)
-        };
-
-        fetch(`${serviceConfig.baseURL}/clinic/getAvailableClinics`, requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                return Promise.reject(response);
-            }
-            return response.json();
-        })
-        .then((data) => {
-            setData(data);
-            if(data.length !== 0){
-                setAlertSuccessShow(true);
-            }
-            else{
-                setAlertFailureShow(true);
-            }
-        })
-        .catch(response => {
-            console.log(response)
-        })
-        
-    }
-
-    function handleClick(rowProps){
-        console.log(rowProps)
-    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -192,7 +153,6 @@ const PatientClinicList = () => {
         }
 
         fetchFilterInfo(filter);
-
         setModalShow(false);
     }
 
@@ -219,13 +179,14 @@ const PatientClinicList = () => {
             setData(data);
             if(data.length !== 0){
                 setAlertSuccessShow(true);
+                setAlertFailureShow(false);
             }
             else{
                 setAlertFailureShow(true);
             }
         })
         .catch(response => {
-            console.log(response)
+            console.log(response);
         })
         
     }
@@ -237,6 +198,15 @@ const PatientClinicList = () => {
         } else {
             history.push(`clinicInfo/${rowProps.id}`);  
         }
+    }
+
+    function scheduleClick(){
+        fetchTypes();
+        setModalShow(true);
+    }
+    
+    function cancelSchedule(){
+        window.location.reload()
     }
 
     return(
@@ -260,7 +230,12 @@ const PatientClinicList = () => {
                       </p>
                     </Alert>
                 }
-
+                <Button variant="outline-danger" style={{float:'right', margin:'1%'}} onClick={cancelSchedule} hidden={!modalSubmited}>
+                    Cancel 
+                </Button>
+                <Button variant="outline-success" style={{float:'right', margin:'1%'}} onClick={scheduleClick} hidden={modalSubmited}>
+                    Schedule an appointment 
+                </Button>
                 <GenericTable columns={columns} data={data} fetchData={fetchData} handleClick={handleClick}/>
             </Container>
 
@@ -311,7 +286,7 @@ const PatientClinicList = () => {
                         <Form.Row style={{display:"flex", justifyContent:"space-around"}}>
                             <div>
                                 <span>Duration:</span>
-                                <i>&nbsp;{type.duration}</i>
+                                <i>&nbsp;{type.duration} min</i>
                             </div>
                             <div>
                                 <span>Price:</span>
