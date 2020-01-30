@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Container,Button, Modal} from 'react-bootstrap'
+import {Container,Button, Modal, Alert} from 'react-bootstrap'
 import {useLocation} from 'react-router-dom';
 import {serviceConfig} from '../appSettings.js';
 import  GenericTable from "./GenericTable.js";
@@ -11,6 +11,9 @@ function DoctorSearchPage(){
     const [doctor, setDoctor] = useState('');
     const [doctorId, setDoctorId] = useState('');
     const [modalShow, setModalShow] = useState(false);
+    const [alertSuccesShow, setAlertSuccessShow] = useState(false);
+    const [scheduled, setScheduled] = useState(false);
+    const [scheduleFailed, setScheduleFailed] = useState(false);
     
     const columns = React.useMemo(
         () => [
@@ -49,12 +52,11 @@ function DoctorSearchPage(){
               }
         }
 
-        let urlID = '';
-
+        let urlID = 'searchDoctors';
+        
         if(location.pathname.includes('/scheduleDoctors')){
-          urlID = `searchDoctors/${urlParser.get('id')}`
-        } else {
-          urlID = 'searchDoctors';
+          urlID += `/${urlParser.get('id')}`
+          setAlertSuccessShow(true);
         }
 
         fetch(`${serviceConfig.baseURL}/clinic/${urlID}`, requestOptions)
@@ -73,9 +75,11 @@ function DoctorSearchPage(){
     }, []);	
 
     function handleClick(rowProps){
-      setModalShow(true);
-      setDoctor(rowProps.name + ' ' + rowProps.surname);
-      setDoctorId(rowProps.id);
+      if(location.pathname.includes('/scheduleDoctors')){
+        setModalShow(true);
+        setDoctor(rowProps.name + ' ' + rowProps.surname);
+        setDoctorId(rowProps.id);
+      }
     };
 
     function confirmAppointment(e){
@@ -104,13 +108,15 @@ function DoctorSearchPage(){
 
       fetch(`${serviceConfig.baseURL}/clinic/schedule`, requestOptions)
       .then(response => {
+        setAlertSuccessShow(false);
         if (!response.ok) {
           return Promise.reject(response);
         }
+        setScheduled(true);
         return response.json(); 
       })
       .catch(response => {
-          console.log(response);
+          setScheduleFailed(true);
       })
     }
 
@@ -118,6 +124,33 @@ function DoctorSearchPage(){
         <div> 
             <Header/>
             <Container>
+                {alertSuccesShow &&
+                      <Alert variant="success" onClose={() => setAlertSuccessShow(false)} dismissible>
+                      <Alert.Heading>Well done!</Alert.Heading>
+                      <p>
+                        Now select doctor of your choice in the list below to continue..
+                      </p>
+                    </Alert>
+                }
+
+                {scheduled &&
+                      <Alert variant="success" onClose={() => setAlertSuccessShow(false)} dismissible>
+                      <Alert.Heading>Well done!</Alert.Heading>
+                      <p>
+                        You have successfully scheduled an appointment!
+                      </p>
+                    </Alert>
+                }   
+
+                {scheduleFailed &&
+                      <Alert variant="danger" onClose={() => setAlertSuccessShow(false)} dismissible>
+                      <Alert.Heading>Something went wrong...</Alert.Heading>
+                      <p>
+                        Something went wrong while trying to schedule your appointment!
+                      </p>
+                    </Alert>
+                }   
+
                 <GenericTable columns={columns} data={data} fetchData={fetchData} handleClick={handleClick}/>
             </Container>
 

@@ -25,7 +25,8 @@ import AccountActivated from './components/AccountActivated';
 import Homepage from './components/Homepage';
 import PatientClinicList from './components/PatientClinicList';
 import ClinicInfo from './components/ClinicInfo';
-
+import ScheduleDoctor from './components/ScheduleDoctor'
+ 
 function App() {
   return (
     <div className="App">
@@ -52,8 +53,8 @@ function App() {
       <Route path="/home" component={Homepage}/>
       <Route path="/activated" component={AccountActivated}/>
       <Route path="/clinicsList" component={PatientClinicList}/>      
-      <Route path="/scheduleClinics" component={PatientClinicList}/>
       <Route path="/scheduleDoctors" component={DoctorSearchPage}/>
+      <Route path="/doctorsInClinic/:id" component={ScheduleDoctor}/>
 
 
       <Route
