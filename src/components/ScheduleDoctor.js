@@ -13,8 +13,8 @@ function ScheduleDoctor(){
     const [type, setType] = useState({});
     const [types, setTypes] = useState([]);
     const [shift, setShift] = useState(null);
-    const [checkups, setCheckups] = useState([]);
-    const [daysOff, setDaysOff] = useState([])
+    const [busy, setBusy] = useState([]);
+
 
     const [alertSuccesShow, setAlertSuccessShow] = useState(false);
     const [alertFailureShow, setAlertFailureShow] = useState(false);
@@ -169,7 +169,7 @@ function ScheduleDoctor(){
     useEffect(() => {
         if(filterSubmitted)
             setModalShow(true);
-    }, [checkups])  
+    }, [busy])  
 
     function fetchWorkingSchedule(id){
         const token = JSON.parse(localStorage.getItem('token'));
@@ -191,9 +191,9 @@ function ScheduleDoctor(){
             return response.json();
         })
         .then((data) => {
+            
             setShift(data.shift);
-            setDaysOff(data.absences);
-            setCheckups(reformat(data.checkups));
+            setBusy(reformat([...data.checkups,... data.absences]))
         })
         .catch(response => {
             console.log(response)
@@ -278,7 +278,7 @@ function ScheduleDoctor(){
                    <h3>Choose date and time</h3>
                 </Modal.Header>
                 <Modal.Body>
-                    <AvailableHours events={checkups} shift={shift} passedDate={date}/>
+                    <AvailableHours events={busy} shift={shift} passedDate={date}/>
                 </Modal.Body>
             </Modal>
         </div>

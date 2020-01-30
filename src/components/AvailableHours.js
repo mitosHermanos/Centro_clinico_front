@@ -35,7 +35,7 @@ function AvailableHours({passedDate, shift, events}){
                 step={15}
                 timeslots={1}
                 min = {!shift ? new Date() : new Date(0, 0, 0, shift.startTime[0], shift.startTime[1], 0)}
-                max = {!shift ? new Date() : new Date(0, 0, 0, shift.endTime[0], shift.endTime[1], 0)}
+                max = {!shift ? new Date() : new Date(0, 0, 0, shift.endTime[0], shift.endTime[1]-1, 59)}
             />
         </div>
     )

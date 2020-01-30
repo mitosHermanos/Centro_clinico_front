@@ -12,8 +12,8 @@ function RoomSearchPage() {
 
     const [data, setData] = React.useState([]);
     const [roomScheduleData, setRoomScheduleData] = React.useState([]);
-    const [temp, setTemp] = React.useState([]);
     const [rowPropsFromChild, setRowPropsFromChild] = React.useState([]);
+    const [fetched, setFetched] = React.useState(false);
     
     const [modalShow, setModalShow] = useState(false);
     const [selectedDate, setSelectedDate] = React.useState([]);
@@ -50,12 +50,20 @@ function RoomSearchPage() {
     }, [dateRef.current])
 
     useEffect(() => {
-            roomScheduleData.map((sched,i)=>{
-                sched.title = "checkup "+sched.id;
-                sched.start = new Date(sched.start[0],sched.start[1],sched.start[2],sched.start[3],sched.start[4], 0);
-                sched.end = new Date(sched.end[0],sched.end[1],sched.end[2],sched.end[3],sched.end[4], 0);
-            })
+        if(fetched){
+            setModalShow(true);
+        }
     }, [roomScheduleData])
+
+    function mapData(data){
+        data.forEach((sched,i)=>{
+            sched.title = "checkup "+sched.id;
+            sched.start = new Date(sched.start[0],sched.start[1],sched.start[2],sched.start[3],sched.start[4], 0);
+            sched.end = new Date(sched.end[0],sched.end[1],sched.end[2],sched.end[3],sched.end[4], 0);
+        })
+        console.log(data);
+        return data;
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -87,8 +95,7 @@ function RoomSearchPage() {
         })
         .catch(response => {
             console.log(response);
-        })
-
+        })        
     }, []);
 
     function setSelected(day){
@@ -100,7 +107,6 @@ function RoomSearchPage() {
 
     function handleClick(rowProps){
         
-        console.log(rowPropsFromChild);
         setRowPropsFromChild(rowProps.id);
 
         const token = JSON.parse(localStorage.getItem('token'));
@@ -120,12 +126,13 @@ function RoomSearchPage() {
             return response.json(); 
         })
         .then((data) =>  {
-            setRoomScheduleData(data);
+            setFetched(true);
+            setRoomScheduleData(mapData(data));
         })
         .catch(response => {
             console.log(response);
         })
-        setModalShow(true);
+        
     }
 
 
@@ -136,7 +143,6 @@ function RoomSearchPage() {
                 <GenericTable columns={columns} data={data} fetchData={fetchData} handleClick={handleClick}/>
             </Container>
 
-            
             <Modal show={modalShow} onHide={() => setModalShow(false)}>
                 <Modal.Header closeButton>
                     <h3>Room schedule</h3>
@@ -146,8 +152,6 @@ function RoomSearchPage() {
                         <div style={{minHeight: 500}}>
                             <Calendar
                                 events={roomScheduleData}
-                                startAccessor="start"
-                                endAccessor="end"
                                 defaultDate={moment().toDate()}
                                 localizer={momentLocalizer(moment)}
                                 style={{height:500}}

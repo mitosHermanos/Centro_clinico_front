@@ -484,7 +484,7 @@ class EditClinicProfile extends React.Component{
                         </Form.Row>
                         
                         <Form.Row>
-                            <Form.Label>Free checkup dates</Form.Label>
+                            <Form.Label>Predefined checkups</Form.Label>
                         </Form.Row>
 
                         <Form.Row>

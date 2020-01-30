@@ -108,7 +108,7 @@ class Header extends React.Component {
                     <Nav.Link  onClick={() => this.nextPath('/editClinicProfile') }>Edit clinic profile</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/searchRooms') }>Search rooms</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/searchDoctors') }>Search doctors</Nav.Link>
-                    <Nav.Link  onClick={() => this.nextPath('/searchCheckupDates') }>Search checkup dates</Nav.Link>
+                    <Nav.Link  onClick={() => this.nextPath('/searchCheckupDates') }>Search predefined checkups</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/searchCheckupTypes') }>Search checkup types</Nav.Link>
                 </Row>     
                 }
