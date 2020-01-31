@@ -5,7 +5,6 @@ import {serviceConfig} from '../appSettings.js'
 class Report extends React.Component{
     constructor(props){
         super(props);
-        console.log(this.props.lista);
         this.state = {
             listaDijagnoza: [],
             listaMedikamenata: [],
