@@ -3,6 +3,7 @@ import {Container, Form, Col, Button} from 'react-bootstrap';
 import {serviceConfig} from '../appSettings.js';
 import ReactDOM from 'react-dom';
 import ModalAlert from './ModalAlert.js'
+import Header from './Header.js'
 
 
 class EditClinicProfile extends React.Component{
@@ -13,6 +14,7 @@ class EditClinicProfile extends React.Component{
                 _newCheckupDate : '',
                 _newRoomName: '',
                 _newCheckupType: '',
+                _newCheckupTypeDuration: '',
                 _checkupDates : [],
                 _checkupTypes : [],
                 _rooms : [],
@@ -65,13 +67,15 @@ class EditClinicProfile extends React.Component{
                 return response.json();   
             })
             .then((data) =>  {
-                this.setState({_checkupDates: data});  
+                this.setState({_checkupDates: data});
+                console.log(data);
             })
             .catch(response => {
                 // const promise = Promise.resolve(response.json());
                 // promise.then(data => {
                 //     alert(data.message);
                 // })
+                console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
             })
 
             fetch(`${serviceConfig.baseURL}/clinic/getCheckupTypes`, requestOptions)
@@ -198,10 +202,11 @@ class EditClinicProfile extends React.Component{
         handleAddType(){
             const token = JSON.parse(localStorage.getItem('token'));
 
-            const {_newCheckupType} = this.state;
+            const {_newCheckupType, _newCheckupTypeDuration} = this.state;
 
             const checkupTypeRequest = {
                 name : _newCheckupType,
+                duration: _newCheckupTypeDuration,
             }
 
             const requestOptions = {
@@ -277,43 +282,8 @@ class EditClinicProfile extends React.Component{
         }
 
         handleAddDate(){
-            const token = JSON.parse(localStorage.getItem('token'));
-            const {_newCheckupDate} = this.state;
-
-            const checkupDateRequest = {
-                date : _newCheckupDate,
-            }
-
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization' : `Bearer ${token.accessToken}`,
-                },
-                body: JSON.stringify(checkupDateRequest)
-            };
-
-            fetch(`${serviceConfig.baseURL}/clinic/addCheckupDate`, requestOptions)
-            .then(response => {
-                if(!response.ok){
-                    return Promise.reject(response);
-                }
-                return response.statusText;
-            })
-            .then(() => {
-                this.componentDidMount();
-                
-                this.setState({message:"A new checkup date has been added"})
-                this.child.current.showModal(); 
-            })
-            .catch(response => {
-                const promise = Promise.resolve(response.json());
-                promise.then(data => {
-                    
-                    this.setState({message:"Checkup date could not be added."})
-                    this.child.current.showModal(); 
-                })
-            })
+            
+            this.props.history.push('/predefineCheckup');
         }
 
         handleAddDoctor(){
@@ -480,8 +450,10 @@ class EditClinicProfile extends React.Component{
         }
 
         render(){
-        const {_newCheckupDate, _checkupDates, _checkupTypes, _rooms, _doctors, _newRoomName, _newCheckupType, _clinic, _name, _description, _street, _number, _city, _postcode, _country} = this.state;
+        const {_newCheckupDate, _checkupDates, _checkupTypes, _rooms, _doctors, _newRoomName, _newCheckupType, _newCheckupTypeDuration, _clinic, _name, _description, _street, _number, _city, _postcode, _country} = this.state;
         return(
+            <div>
+            <Header/>
             <Container>
                 <div className='register-div'>
                     <h2>Edit profile of the clinic</h2>
@@ -512,16 +484,16 @@ class EditClinicProfile extends React.Component{
                         </Form.Row>
                         
                         <Form.Row>
-                            <Form.Label>Free checkup dates</Form.Label>
+                            <Form.Label>Predefined checkups</Form.Label>
                         </Form.Row>
 
                         <Form.Row>
                             
-                            <Form.Group as={Col} md="4">
+                            <Form.Group as={Col} md="8">
                                 
                                 <Form.Control as="select" ref='_selectedCheckupDate'>
                                         {_checkupDates.map((e, key) => {
-                                            return <option key={key} value={e.id}>{e.date}</option>;
+                                        return <option key={key} value={e.id}>[Doc: {e.doctor}][Room: {e.room}][Date: {e.date}][{e.startTime}-{e.endTime}]</option>;
                                         })}
                                     </Form.Control>
                             </Form.Group>
@@ -530,16 +502,7 @@ class EditClinicProfile extends React.Component{
                                 <Form.Label></Form.Label>
                                 <Button variant="danger" onClick={this.handleRemoveDate}>Remove</Button>
                                 </Form.Group>  
-
-                            <Form.Group as={Col} md="4">
-                                <Form.Control
-                                    id="_newCheckupDate"
-                                    value={_newCheckupDate}
-                                    type="text"
-                                    placeholder="NewCheckupDate"
-                                    onChange={this.handleChange}
-                                />
-                            </Form.Group>
+                            
 
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
@@ -637,12 +600,21 @@ class EditClinicProfile extends React.Component{
                                 <Button variant="danger" onClick={this.handleRemoveType}>Remove</Button>
                                 </Form.Group>  
 
-                            <Form.Group as={Col} md="4">
+                            <Form.Group as={Col} md="2">
                                 <Form.Control
                                     id="_newCheckupType"
                                     value={_newCheckupType}
                                     type="text"
-                                    placeholder="NewCheckupType"
+                                    placeholder="Type"
+                                    onChange={this.handleChange}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md="2">
+                                <Form.Control
+                                    id="_newCheckupTypeDuration"
+                                    value={_newCheckupTypeDuration}
+                                    type="text"
+                                    placeholder="Duration"
                                     onChange={this.handleChange}
                                 />
                             </Form.Group>
@@ -724,6 +696,7 @@ class EditClinicProfile extends React.Component{
                 </div>
                 <ModalAlert message={this.state.message} ref={this.child}/>
             </Container>
+            </div>
         );
         }
     

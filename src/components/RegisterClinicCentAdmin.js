@@ -88,9 +88,6 @@ class RegisterClinicCentAdmin extends React.Component{
         .catch(response => {
             return response.text();
         })
-        .then((message) => {
-            alert(message);
-        });
     }
     
     render(){
@@ -98,7 +95,7 @@ class RegisterClinicCentAdmin extends React.Component{
         return(
             <Container>
                 <div className='register-div'>
-                    <h2>Create a patient account</h2>
+                    <h2>Register new clinical center administrator</h2>
                     <Form onSubmit={this.handleSubmit}>
                     <Form.Row>
                         <Form.Group as={Col} md="6">

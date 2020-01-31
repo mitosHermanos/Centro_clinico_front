@@ -1,29 +1,79 @@
-import React, {Component} from 'react';
-import {Container, Form, Col, Button} from 'react-bootstrap'
-import RoomSearchTable from './RoomSearchTable.js'
+import React, {Component, useState, useEffect, useRef} from 'react';
+import {useLocation} from 'react-router-dom'
+import {Container, Modal, Form, Col, InputGroup, Button} from 'react-bootstrap'
 import {serviceConfig} from '../appSettings.js'
+import GenericTable from "./GenericTable.js"
+import Header from "./Header.js"
+import moment from 'moment'
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 
-class RoomSearchPage extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            _searchText:'',
-            _rooms : [],
-            _viewRooms: [],
+function RoomSearchPage() {
+
+    const [data, setData] = React.useState([]);
+    const [roomScheduleData, setRoomScheduleData] = React.useState([]);
+    const [rowPropsFromChild, setRowPropsFromChild] = React.useState([]);
+    const [fetched, setFetched] = React.useState(false);
+    
+    const [modalShow, setModalShow] = useState(false);
+    const [selectedDate, setSelectedDate] = React.useState([]);
+
+    const dateRef = useRef(null);
+    
+    const columns = React.useMemo(
+        () => [
+          {
+            Header: 'Rooms list',
+            columns: [
+              {
+                Header: 'Id',
+                accessor: 'id',
+              },
+              {
+                Header: 'Name',
+                accessor: 'name',
+              },
+            ],
+          },
+        ],
+        []
+    )  
+    
+
+    let location = useLocation()
+
+    useEffect(() => {
+        if(dateRef.current !== null){
+            dateRef.current.min = new Date().toISOString().split("T")[0];
+            dateRef.current.max = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split("T")[0];
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
+    }, [dateRef.current])
+
+    useEffect(() => {
+        if(fetched){
+            setModalShow(true);
+        }
+    }, [roomScheduleData])
+
+    function mapData(data){
+        data.forEach((sched,i)=>{
+            sched.title = "checkup "+sched.id;
+            sched.start = new Date(sched.start[0],sched.start[1],sched.start[2],sched.start[3],sched.start[4], 0);
+            sched.end = new Date(sched.end[0],sched.end[1],sched.end[2],sched.end[3],sched.end[4], 0);
+        })
+        console.log(data);
+        return data;
     }
 
-    handleChange(e) {
-        const { id, value } = e.target;
-        this.setState({ [id]: value });
-    }
-
-    handleSearch(e){
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        const {_searchText} = this.state;
+        //handle 
+        //get filtered clinics
+        setModalShow(false);
+    }
+
+    const fetchData = React.useCallback(() => {
         const token = JSON.parse(localStorage.getItem('token'));
 
         const requestOptions = {
@@ -33,79 +83,94 @@ class RoomSearchPage extends Component{
                 'Authorization' : `Bearer ${token.accessToken}`},
         }
 
-        fetch(`${serviceConfig.baseURL}/clinic/searchRooms/${_searchText}`, requestOptions)
+        fetch(`${serviceConfig.baseURL}/clinic/searchRooms`, requestOptions)
         .then(response => {
-            return response.json();   
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            return response.json(); 
         })
         .then((data) =>  {
-            this.setState({_rooms: data});
-            console.log(data);
+            setData(data);
         })
         .catch(response => {
-            const promise = Promise.resolve(response.json());
-            promise.then(data => {
-                alert(data.message);
-            })
-        })
+            console.log(response);
+        })        
+    }, []);
 
+    function setSelected(day){
+        setSelectedDate(day);
+        console.log(day.date());
+        console.log(day.month());
+        console.log(day.year());
     }
 
-    componentDidMount(){
-        const {_searchText} = this.state;	
-        const token = JSON.parse(localStorage.getItem('token'));	
+    function handleClick(rowProps){
+        
+        setRowPropsFromChild(rowProps.id);
 
-        const requestOptions = {	
-            method: 'GET',	
-            headers: {	
-                'Content-Type': 'application/json',	
-                'Authorization' : `Bearer ${token.accessToken}`},	
-        }	
+        const token = JSON.parse(localStorage.getItem('token'));
 
-        fetch(`${serviceConfig.baseURL}/clinic/getRooms`, requestOptions)	
-        .then(response => {	
-            return response.json();   	
-        })	
-        .then((data) =>  {	
-            this.setState({_rooms: data});	
-            console.log(data);	
-        })	
-        .catch(response => {	
-            const promise = Promise.resolve(response.json());	
-            promise.then(data => {	
-                alert(data.message);	
-            })	
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${token.accessToken}`},
+        }
+
+        fetch(`${serviceConfig.baseURL}/clinic/getRoomSchedule/${rowProps.id}`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            return response.json(); 
         })
+        .then((data) =>  {
+            setFetched(true);
+            setRoomScheduleData(mapData(data));
+        })
+        .catch(response => {
+            console.log(response);
+        })
+        
     }
 
-    render(){
-        const {_searchText} = this.state;
-        return(
+
+    return(
+        <div>
+            <Header/>
             <Container>
-                <div className='register-div'>
-                    <h2>Search for rooms</h2>
-                    <Form onSubmit={this.handleSearch}>
-                    <Form.Row>
-                        <Form.Group as={Col} md="12">
-                                <Form.Control
-                                    id="_searchText"
-                                    value={_searchText}
-                                    type="text"
-                                    placeholder="Enter text here..."
-                                    onChange={this.handleChange}
-                                />
-                                <Button variant="primary" type="submit">Search</Button>
-                            </Form.Group>
-                        </Form.Row>
-                    <Form.Row>
-                        <Form.Group as={Col} md="12">
-                                <Form.Label>Rooms:</Form.Label>
-                                <RoomSearchTable _rooms={this.state._rooms}/>
-                            </Form.Group>
-                        </Form.Row>
-                    </Form>
-                </div>
+                <GenericTable columns={columns} data={data} fetchData={fetchData} handleClick={handleClick}/>
             </Container>
-        );
-    }
+
+            <Modal show={modalShow} onHide={() => setModalShow(false)}>
+                <Modal.Header closeButton>
+                    <h3>Room schedule</h3>
+                </Modal.Header>
+                <Form onSubmit={handleSubmit}>
+                    <Modal.Body>
+                        <div style={{minHeight: 500}}>
+                            <Calendar
+                                events={roomScheduleData}
+                                defaultDate={moment().toDate()}
+                                localizer={momentLocalizer(moment)}
+                                style={{height:500}}
+                            />
+                        </div>
+                        <Form.Row>
+                            <Form.Group as={Col} md="6">
+                            </Form.Group>
+                        </Form.Row>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="success" onClick={() => setModalShow(false)}>
+                            Ok
+                        </Button>
+                    </Modal.Footer>
+                </Form>
+            </Modal>
+        </div>
+    )
+    
 }
 export default RoomSearchPage; 

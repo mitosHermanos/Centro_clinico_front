@@ -69,6 +69,7 @@ class ClinicCentAdmin extends Component{
        .then(response => {
            if (!response.ok) {
                return Promise.reject(response);
+            }
            window.location.href="/clinicCentAdmin";
            return response.statusText;
         }

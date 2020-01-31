@@ -18,7 +18,6 @@ import RoomSearchPage from './components/RoomSearchPage.js';
 import DoctorSearchPage from './components/DoctorSearchPage.js';
 import CheckupTypeSearchPage from './components/CheckupTypeSearchPage';
 import CheckupDateSearchPage from './components/CheckupDateSearchPage';
-import Header from './components/Header';
 import Report from './components/Report'
 import RegisterClinicCentAdmin from './components/RegisterClinicCentAdmin';
 import ReportDiagnosis from './components/ReportDiagnosis';
@@ -26,6 +25,12 @@ import AccountActivated from './components/AccountActivated';
 import Homepage from './components/Homepage';
 import PrescriptionTable from './components/PrescriptionTable';
 import CCAdminDecline from './components/CCAdminDecline';
+import PatientClinicList from './components/PatientClinicList';
+import ClinicInfo from './components/ClinicInfo';
+import ScheduleDoctor from './components/ScheduleDoctor'
+import PredefineCheckupPage from './components/PredefineCheckupPage.js';
+import ScheduleRoomPage from './components/ScheduleRoomPage';
+
 function App() {
   return (
     <div className="App">
@@ -39,7 +44,10 @@ function App() {
       <Route path="/newDiagnosis" component={EnterDiagnosis} />
       <Route path="/newMedicine" component={EnterMedicine}/>
       <Route path="/registerDoctor" component={RegisterDoctorPage} />
+
       <Route path="/searchRooms" component={RoomSearchPage}/>
+      <Route path="/seeRoomSchedule" component={RoomSearchPage}/>
+
       <Route path="/searchDoctors" component={DoctorSearchPage}/>
       <Route path="/searchCheckupTypes" component={CheckupTypeSearchPage}/>
       <Route path="/searchCheckupDates" component={CheckupDateSearchPage}/>
@@ -50,6 +58,12 @@ function App() {
       <Route path="/activated" component={AccountActivated}/>
       <Route path="/prescriptionTable" component={PrescriptionTable}/>
       <Route path="/decline/:id" component={CCAdminDecline}/>
+      <Route path="/clinicsList" component={PatientClinicList}/>      
+      <Route path="/scheduleDoctors" component={DoctorSearchPage}/>
+      <Route path="/doctorsInClinic/:id" component={ScheduleDoctor}/>
+      <Route path="/predefineCheckup" component={PredefineCheckupPage}/>
+      <Route path="/scheduleRooms" component={ScheduleRoomPage}/>
+
 
       <Route
         path="/patientProfile"
@@ -61,6 +75,8 @@ function App() {
         </>
         )}
       />
+
+      <Route path="/clinicInfo/:id" component={ClinicInfo}/>
 
     </div>
   );
