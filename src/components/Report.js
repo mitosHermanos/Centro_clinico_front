@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Container, Form, Col, Button, Dropdown} from 'react-bootstrap'
+import {Container, Form, Col, Button, Dropdown, Table, Checkbox, Select} from 'react-bootstrap'
 import {serviceConfig} from '../appSettings.js'
 
 class Report extends React.Component{
@@ -7,15 +7,20 @@ class Report extends React.Component{
         super(props);
         console.log(this.props.lista);
         this.state = {
+            listaDijagnoza: [],
+            listaMedikamenata: [],
+            recept: [ ],
+            dijagnoza: {
+                //code: '',
+                //description: ''
+            },
             _description: '', 
-            displayMenu: false,
-            _lista: this.props.lista
         };
-        console.log(this.state._lista);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.showDropdownMenu = this.showDropdownMenu.bind(this);
         this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
+        //this.onSelected = this.onSelected.bind(this);
     }
 
     showDropdownMenu(event) {
@@ -31,6 +36,108 @@ class Report extends React.Component{
         });
     
     }
+    componentDidMount(){
+        this.getDiagnosis();
+        this.getMedicine();
+    }
+    
+    renderDropdown(){
+        return this.state.listaDijagnoza.map((el, index)=>{
+            return(
+                <option 
+                    key={el.code}
+                    value={el.code}
+                >
+                    {el.code}
+                </option>
+            )
+        })
+    }
+    renderTableData() {
+        return this.state.listaMedikamenata.map((el, index) => {
+           return (
+              <tr key={el.code}>
+                 <td>{el.code}</td>
+                 <td>{el.description}</td>
+                 <td><input type='checkbox' value={el.code} onChange={e => this.onChecked(e)}/></td>
+              </tr>
+           )
+        })
+    }
+    onSelected(e){
+        let isSelected = e.target.value;
+        console.log(isSelected);
+        this.state.listaDijagnoza.map((el, index)=>{
+            if(el.code === isSelected){
+                this.state.dijagnoza = el;
+            }
+        })
+        console.log(this.state.dijagnoza);
+    }
+    onChecked(e){
+        let isChecked = e.target.value;
+        console.log(isChecked);
+        this.state.listaMedikamenata.map((el, index)=>{
+            if(el.code === isChecked){
+                this.state.recept.push(el);
+            }
+        })
+        console.log(this.state.recept);
+    }
+
+    getDiagnosis(){
+        const token = JSON.parse(localStorage.getItem('token'));
+        const requestOptions = {
+           method: 'GET',
+           headers: {
+                       'Content-Type': 'application/json',
+                       'Authorization' : `Bearer ${token.accessToken}`
+        }
+           //body: JSON.stringify(clinicRequest)
+       };
+  
+       fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/getDiagnosis`, requestOptions)
+          .then(response => {
+              return response.json();
+          })
+          .then((data)=>{
+             this.setState({listaDijagnoza : data});
+             console.log(this.state.lista);
+          })
+          .catch(response=>{
+             const promise = Promise.resolve(response.json());
+             promise.then(data => {
+                alert(data.messege);
+             })
+          })
+    }
+
+    getMedicine(){
+        const token = JSON.parse(localStorage.getItem('token'));
+        const requestOptions = {
+           method: 'GET',
+           headers: {
+                       'Content-Type': 'application/json',
+                       'Authorization' : `Bearer ${token.accessToken}`
+        }
+           //body: JSON.stringify(clinicRequest)
+       };
+  
+       fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/getMedicines`, requestOptions)
+          .then(response => {
+              return response.json();
+          })
+          .then((data)=>{
+             this.setState({listaMedikamenata : data});
+             console.log(this.state.lista);
+          })
+          .catch(response=>{
+             const promise = Promise.resolve(response.json());
+             promise.then(data => {
+                alert(data.messege);
+             })
+          })
+    }
     
 
     handleChange(e) {
@@ -40,16 +147,22 @@ class Report extends React.Component{
 
     handleSubmit(e) {
         e.preventDefault();
-
-        this.enter();
-
+        if(this.state.recept.length > 0){
+            console.log('enterd if');
+            this.sendPrescription();
+        }
+        else{
+            this.sendCheckup();
+        }
     }
 
-    enter(){
+    sendCheckup(){
         
         const {_description} = this.state;
-        const patientRequest = {
-            description: _description
+       
+        const checkupRequest = {
+            description: _description,
+            diagnosis: this.state.dijagnoza,
         }
         const token = JSON.parse(localStorage.getItem('token'));
         const requestOptions = {
@@ -57,14 +170,82 @@ class Report extends React.Component{
             headers: {'Content-Type': 'application/json',
                         'Authorization' : `Bearer ${token.accessToken}`
         },
-            body: JSON.stringify(patientRequest)
+            body: JSON.stringify(checkupRequest)
         };
 
-        fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/addDiagnosis`, requestOptions)
+        fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/doCheckup`, requestOptions)
         .then(response => {
             if (!response.ok) {
                 return Promise.reject(response);
             }
+            console.log('chackup made');
+            return response.statusText;
+        })
+    }
+
+    sendPrescription(){
+        
+        console.log(this.state.recept);
+        const prescriptionRequest = {
+            medicine_list: this.state.recept,
+            certified: false,
+            byWho: null,
+        }
+        
+        const token = JSON.parse(localStorage.getItem('token'));
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',
+                        'Authorization' : `Bearer ${token.accessToken}`
+        },
+            body: JSON.stringify(prescriptionRequest)
+        };
+
+        fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/makePrescription`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            console.log('prescription made');
+            this.sendCheckup();
+            return response.statusText;
+        })
+    }
+//--------------------------------------------------------------------------------------------------------------------
+
+    enter(){
+        
+        const {_description} = this.state;
+        let _prescription = null;
+        
+        if(this.state.recept.length > 0){
+            _prescription = {
+                medicine_list: this.state.recept,
+                certified: false,
+                byWho: ''
+            }
+        }
+       
+        const checkupRequest = {
+            description: _description,
+            diagnosis: this.state.dijagnoza,
+            prescription: _prescription
+        }
+        const token = JSON.parse(localStorage.getItem('token'));
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',
+                        'Authorization' : `Bearer ${token.accessToken}`
+        },
+            body: JSON.stringify(checkupRequest)
+        };
+
+        fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/doCheckup`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            console.log('ok');
             return response.statusText;
         })
         // .then(() => {
@@ -84,6 +265,7 @@ class Report extends React.Component{
             )
         })
     }
+
     render(){
         const { _description } = this.state;
         
@@ -105,40 +287,24 @@ class Report extends React.Component{
                                 />
                             </Form.Group>
                         </Form.Row>
-                        <Form.Row>
-                        <Form.Row>
-                        <div  className="dropdown" style = {{background:"white",width:"200px"}} >
-         <div className="button" onClick={this.showDropdownMenu}>Select diagnosis </div>
-
-          { this.state.displayMenu ? (
-          <ul>
-              {this.iterateTrough()}
-         {/* <li><a className="active" href="#Create Page">Create Page</a></li>
-         <li><a href="#Manage Pages">Manage Pages</a></li>
-         <li><a href="#Create Ads">Create Ads</a></li>
-         <li><a href="#Manage Ads">Manage Ads</a></li>
-         <li><a href="#Activity Logs">Activity Logs</a></li>
-         <li><a href="#Setting">Setting</a></li>
-         <li><a href="#Log Out">Log Out</a></li> */}
-          </ul>
-        ):
-        (
-          null
-        )
-        }
-
-       </div>
-                            {/* <Dropdown
-                                title="Select diagnosis"
-                                list={this.props.lista}
-                                //toggleItem={this.toggleSelected}
-                            /> */}
-                        </Form.Row>
-                        {/* <div>
-                            <Button variant="primary" onClick={()=> this.setShowing()}>Show</Button>
-                            
-                        </div> */}
-                        </Form.Row>
+                        <div>
+                            <Table  striped bordered hover id='person'>
+                                <tbody>
+                                    {this.renderTableData()}
+                                </tbody>
+                            </Table>
+                        </div>
+                        <div>
+                        <Form.Group as={Col} md="4">
+                                
+                                <Form.Control as="select" onChange={e => this.onSelected(e)}>
+                                        {this.state.listaDijagnoza.map((e, key) => {
+                                            return <option key={key} value={e.code}>{e.code}</option>;
+                                        })}
+                                    </Form.Control>
+                            </Form.Group>
+                        </div>
+                        
                         <div className="text-center">
                                 <Button variant="primary" type="submit">
                                     Submit
