@@ -3,6 +3,9 @@ import {Container, Form, Col, Button, Table} from 'react-bootstrap';
 import {serviceConfig} from '../appSettings.js'
 import {useHistory} from "react-router-dom";
 import { browserHistory } from 'react-router-dom';
+import CCAdminDecline from './CCAdminDecline.js';
+import { Route } from 'react-router-dom';
+
 class ClinicCentAdmin extends Component{
 
     constructor(props) {
@@ -69,6 +72,7 @@ class ClinicCentAdmin extends Component{
             }
            window.location.href="/clinicCentAdmin";
            return response.statusText;
+        }
        })
       //  .then(() => {
       //      this.props.history.push('/clinicCentAdmin');
@@ -79,6 +83,10 @@ class ClinicCentAdmin extends Component{
     }
 
     declineRegistration(el){
+      window.location.href='/decline/'+el.email;
+   }
+
+    ddeclineRegistration(el){
       const _address = {
          street: el.street,
          number: el.streetNumber,
