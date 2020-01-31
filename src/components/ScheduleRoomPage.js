@@ -11,9 +11,12 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 function ScheduleRoomPage() {
 
     const [data, setData] = React.useState([]);
+    const [dataDoc, setDataDoc] = React.useState([]);
+
     const [selectedCheckup, setSelectedCheckup] = React.useState([]);
     
     const [modalShow, setModalShow] = useState(false);
+    const [modalShowNoRooms, setModalShowNoRooms] = useState(false);
 
     const dateRef = useRef(null);
     
@@ -171,7 +174,28 @@ function ScheduleRoomPage() {
         .catch(response => {
             console.log(response);
         })
-        setModalShow(true);
+
+        fetch(`${serviceConfig.baseURL}/clinic/getDocForCheckup/${rowProps.id}`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            return response.json(); 
+        })
+        .then((data) =>  {
+            setData(data);
+        })
+        .catch(response => {
+            console.log(response);
+        })
+
+        if(data.length){
+            setModalShow(true);
+        }else{
+            setModalShowNoRooms(true);
+        }
+
+        
     }
 
 
@@ -186,7 +210,7 @@ function ScheduleRoomPage() {
 
             <Modal show={modalShow} onHide={() => setModalShow(false)}>
                 <Modal.Header closeButton>
-                    <h3>Room schedule</h3>
+                    <h3>Choose a room</h3>
                 </Modal.Header>
                 <Form>
                     <Modal.Body>
@@ -195,6 +219,34 @@ function ScheduleRoomPage() {
                                 return <option key={key} value={e.id}>[ID: {e.id}] {e.name}</option>;
                             })}
                         </Form.Control>
+                        <Form.Row>
+                            <Form.Group as={Col} md="6">
+                            </Form.Group>
+                        </Form.Row>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="success" onClick={handleApprove}>
+                            Approve
+                        </Button>
+                        <Button variant="warning" onClick={handleDeny}>
+                            Deny
+                        </Button>
+                    </Modal.Footer>
+                </Form>
+            </Modal>
+            <Modal show={modalShowNoRooms} onHide={() => setModalShowNoRooms(false)}>
+                <Modal.Header closeButton>
+                    <h3>Choose a different time/doctor</h3>
+                </Modal.Header>
+                <Form>
+                    <Modal.Body>
+                        <Form.Label>There were no available rooms for desired time, please choose a different time or a different doctor.</Form.Label>
+                        <Form.Label>Select a doctor (dont change if you want to have the same doctor)</Form.Label>
+                        {/* <Form.Control as="select" ref={_selectedDoctor}>
+                            {data.map((e, key) => {
+                                return <option key={key} value={e.doctor_id}>[ID: {e.doctor_id}] {e.doctor_name}</option>;
+                            })}
+                        </Form.Control> */}
                         <Form.Row>
                             <Form.Group as={Col} md="6">
                             </Form.Group>

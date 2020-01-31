@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {Container, Form, Col, Button} from 'react-bootstrap'
+import {Container, Form, Col, Button, InputGroup} from 'react-bootstrap'
 import {serviceConfig} from '../appSettings.js'
+import ReactDOM from 'react-dom';
 
 class RegisterDoctorPage extends React.Component{
     constructor(props){
@@ -16,11 +17,15 @@ class RegisterDoctorPage extends React.Component{
             _number: '',
             _city: '',
             _postcode: '',
-            _country: '',          
+            _country: '',   
+            _checkupTypes : [],
+            timeEnd: '',
+            timeStart: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
 
     handleChange(e) {
         const { id, value } = e.target;
@@ -41,9 +46,34 @@ class RegisterDoctorPage extends React.Component{
 
     }
 
+    componentDidMount(){
+        const token = JSON.parse(localStorage.getItem('token'));
+
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization' : `Bearer ${token.accessToken}`},
+        }
+
+        fetch(`${serviceConfig.baseURL}/clinic/getCheckupTypes`, requestOptions)
+            .then(response => {
+                return response.json();   
+            })
+            .then((data) =>  {
+                this.setState({_checkupTypes: data});  
+            })
+            .catch(response => {
+                // const promise = Promise.resolve(response.json());
+                // promise.then(data => {
+                //     alert(data.message);
+                // })
+            })
+    }
+
     register(){
         const token = JSON.parse(localStorage.getItem('token'));
-        const {_email, _password,  _name, _surname, _phone, _street, _number, _city, _postcode, _country } = this.state;
+        const {_email, _password,  _name, _surname, _phone, _street, _number, _city, _postcode, _country, timeStart, timeEnd } = this.state;
 
         const doctorRequest = {
             email: _email,
@@ -56,6 +86,9 @@ class RegisterDoctorPage extends React.Component{
             postcode: _postcode,
             country: _country,
             phoneNumber: _phone,
+            specialization: ReactDOM.findDOMNode(this.refs._checkupType).value,
+            startTime: timeStart,
+            endTime: timeEnd,
         }
 
         const requestOptions = {
@@ -86,7 +119,7 @@ class RegisterDoctorPage extends React.Component{
     }
     
     render(){
-        const {_email, _socialSecurityNumber, _password, _repeatPassword, _name, _surname, _phone, _street, _number, _city, _postcode, _country } = this.state;
+        const {_email, _socialSecurityNumber, _password, _repeatPassword, _name, _surname, _phone, _street, _number, _city, _postcode, _country, _checkupTypes, timeStart, timeEnd } = this.state;
         return(
             <Container>
                 <div className='register-div'>
@@ -105,6 +138,38 @@ class RegisterDoctorPage extends React.Component{
                                 />
                             </Form.Group>
                             
+                        </Form.Row>
+                        <Form.Row>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Choose specialization</Form.Label>
+                                <Form.Control required as="select" ref='_checkupType'>
+                                    {_checkupTypes.map((e, key) => {
+                                        return <option key={key} value={e.id}>{e.name}</option>;
+                                    })}
+                                </Form.Control>
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Shift start</Form.Label>
+                                <InputGroup>
+                                    <Form.Control                                        
+                                            required                                        
+                                            value={timeStart}
+                                            type="time" 
+                                            onChange = {e => this.setState({timeStart : e.target.value})}
+                                    />
+                                </InputGroup>
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Shift End</Form.Label>
+                                <Form.Control                                        
+                                        required                                        
+                                        value={timeEnd}
+                                        type="time"
+                                        min="07:00"
+                                        max="20:00"
+                                        onChange = {e => this.setState({timeEnd : e.target.value})}
+                                />
+                            </Form.Group>
                         </Form.Row>
                         <Form.Row>
                         <Form.Group as={Col} md="6">
