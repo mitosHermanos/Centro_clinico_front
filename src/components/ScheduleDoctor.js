@@ -9,12 +9,18 @@ import AvailableHours from "./AvailableHours.js";
 function ScheduleDoctor(){
     const [data, setData] = useState([]);
     const [modalShow, setModalShow] = useState(false);
+    const [modalShowConfirm, setModalShowConfirm] = useState(false);
     const [date, setDate] = useState('');
     const [type, setType] = useState({});
     const [types, setTypes] = useState([]);
     const [shift, setShift] = useState(null);
     const [busy, setBusy] = useState([]);
+    const [doctor, setDoctor] = useState('');
+    const [doctorId, setDoctorId] = useState('');
+    const [clinic, setClinic] = useState('');
+    const [time, setTime] = useState();
 
+    const [canShowModal, setCanShowModal] = useState(true);
 
     const [alertSuccesShow, setAlertSuccessShow] = useState(false);
     const [alertFailureShow, setAlertFailureShow] = useState(false);
@@ -148,6 +154,9 @@ function ScheduleDoctor(){
 
     function handleClick(rowProps){
         if(filterSubmitted){
+            setDoctor(rowProps.name);
+            setDoctorId(rowProps.id);
+            setClinic(rowProps.clinic);
             fetchWorkingSchedule(rowProps.id);
         }
         
@@ -208,6 +217,55 @@ function ScheduleDoctor(){
         setFilterSubmitted(true);
     }
 
+    function handleSelectSlot(info){
+        if(canShowModal){
+            setModalShowConfirm(true); 
+            let timeSplit = info.start.toTimeString().split(' ');
+            let time = timeSplit[0];
+            setTime(time.substring(0, time.length-3));
+        }
+    }
+
+    function handleViewChange(info){
+        if(info === 'month')
+            setCanShowModal(false);
+        else
+            setCanShowModal(true)
+    }
+    
+    function confirmAppointment(){
+        let scheduleDTO = {
+            checkupDate: date,
+            checkupTime: time,
+            checkupType: type.name,
+            doctorId: doctorId
+        }
+          
+        const token = JSON.parse(localStorage.getItem('token'));
+    
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization' : `Bearer ${token.accessToken}`
+            },
+            body: JSON.stringify(scheduleDTO)
+        }
+    
+        fetch(`${serviceConfig.baseURL}/clinic/schedule`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+
+            setModalShow(false);
+            setModalShowConfirm(false);
+            alert('Successfull schedule!');
+        })
+        .catch(() => {
+            alert('Unsuccessfull schedule!');
+        })
+    }
 
     return(
         <div> 
@@ -278,8 +336,52 @@ function ScheduleDoctor(){
                    <h3>Choose date and time</h3>
                 </Modal.Header>
                 <Modal.Body>
-                    <AvailableHours events={busy} shift={shift} passedDate={date}/>
+                    <AvailableHours 
+                        events={busy} 
+                        shift={shift}  
+                        passedDate={date} 
+                        handleSelectSlot={handleSelectSlot}
+                        handleViewChange={handleViewChange}/>
                 </Modal.Body>
+            </Modal>
+
+            <Modal show={modalShowConfirm} onHide={() => setModalShowConfirm(false)}>
+                <Modal.Header closeButton>
+                    <h3>Confirm appointment</h3>
+                </Modal.Header>
+                <Modal.Body style={{display:"flex"}}>
+                  <Container>
+                    <span>Date:</span>
+                    <i>&nbsp;{date}</i>
+                    <br/><br/>
+                    <span>Time:</span>
+                    <i>&nbsp;{time}</i>
+                    <br/><br/>
+                    <span>Type:</span>
+                    <i>&nbsp;{type.name}</i>
+                  </Container>
+                  <Container>
+                    <span>Doctor:</span>
+                    <i>&nbsp;{doctor}</i>
+                    <br/><br/>
+                    <span>Clinic:</span>
+                    <i>&nbsp;{clinic}</i>
+                    <br/><br/>
+                    <span>Duration:</span>
+                    <i>&nbsp;{type.duration} min</i>
+                    <br/><br/>
+                    <span>Price:</span>
+                    <i>&nbsp;{type.price}</i>
+                  </Container>
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="danger" onClick={() => setModalShowConfirm(false)}>
+                    Cancel
+                  </Button>
+                  <Button variant="success" onClick={confirmAppointment}>
+                    Confirm
+                  </Button>
+                </Modal.Footer>
             </Modal>
         </div>
     )

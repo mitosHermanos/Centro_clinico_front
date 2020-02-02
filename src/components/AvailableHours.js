@@ -5,7 +5,7 @@ import moment from 'moment';
 const localizer = momentLocalizer(moment);
 
 
-function AvailableHours({passedDate, shift, events}){
+function AvailableHours({passedDate, shift, events, handleSelectSlot, handleViewChange}){
     
     const [date, setDate] = useState(new Date());
 
@@ -17,10 +17,6 @@ function AvailableHours({passedDate, shift, events}){
     useEffect(() => {
         setDate(parseDate(passedDate));
     }, [passedDate])     
-
-    useEffect(() => {
-        console.log(events)
-    }, [events])    
 
     return(
         <div style={{height: '100vh', margin: '10px'}}>
@@ -36,6 +32,8 @@ function AvailableHours({passedDate, shift, events}){
                 timeslots={1}
                 min = {!shift ? new Date() : new Date(0, 0, 0, shift.startTime[0], shift.startTime[1], 0)}
                 max = {!shift ? new Date() : new Date(0, 0, 0, shift.endTime[0], shift.endTime[1]-1, 59)}
+                onSelectSlot = {handleSelectSlot}
+                onView = {handleViewChange}
             />
         </div>
     )

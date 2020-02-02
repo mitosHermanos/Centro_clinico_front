@@ -134,7 +134,7 @@ function GenericTable({ columns, data, fetchData, handleClick}) {
           </td>
           {
           headerGroups.map((_, i) => {
-            if(i < headerGroups.length-2)
+            if(i < headerGroups.length-1)
               return <td key={i}></td>
           })}
           <td>
