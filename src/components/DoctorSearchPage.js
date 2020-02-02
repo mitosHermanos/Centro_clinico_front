@@ -98,25 +98,24 @@ function DoctorSearchPage(){
       const token = JSON.parse(localStorage.getItem('token'));
 
       const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization' : `Bearer ${token.accessToken}`
-            },
-            body: JSON.stringify(scheduleDTO)
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization' : `Bearer ${token.accessToken}`
+        },
+        body: JSON.stringify(scheduleDTO)
       }
 
       fetch(`${serviceConfig.baseURL}/clinic/schedule`, requestOptions)
       .then(response => {
         setAlertSuccessShow(false);
         if (!response.ok) {
+          setScheduleFailed(true);
           return Promise.reject(response);
         }
         setScheduled(true);
-        return response.json(); 
       })
       .catch(response => {
-          setScheduleFailed(true);
       })
     }
 
@@ -134,7 +133,7 @@ function DoctorSearchPage(){
                 }
 
                 {scheduled &&
-                      <Alert variant="success" onClose={() => setAlertSuccessShow(false)} dismissible>
+                      <Alert variant="success" onClose={() => setScheduled(false)} dismissible>
                       <Alert.Heading>Well done!</Alert.Heading>
                       <p>
                         You have successfully scheduled an appointment!
@@ -143,7 +142,7 @@ function DoctorSearchPage(){
                 }   
 
                 {scheduleFailed &&
-                      <Alert variant="danger" onClose={() => setAlertSuccessShow(false)} dismissible>
+                      <Alert variant="danger" onClose={() => setScheduleFailed(false)} dismissible>
                       <Alert.Heading>Something went wrong...</Alert.Heading>
                       <p>
                         Something went wrong while trying to schedule your appointment!
@@ -177,7 +176,7 @@ function DoctorSearchPage(){
                     <i>&nbsp;{urlParser.get('clinic')}</i>
                     <br/><br/>
                     <span>Duration:</span>
-                    <i>&nbsp;{urlParser.get('duration')}</i>
+                    <i>&nbsp;{urlParser.get('duration')} min</i>
                     <br/><br/>
                     <span>Price:</span>
                     <i>&nbsp;{urlParser.get('price')}</i>
