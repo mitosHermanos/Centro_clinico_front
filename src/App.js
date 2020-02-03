@@ -23,12 +23,16 @@ import RegisterClinicCentAdmin from './components/RegisterClinicCentAdmin';
 import ReportDiagnosis from './components/ReportDiagnosis';
 import AccountActivated from './components/AccountActivated';
 import Homepage from './components/Homepage';
+import PrescriptionTable from './components/PrescriptionTable';
+import CCAdminDecline from './components/CCAdminDecline';
 import PatientClinicList from './components/PatientClinicList';
 import ClinicInfo from './components/ClinicInfo';
 import ScheduleDoctor from './components/ScheduleDoctor'
 import PredefineCheckupPage from './components/PredefineCheckupPage.js';
 import PredefineCheckups from './components/PredefinedCheckups';
 import PastCheckupsPatient from './components/PastCheckupsPatient';
+import ScheduleRoomPage from './components/ScheduleRoomPage';
+import PatientListNurse from './components/PatientListNurse';
 
 function App() {
   return (
@@ -43,7 +47,7 @@ function App() {
       <Route path="/newDiagnosis" component={EnterDiagnosis} />
       <Route path="/newMedicine" component={EnterMedicine}/>
       <Route path="/registerDoctor" component={RegisterDoctorPage} />
-
+      <Route path="/patientListNurse" component={PatientListNurse} />
       <Route path="/searchRooms" component={RoomSearchPage}/>
       <Route path="/seeRoomSchedule" component={RoomSearchPage}/>
 
@@ -51,16 +55,19 @@ function App() {
       <Route path="/searchCheckupTypes" component={CheckupTypeSearchPage}/>
       <Route path="/searchCheckupDates" component={CheckupDateSearchPage}/>
       <Route path="/registerClinicCentAdmin" component={RegisterClinicCentAdmin}/>
-      <Route path="/report" component={Report}/>
+      <Route path="/reportDiagnosis" component={Report}/>
       <Route path="/addToReport" component={ReportDiagnosis}/>
       <Route path="/home" component={Homepage}/>
       <Route path="/activated" component={AccountActivated}/>
+      <Route path="/prescriptionTable" component={PrescriptionTable}/>
+      <Route path="/decline/:id" component={CCAdminDecline}/>
       <Route path="/clinicsList" component={PatientClinicList}/>      
       <Route path="/scheduleDoctors" component={DoctorSearchPage}/>
       <Route path="/doctorsInClinic/:id" component={ScheduleDoctor}/>
       <Route path="/predefineCheckup" component={PredefineCheckupPage}/>
       <Route path="/predefinedList/:id" component={PredefineCheckups}/>
       <Route path="/pastCheckups" component={PastCheckupsPatient}/>
+      <Route path="/scheduleRooms" component={ScheduleRoomPage}/>
 
       <Route
         path="/patientProfile"

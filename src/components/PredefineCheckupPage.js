@@ -13,7 +13,6 @@ class PredefineCheckupPage extends React.Component{
             _doctorId: '',
             _roomId: '',
             _doctors: [],
-            _checkupTypes: [],
             _rooms: [],
         };
         this.handleChange = this.handleChange.bind(this);
@@ -29,20 +28,6 @@ class PredefineCheckupPage extends React.Component{
                 'Content-Type': 'application/json',
                 'Authorization' : `Bearer ${token.accessToken}`},
         }
-
-        fetch(`${serviceConfig.baseURL}/clinic/getCheckupTypes`, requestOptions)
-            .then(response => {
-                return response.json();   
-            })
-            .then((data) =>  {
-                this.setState({_checkupTypes: data});  
-            })
-            .catch(response => {
-                // const promise = Promise.resolve(response.json());
-                // promise.then(data => {
-                //     alert(data.message);
-                // })
-            })
 
         fetch(`${serviceConfig.baseURL}/clinic/getRooms`, requestOptions)
             .then(response => {
@@ -63,7 +48,8 @@ class PredefineCheckupPage extends React.Component{
                 return response.json();   
             })
             .then((data) =>  {
-                this.setState({_doctors: data});  
+                this.setState({_doctors: data});
+                console.log(data);
             })
             .catch(response => {
                 // const promise = Promise.resolve(response.json());
@@ -92,7 +78,6 @@ class PredefineCheckupPage extends React.Component{
         const predefCheckupRequest = {
             checkupDate: _checkupDate,
             checkupTime: _checkupTime,
-            checkupType: ReactDOM.findDOMNode(this.refs._checkupType).value,
             doctorId: ReactDOM.findDOMNode(this.refs._doctorId).value,
             roomId: ReactDOM.findDOMNode(this.refs._roomId).value,
         }
@@ -159,11 +144,11 @@ class PredefineCheckupPage extends React.Component{
                             
                         </Form.Row>
                         <Form.Row>
-                            <Form.Group as={Col} md="4">
+                            <Form.Group as={Col} md="8">
                                 <Form.Label>Choose a doctor:</Form.Label>
                                 <Form.Control required as="select" ref='_doctorId'>
                                     {_doctors.map((e, key) => {
-                                            return <option key={key} value={e.id}>{e.name} {e.surname}</option>;
+                                            return <option key={key} value={e.id}>[Spec: {e.spec}] {e.name} {e.surname}</option>;
                                         })}
                                 </Form.Control>
                             </Form.Group>
@@ -173,14 +158,6 @@ class PredefineCheckupPage extends React.Component{
                                     {_rooms.map((e, key) => {
                                             return <option key={key} value={e.id}>{e.name}</option>;
                                         })}
-                                </Form.Control>
-                            </Form.Group>
-                            <Form.Group as={Col} md="4">
-                                <Form.Label>Choose a type:</Form.Label>
-                                <Form.Control required as="select" ref='_checkupType'>
-                                    {_checkupTypes.map((e, key) => {
-                                        return <option key={key} value={e.id}>{e.name}</option>;
-                                    })}
                                 </Form.Control>
                             </Form.Group>
                         </Form.Row>
