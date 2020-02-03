@@ -52,7 +52,7 @@ function PastCheckupsPatient() {
                         <Container style={{marginTop:"2%"}}>
                             <h6>Clinic name: {checkup.clinicName}</h6>
                             <h6>Doctor name: {checkup.doctorName}</h6>
-                            <h6>Room name: {checkup.roomName}</h6>
+                            <h6>Room: {checkup.roomName}</h6>
                         </Container>
                     </Container>
                 </Jumbotron>
