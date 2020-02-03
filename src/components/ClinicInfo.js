@@ -86,9 +86,12 @@ class ClinicInfo extends React.Component{
                             <br/><br/>
                         </Container>
                     </Card.Body>
-                    <Card.Footer style={{display: 'flex', justifyContent: 'left'}}>
+                    <Card.Footer>
                         <Button variant="primary" size="sm" onClick={() => this.nextPath(`/doctorsInClinic/${id}`) }>
                             See all employed doctors
+                        </Button>
+                        <Button variant="success" size="sm" style={{float:"right"}} onClick={() => this.nextPath(`/predefinedList/${id}`) }>
+                            See predefined checkups
                         </Button>
                     </Card.Footer>
                 </Card>

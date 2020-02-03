@@ -29,6 +29,8 @@ import PatientClinicList from './components/PatientClinicList';
 import ClinicInfo from './components/ClinicInfo';
 import ScheduleDoctor from './components/ScheduleDoctor'
 import PredefineCheckupPage from './components/PredefineCheckupPage.js';
+import PredefineCheckups from './components/PredefinedCheckups';
+import PastCheckupsPatient from './components/PastCheckupsPatient';
 import ScheduleRoomPage from './components/ScheduleRoomPage';
 import PatientListNurse from './components/PatientListNurse';
 
@@ -63,8 +65,9 @@ function App() {
       <Route path="/scheduleDoctors" component={DoctorSearchPage}/>
       <Route path="/doctorsInClinic/:id" component={ScheduleDoctor}/>
       <Route path="/predefineCheckup" component={PredefineCheckupPage}/>
+      <Route path="/predefinedList/:id" component={PredefineCheckups}/>
+      <Route path="/pastCheckups" component={PastCheckupsPatient}/>
       <Route path="/scheduleRooms" component={ScheduleRoomPage}/>
-
 
       <Route
         path="/patientProfile"
