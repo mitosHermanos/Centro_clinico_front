@@ -129,7 +129,7 @@ class Header extends React.Component {
                     <Row>	
                         <Nav.Link onClick={()=>this.nextPath('/doctorProfile')}>View profile</Nav.Link>	
                         <Nav.Link>Start checkup</Nav.Link>	
-                        <Nav.Link>Search patients</Nav.Link>	
+                        <Nav.Link onClick={()=>this.nextPath('/searchPatients')}>Search patients</Nav.Link>	
                         <Nav.Link>View work calendar</Nav.Link>	
                         <Nav.Link>Request a vacation/leave</Nav.Link>	
                         <Nav.Link>Schedule a checkup/operation</Nav.Link>	
