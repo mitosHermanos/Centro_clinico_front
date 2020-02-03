@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Button, Container, Image} from 'react-bootstrap';
+import {Form, Button, Container, Image, Modal, Card} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {serviceConfig} from '../appSettings.js'
 import ModalAlert from './ModalAlert.js'
@@ -11,11 +11,19 @@ class LoginPage extends React.Component{
         this.state = {
             _email : "",
             _password : "", 
-            message: ""
+            message: "",
+            _newPassword: "",
+            _repeatPassword: "",
+            modalShow: false,
         }
 
         this.child = React.createRef();
 
+        
+        this.newPassword = React.createRef();
+        this.repeatPassword = React.createRef();
+
+        this.handleFirstPass = this.handleFirstPass.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -27,6 +35,13 @@ class LoginPage extends React.Component{
         }
     }
 
+    showPassword(ref){
+        ref.current.type = 'text';
+    }
+
+    hidePassword(ref){
+        ref.current.type = 'password';
+    }
 
     handleChange(e) {
         const { id, value } = e.target;
@@ -39,8 +54,55 @@ class LoginPage extends React.Component{
         this.login();
     }
 
+    handleShowModal(){
+        const {modalShow} = this.state.modalShow;
+        this.setState({modalShow:true});
+        this.componentDidMount();
+    }
+
+    handleFirstPass(){
+        const {_email, _newPassword, _repeatPassword, modalShow} = this.state;
+
+        if(_newPassword.trim() !== _repeatPassword.trim()){
+            this.setState({message:"Passwords do not match"})
+            this.child.current.showModal(); 
+            return;
+        }
+
+        const passwordData = {
+            email : _email,
+            password : _newPassword
+        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'                
+            },
+            body: JSON.stringify(passwordData)
+        };
+
+
+        fetch(`${serviceConfig.baseURL}/auth/firstPassChange`, requestOptions)
+        .then((response) => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+            this.setState({modalShow:false});
+            this.props.history.push('/');
+        })
+        .catch(response => {
+            const promise = Promise.resolve(response.json());
+            promise.then(data => {
+                this.setState({message:data.message})
+                this.child.current.showModal(); 
+            })    
+        })
+
+    }
+
     login(){
-        const {_email, _password} = this.state;
+        const {_email, _password, modalShow} = this.state;
 
         const loginData = {
             email : _email,
@@ -61,8 +123,16 @@ class LoginPage extends React.Component{
             return response.json();
         })
         .then((data) => {
-            localStorage.setItem('token', JSON.stringify(data));
-            this.props.history.push('/home');
+            console.log(data);
+            if(data != null){
+                if(data.accessToken != null){
+                    localStorage.setItem('token', JSON.stringify(data));
+                    this.props.history.push('/home');
+                }else{
+                    this.handleShowModal();
+                    console.log("LMA");
+                }
+            }
         })
         .catch(response => {
             const promise = Promise.resolve(response.json())
@@ -74,7 +144,7 @@ class LoginPage extends React.Component{
     }
 
     render(){
-        const {_email, _password, message} = this.state;
+        const {_email, _password, message, _newPassword, _repeatPassword, modalShow} = this.state;
 
         return(
             <Container style={{position: "relative", top: "50%", transform: "translateY(40%)"}}>
@@ -128,6 +198,62 @@ class LoginPage extends React.Component{
                     </div>
 
                     <ModalAlert message={message} ref={this.child}/>
+                    
+                    <Modal show={modalShow} onHide={() => this.setState({modalShow: false})}>
+                        <Modal.Header closeButton>
+                            <h3>First login password change</h3>
+                        </Modal.Header>
+                        <Modal.Body>
+                        <Form.Group>
+                                <Form.Label>
+                                    New password
+                                </Form.Label>
+                                <div style={{display:"flex"}}>
+                                    <Form.Control
+                                        required
+                                        id="_newPassword"
+                                        value={_newPassword} 
+                                        type="password"
+                                        placeholder="New password"
+                                        onChange = {this.handleChange}
+                                        ref={this.newPassword}
+                                    />
+                                    <Button 
+                                        variant="outline-secondary"
+                                        onMouseDown={this.showPassword.bind(this, this.newPassword)} 
+                                        onMouseUp={this.hidePassword.bind(this, this.newPassword)} 
+                                        onMouseLeave={this.hidePassword.bind(this, this.newPassword)}
+                                    >See</Button>
+                                </div>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>
+                                    Repeat new password
+                                </Form.Label>
+                                <div style={{display:"flex"}}>
+                                    <Form.Control
+                                        required
+                                        id="_repeatPassword"
+                                        value={_repeatPassword} 
+                                        type="password"
+                                        placeholder="Repeat new password"
+                                        onChange = {this.handleChange}
+                                        ref={this.repeatPassword}
+                                    />
+                                    <Button 
+                                        variant="outline-secondary"
+                                        onMouseDown={this.showPassword.bind(this, this.repeatPassword)} 
+                                        onMouseUp={this.hidePassword.bind(this, this.repeatPassword)} 
+                                        onMouseLeave={this.hidePassword.bind(this, this.repeatPassword)}
+                                    >See</Button>
+                                </div>
+                            </Form.Group>
+                        </Modal.Body>
+                        <Card.Footer style={{display:"flex", justifyContent:"flex-end"}}>
+                            <Button variant="success" onClick={this.handleFirstPass} size="sm" style={{marginRight:"3%"}}>Submit</Button>
+                        </Card.Footer>
+                    </Modal>
+
             </Container>
         );
     }

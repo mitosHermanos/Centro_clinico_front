@@ -31,6 +31,9 @@ import ScheduleDoctor from './components/ScheduleDoctor'
 import PredefineCheckupPage from './components/PredefineCheckupPage.js';
 import ScheduleRoomPage from './components/ScheduleRoomPage';
 import PatientListNurse from './components/PatientListNurse';
+import DoctorInfo from './components/DoctorInfo';
+import EditDoctorInfo from './components/EditDoctorInfo';
+import EditDoctorPassword from './components/EditDoctorPassword';
 
 function App() {
   return (
@@ -73,6 +76,17 @@ function App() {
           <Route path={`${url}/`} component={PatientInfo} exact />
           <Route path={`${url}/edit`} component={EditPatientInfo} />
           <Route path={`${url}/password`} component={EditPatientPassword} />
+        </>
+        )}
+      />
+
+      <Route
+        path="/doctorProfile"
+        render={({ match: { url } }) => (
+        <>
+          <Route path={`${url}/`} component={DoctorInfo} exact />
+          <Route path={`${url}/edit`} component={EditDoctorInfo} />
+          <Route path={`${url}/password`} component={EditDoctorPassword} />
         </>
         )}
       />
