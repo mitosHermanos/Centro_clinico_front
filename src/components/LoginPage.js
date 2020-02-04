@@ -89,7 +89,7 @@ class LoginPage extends React.Component{
                 return Promise.reject(response);
             }
             this.setState({modalShow:false});
-            this.props.history.push('/');
+            window.location.reloat();
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());
@@ -98,7 +98,7 @@ class LoginPage extends React.Component{
                 this.child.current.showModal(); 
             })    
         })
-
+        
     }
 
     login(){
@@ -130,7 +130,6 @@ class LoginPage extends React.Component{
                     this.props.history.push('/home');
                 }else{
                     this.handleShowModal();
-                    console.log("LMA");
                 }
             }
         })

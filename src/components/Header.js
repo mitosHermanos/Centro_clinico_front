@@ -105,6 +105,7 @@ class Header extends React.Component {
                 {
                    role === "CLINIC_ADMIN" &&
                 <Row>
+                    <Nav.Link  onClick={() => this.nextPath('/clinicAdminProfile') }>View profile</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/editClinicProfile') }>Edit clinic profile</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/searchRooms') }>Search rooms</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/searchDoctors') }>Search doctors</Nav.Link>

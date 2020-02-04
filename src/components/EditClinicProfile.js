@@ -15,6 +15,7 @@ class EditClinicProfile extends React.Component{
                 _newRoomName: '',
                 _newCheckupType: '',
                 _newCheckupTypeDuration: '',
+                _newCheckupTypePrice: '',
                 _checkupDates : [],
                 _checkupTypes : [],
                 _rooms : [],
@@ -202,43 +203,58 @@ class EditClinicProfile extends React.Component{
         handleAddType(){
             const token = JSON.parse(localStorage.getItem('token'));
 
-            const {_newCheckupType, _newCheckupTypeDuration} = this.state;
+            const {_newCheckupType, _newCheckupTypeDuration, _newCheckupTypePrice} = this.state;
 
             const checkupTypeRequest = {
                 name : _newCheckupType,
                 duration: _newCheckupTypeDuration,
+                price : _newCheckupTypePrice,
             }
 
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization' : `Bearer ${token.accessToken}`,
-                },
-                body: JSON.stringify(checkupTypeRequest)
-            };
+            if(_newCheckupType.length && _newCheckupTypeDuration.length && _newCheckupTypePrice.length){
+                const requestOptions = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization' : `Bearer ${token.accessToken}`,
+                    },
+                    body: JSON.stringify(checkupTypeRequest)
+                };
 
-            fetch(`${serviceConfig.baseURL}/clinic/addCheckupType`, requestOptions)
-            .then(response => {
-                if(!response.ok){
-                    return Promise.reject(response);
-                }
-                return response.statusText;
-            })
-            .then(() => {
-                this.componentDidMount();            
-                
-                this.setState({message:"A new checkup type has been added"})
-                this.child.current.showModal(); 
-            })
-            .catch(response => {
-                const promise = Promise.resolve(response.json());
-                promise.then(data => {
-                    
-                this.setState({message:"Checkup type could not be added."})
-                this.child.current.showModal(); 
+                fetch(`${serviceConfig.baseURL}/clinic/addCheckupType`, requestOptions)
+                .then(response => {
+                    if(!response.ok){
+                        return Promise.reject(response);
+                    }
+                    return response.statusText;
                 })
-            })
+                .then(() => {
+                    this.componentDidMount();            
+                    
+                    this.setState({message:"A new checkup type has been added",
+                                    _newCheckupType: '',
+                                    _newCheckupTypeDuration: '',
+                                    _newCheckupTypePrice: ''})
+                    this.child.current.showModal(); 
+                })
+                .catch(response => {
+                    const promise = Promise.resolve(response.json());
+                    promise.then(data => {
+                        
+                    this.setState({message:"Checkup type could not be added.",
+                                    _newCheckupType: '',
+                                    _newCheckupTypeDuration: '',
+                                    _newCheckupTypePrice: ''})
+                    this.child.current.showModal(); 
+                    })
+                })
+            }else{
+                this.setState({message:"You have not filled in all the fields required for creating a new Checkup type!",
+                                _newCheckupType: '',
+                                _newCheckupTypeDuration: '',
+                                _newCheckupTypePrice: ''});
+                this.child.current.showModal();
+            }
         }
 
         handleAddRoom(){
@@ -248,37 +264,44 @@ class EditClinicProfile extends React.Component{
             const roomRequest = {
                 name : _newRoomName,
             }
+            if(_newRoomName.length){
+                const requestOptions = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization' : `Bearer ${token.accessToken}`,
+                    },
+                    body: JSON.stringify(roomRequest)
+                };
 
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization' : `Bearer ${token.accessToken}`,
-                },
-                body: JSON.stringify(roomRequest)
-            };
-
-            fetch(`${serviceConfig.baseURL}/clinic/addRoom`, requestOptions)
-            .then(response => {
-                if(!response.ok){
-                    return Promise.reject(response);
-                }
-                return response.statusText;
-            })
-            .then(() => {
-                this.componentDidMount();
-                
-                this.setState({message:"A new room has been added"})
-                this.child.current.showModal(); 
-            })
-            .catch(response => {
-                const promise = Promise.resolve(response.json());
-                promise.then(data => {
-                    
-                this.setState({message:"Room could not be added."})
-                this.child.current.showModal(); 
+                fetch(`${serviceConfig.baseURL}/clinic/addRoom`, requestOptions)
+                .then(response => {
+                    if(!response.ok){
+                        return Promise.reject(response);
+                    }
+                    return response.statusText;
                 })
-            })
+                .then(() => {
+                    this.componentDidMount();
+                    
+                    this.setState({message:"A new room has been added",
+                                    _newRoomName: ''})
+                    this.child.current.showModal(); 
+                })
+                .catch(response => {
+                    const promise = Promise.resolve(response.json());
+                    promise.then(data => {
+                        
+                    this.setState({message:"Room could not be added.",
+                                    _newRoomName: ''})
+                    this.child.current.showModal(); 
+                    })
+                })
+            }else{
+                this.setState({message:"You have not filled in all the fields required for creating a new Room",
+                                _newRoomName: ''});
+                this.child.current.showModal();
+            }
         }
 
         handleAddDate(){
@@ -364,7 +387,7 @@ class EditClinicProfile extends React.Component{
                 const promise = Promise.resolve(response.json());
                 promise.then(data => {
                     
-                    this.setState({message:"Checkup type could not be removed."})
+                    this.setState({message:data.message})
                     this.child.current.showModal(); 
                 })
             })
@@ -403,7 +426,7 @@ class EditClinicProfile extends React.Component{
             .catch(response => {
                 const promise = Promise.resolve(response.json());
                 promise.then(data => {
-                    this.setState({message:"Selected room could not be removed."})
+                    this.setState({message:data.message})
                     this.child.current.showModal(); 
                 })
             })
@@ -442,15 +465,14 @@ class EditClinicProfile extends React.Component{
             .catch(response => {
                 const promise = Promise.resolve(response.json());
                 promise.then(data => {
-                    
-                    this.setState({message:"Selected doctor could not be removed."})
+                    this.setState({message: data.message})
                     this.child.current.showModal(); 
                 })
             })
         }
 
         render(){
-        const {_newCheckupDate, _checkupDates, _checkupTypes, _rooms, _doctors, _newRoomName, _newCheckupType, _newCheckupTypeDuration, _clinic, _name, _description, _street, _number, _city, _postcode, _country} = this.state;
+        const {_newCheckupDate, _checkupDates, _checkupTypes, _rooms, _doctors, _newRoomName, _newCheckupType, _newCheckupTypeDuration, _newCheckupTypePrice, _clinic, _name, _description, _street, _number, _city, _postcode, _country} = this.state;
         return(
             <div>
             <Header/>
@@ -600,7 +622,7 @@ class EditClinicProfile extends React.Component{
                                 <Button variant="danger" onClick={this.handleRemoveType}>Remove</Button>
                                 </Form.Group>  
 
-                            <Form.Group as={Col} md="2">
+                            <Form.Group as={Col} md="4">
                                 <Form.Control
                                     id="_newCheckupType"
                                     value={_newCheckupType}
@@ -608,17 +630,27 @@ class EditClinicProfile extends React.Component{
                                     placeholder="Type"
                                     onChange={this.handleChange}
                                 />
+                            <Form.Row>
+                                <Form.Group as={Col}>
+                                    <Form.Control
+                                        id="_newCheckupTypeDuration"
+                                        value={_newCheckupTypeDuration}
+                                        type="text"
+                                        placeholder="Duration"
+                                        onChange={this.handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group as={Col}>
+                                    <Form.Control
+                                        id="_newCheckupTypePrice"
+                                        value={_newCheckupTypePrice}
+                                        type="text"
+                                        placeholder="Price"
+                                        onChange={this.handleChange}
+                                    />
+                                </Form.Group>
+                                </Form.Row>
                             </Form.Group>
-                            <Form.Group as={Col} md="2">
-                                <Form.Control
-                                    id="_newCheckupTypeDuration"
-                                    value={_newCheckupTypeDuration}
-                                    type="text"
-                                    placeholder="Duration"
-                                    onChange={this.handleChange}
-                                />
-                            </Form.Group>
-                            
                             <Form.Group as={Col} md="2">
                                 <Form.Label></Form.Label>
                                 <Button variant="success" onClick={this.handleAddType}>Add</Button>
