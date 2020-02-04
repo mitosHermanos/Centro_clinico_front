@@ -98,7 +98,7 @@ class Header extends React.Component {
                 <Row>
                     <Nav.Link onClick={() => this.nextPath('/clinicsList') }>Clinics list</Nav.Link>
                     <Nav.Link onClick={() => this.nextPath('/pastCheckups') }>Examinations/Surgeries</Nav.Link>
-                    <Nav.Link>Medical record</Nav.Link>
+                    <Nav.Link onClick={() => this.nextPath('/medicalRecord') }>Medical record</Nav.Link>
                     <Nav.Link onClick={() => this.nextPath('/patientProfile') }>Profile</Nav.Link>                    
                 </Row>     
                 } 

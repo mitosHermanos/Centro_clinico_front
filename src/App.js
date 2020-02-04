@@ -37,6 +37,7 @@ import DoctorInfo from './components/DoctorInfo';
 import EditDoctorInfo from './components/EditDoctorInfo';
 import EditDoctorPassword from './components/EditDoctorPassword';
 import PatientSearchPage from './components/PatientSearchPage';
+import MedicalRecord from './components/MedicalRecord'
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
       <Route path="/pastCheckups" component={PastCheckupsPatient}/>
       <Route path="/scheduleRooms" component={ScheduleRoomPage}/>
       <Route path="/searchPatients" component={PatientSearchPage}/>
+      <Route path="/medicalRecord" component={MedicalRecord}/>
 
       <Route
         path="/patientProfile"
