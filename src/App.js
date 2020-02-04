@@ -38,6 +38,8 @@ import EditDoctorInfo from './components/EditDoctorInfo';
 import EditDoctorPassword from './components/EditDoctorPassword';
 import PatientSearchPage from './components/PatientSearchPage';
 import MedicalRecord from './components/MedicalRecord'
+import AbsenceRequestPage from './components/AbsenceRequestPage';
+import ApproveAbsenceRequestPage from './components/ApproveAbsenceRequestPage';
 
 function App() {
   return (
@@ -75,6 +77,8 @@ function App() {
       <Route path="/scheduleRooms" component={ScheduleRoomPage}/>
       <Route path="/searchPatients" component={PatientSearchPage}/>
       <Route path="/medicalRecord" component={MedicalRecord}/>
+      <Route path="/createAbsenceRequest" component={AbsenceRequestPage}/>
+      <Route path="/pendingAbsenceRequests" component={ApproveAbsenceRequestPage}/>
 
       <Route
         path="/patientProfile"
