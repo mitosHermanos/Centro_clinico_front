@@ -23,7 +23,11 @@ const PatientListNurse = () => {
     const columns = React.useMemo(
         () => [
           {
+<<<<<<< Updated upstream
             Header: 'Patient list',
+=======
+            Header: 'Petient list',
+>>>>>>> Stashed changes
             columns: [
               {
                 Header: 'Name',
@@ -45,6 +49,7 @@ const PatientListNurse = () => {
 
     let history = useHistory()
 
+<<<<<<< Updated upstream
     // function fetchTypes(){
     //     const token = JSON.parse(localStorage.getItem('token'));
 
@@ -113,6 +118,9 @@ const PatientListNurse = () => {
         }
     }, [dateRef.current])
 //-----------------------------------------------------------------------------------------------------
+=======
+    
+>>>>>>> Stashed changes
     const fetchData = React.useCallback(() => {
         const token = JSON.parse(localStorage.getItem('token'));
 
@@ -138,6 +146,7 @@ const PatientListNurse = () => {
         .catch(response => {
             console.log(response)
         })
+<<<<<<< Updated upstream
 
     }, []);
 //------------------------------------------------------------------------------------------------
@@ -209,10 +218,18 @@ const PatientListNurse = () => {
     //     window.location.reload()
     // }
 
+=======
+        console.log(data);
+    }, []);
+
+
+    
+>>>>>>> Stashed changes
     return(
         <div>
             <Header/>
             <Container>
+<<<<<<< Updated upstream
                 {alertSuccesShow &&
                       <Alert variant="success" onClose={() => setAlertSuccessShow(false)} dismissible>
                       <Alert.Heading>Well done!</Alert.Heading>
@@ -304,6 +321,12 @@ const PatientListNurse = () => {
                     </Modal.Footer>
                 </Form>
             </Modal>
+=======
+                
+                <GenericTable columns={columns} data={data} fetchData={fetchData} /*handleClick={handleClick}*//>
+            </Container>
+
+>>>>>>> Stashed changes
         </div>
     )
     
