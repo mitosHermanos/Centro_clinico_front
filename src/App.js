@@ -31,6 +31,11 @@ import ScheduleDoctor from './components/ScheduleDoctor'
 import PredefineCheckupPage from './components/PredefineCheckupPage.js';
 import ScheduleRoomPage from './components/ScheduleRoomPage';
 import PatientListNurse from './components/PatientListNurse';
+<<<<<<< Updated upstream
+=======
+import PatientList from './components/PatientList'
+import MedicalRecord from './components/MedicalRecord';
+>>>>>>> Stashed changes
 
 function App() {
   return (
@@ -49,17 +54,23 @@ function App() {
       <Route path="/searchRooms" component={RoomSearchPage}/>
       <Route path="/seeRoomSchedule" component={RoomSearchPage}/>
 
+      <Route path="/patientListBeta" component={PatientList}/>
+
       <Route path="/searchDoctors" component={DoctorSearchPage}/>
       <Route path="/searchCheckupTypes" component={CheckupTypeSearchPage}/>
       <Route path="/searchCheckupDates" component={CheckupDateSearchPage}/>
       <Route path="/registerClinicCentAdmin" component={RegisterClinicCentAdmin}/>
-      <Route path="/reportDiagnosis" component={Report}/>
+
+      <Route path="/reportDiagnosis/:id" component={Report}/>
+      <Route path="/medicalRecord/:id" component={MedicalRecord}/>
+      
       <Route path="/addToReport" component={ReportDiagnosis}/>
       <Route path="/home" component={Homepage}/>
       <Route path="/activated" component={AccountActivated}/>
       <Route path="/prescriptionTable" component={PrescriptionTable}/>
       <Route path="/decline/:id" component={CCAdminDecline}/>
       <Route path="/clinicsList" component={PatientClinicList}/>      
+      <Route path="/patientList" component={PatientListNurse}/>      
       <Route path="/scheduleDoctors" component={DoctorSearchPage}/>
       <Route path="/doctorsInClinic/:id" component={ScheduleDoctor}/>
       <Route path="/predefineCheckup" component={PredefineCheckupPage}/>
