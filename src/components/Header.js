@@ -111,6 +111,7 @@ class Header extends React.Component {
                     <Nav.Link  onClick={() => this.nextPath('/searchCheckupDates') }>Search predefined checkups</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/searchCheckupTypes') }>Search checkup types</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/scheduleRooms') }>Schedule rooms</Nav.Link>
+                        <Nav.Link  onClick={() => this.nextPath('/pendingAbsenceRequests') }>Approve absence requests</Nav.Link>
                 </Row>     
                 }
                 {
@@ -131,7 +132,7 @@ class Header extends React.Component {
                         <Nav.Link>Start checkup</Nav.Link>	
                         <Nav.Link onClick={()=>this.nextPath('/searchPatients')}>Search patients</Nav.Link>	
                         <Nav.Link>View work calendar</Nav.Link>	
-                        <Nav.Link>Request a vacation/leave</Nav.Link>	
+                        <Nav.Link onClick={()=>this.nextPath('/createAbsenceRequest')}>Request a vacation/leave</Nav.Link>	
                         <Nav.Link>Schedule a checkup/operation</Nav.Link>	
                     </Row>	
                 }
