@@ -46,7 +46,7 @@ class PatientList extends React.Component{
                  <td>{el.email}</td>
                  <td>{el.phoneNumber}</td>
                  <td>{el.postcode}</td>
-                 <td><Button variant="primary" onClick={()=> this.startCheckup(el.email)}>Start chekup</Button></td>
+                 <td><Button variant="primary" onClick={()=> this.startCheckup(el.socialSecurityNumber)}>Start chekup</Button></td>
               </tr>
            )
         })
