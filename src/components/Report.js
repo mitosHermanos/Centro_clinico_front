@@ -172,7 +172,7 @@ class Report extends React.Component{
             body: JSON.stringify(checkupRequest)
         };
 
-        fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/doCheckup`, requestOptions)
+        fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/doCheckup/${this.props.match.params.id}`, requestOptions)
         .then(response => {
             if (!response.ok) {
                 return Promise.reject(response);
@@ -265,6 +265,10 @@ class Report extends React.Component{
         })
     }
 
+    medRecord(id){
+        window.location.href='/medicalRecord/'+id;
+    }
+
     render(){
         const { _description } = this.state;
         
@@ -310,6 +314,7 @@ class Report extends React.Component{
                                 </Button>
                         </div>
                     </Form>
+                    <Button variant="primary" onClick={()=> this.medRecord(this.props.match.params.id)}>Medical record</Button>
                 </div>
             </Container>
         );

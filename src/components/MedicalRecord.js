@@ -1,150 +1,338 @@
-import React, {useEffect, useState} from 'react';
-import Header from './Header.js';
-import {serviceConfig} from '../appSettings.js';  
-import { Container, Col, Row, Jumbotron, Table } from 'react-bootstrap';
-import { render } from 'react-dom';
+// import React, {useEffect, useState} from 'react';
+// import Header from './Header.js';
+// import {serviceConfig} from '../appSettings.js';  
+// import { Container, Col, Row, Jumbotron } from 'react-bootstrap';
+// import { render } from 'react-dom';
 
-function MedicalRecord(){
+// function MedicalRecord(props){
 
-    const [medicalRecord, setMedicalRecord] = useState({});
+//     const id = props.match.params.id;
+//     const [medicalRecord, setMedicalRecord] = useState({});
 
-    useEffect(() => {
-        fetchMedicalRecord();
-    }, [])
+//     useEffect(() => {
+//         fetchMedicalRecord();
+//     }, [])
 
-    const fetchMedicalRecord = () => {
+//     const fetchMedicalRecord = () => {
+//         const token = JSON.parse(localStorage.getItem('token'));
+
+//         const requestOptions = {
+//             method: 'GET',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${token.accessToken}`
+//             },
+//         };
+
+
+//         fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/getMedicalRecord/${id}`, requestOptions)
+//         .then(response => {
+//             if (!response.ok) {
+//                 return Promise.reject(response);
+//             }
+//             return response.json();
+//         })
+//         .then((data) => {
+//             setMedicalRecord(data);
+//         })
+//         .catch(response => {
+//             console.log(response);
+//         })
+//     }
+
+//     useEffect(() => {
+//         console.log(medicalRecord)
+//     }, [medicalRecord])
+//     // useEffect(() => {
+//     //     // console.log('postArray',props.postArray.title)
+//     //     console.log('postObject',props.postObject.title)
+    
+//     // },[props.postObject.title])
+
+//     const renderBasicInfo = () => {
+//         return(
+//             <Container style={{marginTop:"10%"}}>
+//                     <span>Height:</span>
+//                     <i>&nbsp;{medicalRecord.height}</i>
+//                     <br/><br/>
+//                     <span>Weight:</span>
+//                     <i>&nbsp;{medicalRecord.weight}</i>
+//                     <br/><br/>
+//                     <span>Blood type:</span>
+//                     <i>&nbsp;{medicalRecord.bloodType}</i>
+//                     <br/><br/>
+//                     <span>Age:</span>
+//                     <i>&nbsp;{medicalRecord.age}</i>
+//                     <br/><br/>
+//                     <span>Allergies:</span>
+//                     <i>&nbsp;{medicalRecord.allergies}</i>
+//                     <br/><br/>
+//                     <span>Diopter:</span>
+//                     <i>&nbsp;{medicalRecord.diopter}</i>
+//                     <br/><br/>
+//             </Container>
+//         )
+//     }
+
+//     return(
+//         <div>
+//             <Header/>
+//             <Row style={{padding:"2%"}}>
+//                 <Col>
+//                     <Jumbotron style={{margin:"5%"}}>      
+//                         <h4>Basic information</h4>
+//                         {renderBasicInfo()}
+//                     </Jumbotron>
+//                 </Col>
+//                     <div>
+//                         <p>Reports</p>
+//                     </div>
+//                 <Col xs={9}>
+                        
+//                 </Col>
+//             </Row>
+//         </div>
+//     )
+
+// } export default MedicalRecord;
+
+
+
+
+
+import React from 'react';
+import {Card, Form, Col, Button, Container} from 'react-bootstrap'
+import {serviceConfig} from '../appSettings.js'
+import ModalAlert from './ModalAlert.js'
+
+class MedicalRecord extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            //medicalRecord: {
+                _height : 0,
+                _weight : 0,
+                _bloodType : '',
+                _allergies : '',
+                _diopter : '',
+                _age : 0,
+            //}
+        }
+        this.child = React.createRef();
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount(){
+        this.getMedicalRecord();
+    }
+    
+    // getMedicalRecord(){
+    //     const token = JSON.parse(localStorage.getItem('token'));
+    
+    //     const requestOptions = {
+    //         method: 'GET',
+    //         headers: {
+    //             'Authorization': `Bearer ${token.accessToken}`,
+    //             'Content-Type': 'application/json'
+    //         },
+    //     };
+
+
+    //     fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/getMedicalRecord/${this.props.match.params.id}`, requestOptions)
+    //     // .then(response => {
+    //     //     console.log('kite cveca');
+    //     //     return response.json();
+    //     // })
+    //     // .then((data)=>{
+    //     //    this.setState({medicalRecord : data});
+    //     //    console.log(this.state.medicalRecord);
+    //     // })
+    
+
+    //     .then((response) => {
+    //         if (!response.ok) {
+    //             console.log("nije ok");
+    //             return Promise.reject(response);
+    //         }
+    //         console.log("ok je");
+    //         return response.json();
+    //     })
+    //     .then((data) => {
+    //         this.setState({height : data.height});
+    //         console.log("setuje state");
+    //     }).catch((response) => {
+    //         console.log("catch");
+    //         console.log(response);
+    //     })
+    // }
+    getMedicalRecord(){
         const token = JSON.parse(localStorage.getItem('token'));
-
         const requestOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token.accessToken}`
-            },
-        };
-
-
-        fetch(`${serviceConfig.baseURL}/patient/getMedicalRecord`, requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                return Promise.reject(response);
-            }
-            return response.json();
-        })
-        .then((data) => {
-            setMedicalRecord(data);
-        })
-        .catch(response => {
-            console.log(response);
-        })
+           //mode: 'cors',
+           method: 'GET',
+           headers: {
+                       'Content-Type': 'application/json',
+                       'Authorization' : `Bearer ${token.accessToken}`
+        }
+           //body: JSON.stringify(clinicRequest)
+       };
+  
+       fetch(`${serviceConfig.baseURL}/clinicalCenterAdministrator/getMedical/${this.props.match.params.id}`, requestOptions)
+          .then(response => {
+              return response.json();
+          })
+          .then((data)=>{
+             this.setState({_height : data.height});
+             this.setState({_weight : data.weight});
+             this.setState({_allergies : data.allergies});
+             this.setState({_bloodType : data.bloodType});
+             this.setState({_age : data.age});
+             this.setState({_diopter : data.diopter});
+             console.log(this.state._height);
+          })
+          .catch(response=>{
+            //  const promise = Promise.resolve(response.json());
+            //  promise.then(data => {
+            //     alert(data.messege);
+            //  })
+          })
+    }
+    
+    handleChange(e) {
+        const newMedRecord = this.state.medicalRecord;
+        newMedRecord[e.target.id] = e.target.value;
+        this.setState({
+          medicalRecord: newMedRecord
+        });
     }
 
-    useEffect(() => {
-        console.log(medicalRecord);
-    }, [medicalRecord])
+    handleSubmit(e) {
+        e.preventDefault();
 
-    const renderBasicInfo = () => {
-        return(
-            <Container style={{marginTop:"10%"}}>
-                    <span>Height:</span>
-                    <i>&nbsp;{medicalRecord.height}</i>
-                    <br/><br/>
-                    <span>Weight:</span>
-                    <i>&nbsp;{medicalRecord.weight}</i>
-                    <br/><br/>
-                    <span>Blood type:</span>
-                    <i>&nbsp;{medicalRecord.bloodType}</i>
-                    <br/><br/>
-                    <span>Age:</span>
-                    <i>&nbsp;{medicalRecord.age}</i>
-                    <br/><br/>
-                    <span>Allergies:</span>
-                    <i>&nbsp;{medicalRecord.allergies}</i>
-                    <br/><br/>
-                    <span>Diopter:</span>
-                    <i>&nbsp;{medicalRecord.diopter}</i>
-                    <br/><br/>
-            </Container>
-        )
+        this.editPatientInfo();
     }
 
-    const renderReports = () => {
-        return medicalRecord.reports.map((report, i) => {
-            return(
-                <Container key={i} className="bg-light" style={{borderRadius:"5%", paddingTop:"1%"}}>
-                    <div style={{padding:"1%"}}>
-                        <span>{report.description}</span>
-                    </div>
-                    <hr/>
-                    <Row>
-                        <Col>
-                            <h5>Diagnosis</h5>
-                            <span>Code:</span>
-                            <i>&nbsp;{report.diagnosisCode}</i>
-                            <br/><br/>
-                            <span>Description:</span>
-                            <i>&nbsp;{report.diagnosisDescription}</i>
-                            <br/><br/>                            
-                        </Col>
-                        <Col>
-                            <h5>Prescription:</h5>
-                            <span>Code:</span>
-                            <i>&nbsp;{report.certifiedByName}</i>
-                            <br/><br/>
-                            <span>Certified:</span>
-                            <i>&nbsp;{report.prescriptionCertified ? 'Yes' : 'No'}</i>
-                            <br/><br/>
-                        </Col>
-                    </Row>
-                    <hr/>
-                    <Row key={i}>
-                    <Col>
-                        <h5>Medicine list</h5>
-                        <Table bordered hover style={{marginTop:"2%"}}>
-                            <tr>
-                                <th>Code</th>
-                                <th>Description</th>
-                            </tr>
-                            {renderMedicines(report.medicines)}
-                        </Table>
-                    </Col>
-                    </Row>
-                </Container>
-            )
-        })
+    // editPatientInfo(){
+    //     const token = JSON.parse(localStorage.getItem('token'));
+    //     const {patient} = this.state;
+    
+    //     const requestOptions = {
+    //         method: 'POST',
+    //         headers: {
+    //             'Authorization': `Bearer ${token.accessToken}`,
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body : JSON.stringify(patient)
+    //     };
+
+    //     fetch(`${serviceConfig.baseURL}/patient`, requestOptions)
+    //     .then((response) => {
+    //         if (!response.ok) {
+    //             return Promise.reject(response);
+    //         }
+    //         this.props.history.push('/patientProfile');
+    //     })
+    //     .catch(response => {
+    //         const promise = Promise.resolve(response.json());
+    //         promise.then(data => {
+    //             this.setState({message:data.message})
+    //             this.child.current.showModal(); 
+    //         })    
+    //     })
+    // }
+
+    nextPath(path) {
+        this.props.history.push(path);
     }
 
-    const renderMedicines = (medicines) => {
-        return medicines.map((medicine, i) => {
-            return (
-                <tr key={i}>
-                    <td>{medicine.code}</td>
-                    <td>{medicine.description}</td>
-                </tr>
-            )
-        })
+
+    render(){
+        
+
+        return(        
+        <Container style={{marginTop:"5rem", width:"50rem"}}>
+            <Card>
+                <Form onSubmit = {this.handleSubmit}>
+                <Card.Header>
+                    <Card.Title id="contained-Card-title-vcenter">
+                    Edit medical record
+                    </Card.Title>
+                </Card.Header>
+                <Card.Body>
+                        <Form.Row>
+                            <Form.Group as={Col} md="4">
+                            <Form.Label>Height</Form.Label>
+                            <Form.Control
+                                required
+                                id="_height"
+                                value={this.state._height}
+                                type="number"
+                                placeholder="Height"
+                                onChange = {this.handleChange}
+                            />
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Weight</Form.Label>
+                                <Form.Control
+                                    required
+                                    id="_weight"
+                                    value={this.state._weight}
+                                    type="number"
+                                    placeholder="Weight"
+                                    onChange = {this.handleChange}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>BloodType</Form.Label>
+                                <Form.Control
+                                    required
+                                    id="_bloodType"
+                                    value={this.state._bloodType}
+                                    type="text"
+                                    placeholder="Blood type"
+                                    onChange = {this.handleChange}
+                                />
+                            </Form.Group>
+                        </Form.Row>
+                        <Form.Row>
+                            <Form.Group as={Col} md="8">
+                                    <Form.Label>Diopter</Form.Label>
+                                    <Form.Control
+                                        required
+                                        id="_diopter"
+                                        value={this.state._diopter}
+                                        type="text"
+                                        placeholder="Diopter"
+                                        onChange = {this.handleChange}
+                                    />
+                            </Form.Group>
+                            
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Age</Form.Label>
+                                <Form.Control
+                                    required
+                                    id="_age"
+                                    value={this.state._age}
+                                    type="number"
+                                    placeholder="age"
+                                    onChange = {this.handleChange}
+                                />
+                            </Form.Group>
+                        </Form.Row>
+                </Card.Body>
+                <Card.Footer style={{display:"flex", justifyContent:"flex-end"}}>
+                    <Button variant="success" type="submit" style={{marginRight:"3%"}}>Submit</Button>
+                    <Button variant="danger" onClick={() => this.nextPath('/patientProfile') }>Cancel</Button>
+                </Card.Footer>
+                </Form>
+            </Card>
+
+            <ModalAlert message={this.state.message} ref={this.child}/>
+        </Container>
+        );
     }
+}
+export default MedicalRecord;
 
-    return(
-        <div>
-            <Header/>
-            <Row style={{padding:"2%"}}>
-                <Col>
-                    <Jumbotron style={{margin:"5%"}}>      
-                        <h4>Basic information</h4>
-                        {renderBasicInfo()}
-                    </Jumbotron>
-                </Col>
-                <Col xs={9}>
-                    <Container style={{marginTop:"1.5%"}}>
-                        <div className="bg-light" style={{padding:"0.5%", marginBottom:"1%"}}>
-                            <h4>Reports</h4>
-                        </div>
-                        {medicalRecord.reports && renderReports()}
-                    </Container>  
-                </Col>
-            </Row>
-        </div>
-    )
-
-} export default MedicalRecord
