@@ -58,6 +58,10 @@ function ScheduleRoomPage() {
                 Header: 'Doctor',
                 accessor: 'doctor_name',
               },
+              {
+                Header: 'Appointment type',
+                accessor: 'operation',
+              },
             ],
           },
         ],
@@ -70,7 +74,12 @@ function ScheduleRoomPage() {
 
     function reformat(array){
         array.forEach(element => {
-            element.date = toDate(element.date)
+            element.date = toDate(element.date);
+            if(element.operation){
+                element.operation = "OPERATION";
+            }else{
+                element.operation = "CHECKUP";
+            }
         });
 
         return array;
@@ -208,6 +217,7 @@ function ScheduleRoomPage() {
             return response.json(); 
         })
         .then((data) =>  {
+            console.log(data);
             setData(reformat(data));
 
         })
@@ -273,7 +283,6 @@ function ScheduleRoomPage() {
                 setModalShowNoRooms(false);
                 setModalShow(true);
             }else{
-                console.log(dataSchedule);
                 setModalShowNoRooms(false);
                 setModalShow(false);
                 setModalShowNoRooms(true);
@@ -311,7 +320,6 @@ function ScheduleRoomPage() {
                 setCurrDoctorName(el.ime+" "+el.prezime);
                 setShift(el.shift);
                 setDataSchedule([...el.checkups,...el.absences]);
-                console.log(el);
                 setFetchedData(true);
             }
         })
