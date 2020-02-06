@@ -218,12 +218,21 @@ function ScheduleDoctor(){
     }
 
     function handleSelectSlot(info){
-        if(canShowModal){
+        if(canShowModal && info.start.getTime() > new Date().getTime()){
             setModalShowConfirm(true); 
             let timeSplit = info.start.toTimeString().split(' ');
             let time = timeSplit[0];
             setTime(time.substring(0, time.length-3));
+            setDate(getFormattedDate(info.start));
         }
+    }
+
+    function getFormattedDate(date) {
+        let year = date.getFullYear();
+        let month = (1 + date.getMonth()).toString().padStart(2, '0');
+        let day = date.getDate().toString().padStart(2, '0');
+      
+        return year + '-' + month + '-' + day;
     }
 
     function handleViewChange(info){

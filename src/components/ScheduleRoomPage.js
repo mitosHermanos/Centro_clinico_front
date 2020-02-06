@@ -106,14 +106,14 @@ function ScheduleRoomPage() {
             return response.statusText;
         })
         .then(() => {
+            setModalShow(false);
+            setModalShowNoRooms(false);
+            window.location.reload();
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());
         })
 
-        setModalShow(false);
-        setModalShowNoRooms(false);
-        window.location.reload();
     }
 
     function handleApprove(){
@@ -144,15 +144,13 @@ function ScheduleRoomPage() {
             return response.statusText;
         })
         .then(() => {
-            console.log("Nesto");
+            setModalShow(false);
+            setModalShowNoRooms(false);
+            window.location.reload();
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());
         })
-
-        setModalShow(false);
-        setModalShowNoRooms(false);
-        window.location.reload();
     }
 
     function handleDeny(){
@@ -180,13 +178,13 @@ function ScheduleRoomPage() {
             return response.statusText;
         })
         .then(() => {
+            setModalShow(false);
+            setModalShowNoRooms(false);
+            window.location.reload();
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());
         })
-        setModalShow(false);
-        setModalShowNoRooms(false);
-        window.location.reload();
     }
 
 
