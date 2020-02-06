@@ -47,10 +47,10 @@ function MedicalRecord(){
         return(
             <Container style={{marginTop:"10%"}}>
                     <span>Height:</span>
-                    <i>&nbsp;{medicalRecord.height}</i>
+                    <i>&nbsp;{medicalRecord.height}cm</i>
                     <br/><br/>
                     <span>Weight:</span>
-                    <i>&nbsp;{medicalRecord.weight}</i>
+                    <i>&nbsp;{medicalRecord.weight}kg</i>
                     <br/><br/>
                     <span>Blood type:</span>
                     <i>&nbsp;{medicalRecord.bloodType}</i>
@@ -88,7 +88,7 @@ function MedicalRecord(){
                         </Col>
                         <Col>
                             <h5>Prescription:</h5>
-                            <span>Code:</span>
+                            <span>Doctor:</span>
                             <i>&nbsp;{report.certifiedByName}</i>
                             <br/><br/>
                             <span>Certified:</span>
