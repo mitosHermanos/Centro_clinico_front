@@ -29,10 +29,21 @@ import PatientClinicList from './components/PatientClinicList';
 import ClinicInfo from './components/ClinicInfo';
 import ScheduleDoctor from './components/ScheduleDoctor'
 import PredefineCheckupPage from './components/PredefineCheckupPage.js';
+import PredefinedCheckups from './components/PredefinedCheckups';
+import PastCheckupsPatient from './components/PastCheckupsPatient';
 import ScheduleRoomPage from './components/ScheduleRoomPage';
 import PatientListNurse from './components/PatientListNurse';
 import PatientList from './components/PatientList'
 import MedicalRecord from './components/MedicalRecord';
+import DoctorInfo from './components/DoctorInfo';
+import EditDoctorInfo from './components/EditDoctorInfo';
+import EditDoctorPassword from './components/EditDoctorPassword';
+import PatientSearchPage from './components/PatientSearchPage';
+import MedicalRecord from './components/MedicalRecord'
+import AbsenceRequestPage from './components/AbsenceRequestPage';
+import ApproveAbsenceRequestPage from './components/ApproveAbsenceRequestPage';
+import EditClinicAdminPassword from './components/EditClinicAdminPassword';
+import ClinicAdminInfo from './components/ClinicAdminInfo'
 
 function App() {
   return (
@@ -71,8 +82,13 @@ function App() {
       <Route path="/scheduleDoctors" component={DoctorSearchPage}/>
       <Route path="/doctorsInClinic/:id" component={ScheduleDoctor}/>
       <Route path="/predefineCheckup" component={PredefineCheckupPage}/>
+      <Route path="/predefinedList/:id" component={PredefinedCheckups}/>
+      <Route path="/pastCheckups" component={PastCheckupsPatient}/>
       <Route path="/scheduleRooms" component={ScheduleRoomPage}/>
-
+      <Route path="/searchPatients" component={PatientSearchPage}/>
+      <Route path="/medicalRecord" component={MedicalRecord}/>
+      <Route path="/createAbsenceRequest" component={AbsenceRequestPage}/>
+      <Route path="/pendingAbsenceRequests" component={ApproveAbsenceRequestPage}/>
 
       <Route
         path="/patientProfile"
@@ -81,6 +97,28 @@ function App() {
           <Route path={`${url}/`} component={PatientInfo} exact />
           <Route path={`${url}/edit`} component={EditPatientInfo} />
           <Route path={`${url}/password`} component={EditPatientPassword} />
+        </>
+        )}
+      />
+
+      <Route
+        path="/doctorProfile"
+        render={({ match: { url } }) => (
+        <>
+          <Route path={`${url}/`} component={DoctorInfo} exact />
+          <Route path={`${url}/edit`} component={EditDoctorInfo} />
+          <Route path={`${url}/password`} component={EditDoctorPassword} />
+        </>
+        )}
+      />
+
+      <Route
+        path="/clinicAdminProfile"
+        render={({ match: { url } }) => (
+        <>
+          <Route path={`${url}/`} component={ClinicAdminInfo} exact />
+          <Route path={`${url}/edit`} component={EditClinicAdminProfile} />
+          <Route path={`${url}/password`} component={EditClinicAdminPassword} />
         </>
         )}
       />

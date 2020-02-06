@@ -97,20 +97,22 @@ class Header extends React.Component {
                    role === "PATIENT" &&
                 <Row>
                     <Nav.Link onClick={() => this.nextPath('/clinicsList') }>Clinics list</Nav.Link>
-                    <Nav.Link>Examinations/Surgeries</Nav.Link>
-                    <Nav.Link>Medical record</Nav.Link>
+                    <Nav.Link onClick={() => this.nextPath('/pastCheckups') }>Examinations/Surgeries</Nav.Link>
+                    <Nav.Link onClick={() => this.nextPath('/medicalRecord') }>Medical record</Nav.Link>
                     <Nav.Link onClick={() => this.nextPath('/patientProfile') }>Profile</Nav.Link>                    
                 </Row>     
                 } 
                 {
                    role === "CLINIC_ADMIN" &&
                 <Row>
+                    <Nav.Link  onClick={() => this.nextPath('/clinicAdminProfile') }>View profile</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/editClinicProfile') }>Edit clinic profile</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/searchRooms') }>Search rooms</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/searchDoctors') }>Search doctors</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/searchCheckupDates') }>Search predefined checkups</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/searchCheckupTypes') }>Search checkup types</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/scheduleRooms') }>Schedule rooms</Nav.Link>
+                        <Nav.Link  onClick={() => this.nextPath('/pendingAbsenceRequests') }>Approve absence requests</Nav.Link>
                 </Row>     
                 }
                 {
@@ -127,11 +129,11 @@ class Header extends React.Component {
                 {	
                     role === "DOCTOR" && 	
                     <Row>	
-                        <Nav.Link>View profile</Nav.Link>	
+                        <Nav.Link onClick={()=>this.nextPath('/doctorProfile')}>View profile</Nav.Link>	
                         <Nav.Link>Start checkup</Nav.Link>	
-                        <Nav.Link>Search patients</Nav.Link>	
+                        <Nav.Link onClick={()=>this.nextPath('/searchPatients')}>Search patients</Nav.Link>	
                         <Nav.Link>View work calendar</Nav.Link>	
-                        <Nav.Link>Request a vacation/leave</Nav.Link>	
+                        <Nav.Link onClick={()=>this.nextPath('/createAbsenceRequest')}>Request a vacation/leave</Nav.Link>	
                         <Nav.Link>Schedule a checkup/operation</Nav.Link>	
                     </Row>	
                 }

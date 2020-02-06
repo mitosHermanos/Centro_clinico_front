@@ -72,14 +72,7 @@ class ClinicCentAdmin extends Component{
             }
            window.location.href="/clinicCentAdmin";
            return response.statusText;
-        
        })
-      //  .then(() => {
-      //      this.props.history.push('/clinicCentAdmin');
-      //  })
-      //  .catch(response => {
-      //      return response.text();
-      //  })
     }
 
     declineRegistration(el){

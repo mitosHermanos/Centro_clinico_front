@@ -1,24 +1,26 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Card, Container, FormControl, Button, Form, Col, Row, OverlayTrigger, Tooltip, Image} from 'react-bootstrap';
 import {serviceConfig} from '../appSettings.js'
 import '../styles/PatientInfo.css';
 import Header from './Header';
-import GoogleMaps from 'simple-react-google-maps';
+import GoogleMaps from "simple-react-google-maps";
 
-class PatientInfo extends React.Component{
+class ClinicAdminInfo extends React.Component{
     constructor(props){
         super(props);   
         this.state = {
-            patient : {
-            }  
+            clinicAdmin : {},
+            coordinates : {}  
         }
     }
 
     componentDidMount(){
-        this.getPatientInfo();
+        this.getClinicAdminInfo();
+        
+        
     }
 
-    getPatientInfo(){
+    getClinicAdminInfo(){
         const token = JSON.parse(localStorage.getItem('token'));
     
         const requestOptions = {
@@ -30,7 +32,7 @@ class PatientInfo extends React.Component{
         };
 
 
-        fetch(`${serviceConfig.baseURL}/patient`, requestOptions)
+        fetch(`${serviceConfig.baseURL}/clinicAdmin`, requestOptions)
         .then((response) => {
             if (!response.ok) {
                 return Promise.reject(response);
@@ -38,7 +40,7 @@ class PatientInfo extends React.Component{
             return response.json();
         })
         .then((data) => {
-            this.setState({patient : data});
+            this.setState({clinicAdmin : data});
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());
@@ -55,7 +57,8 @@ class PatientInfo extends React.Component{
 
 
     render(){
-        const {name, surname, email, phoneNumber, street, streetNumber, city, postcode, country, socialSecurityNumber} = this.state.patient;
+        const {name, surname, email, phoneNumber, street, streetNumber, city, postcode, country} = this.state.clinicAdmin;
+        const {coordinates} = this.state.coordinates;
 
 
         return(
@@ -64,16 +67,16 @@ class PatientInfo extends React.Component{
             <Container style={{display: 'flex', justifyContent: 'center', marginTop: '5rem'}}>
                 <Card style={{ width: '30rem'}}>
                     <Card.Header style={{display: 'flex', justifyContent: 'space-between'}}>
-                        Patient information
+                        Clinic administrator information
                         <div>
-                            <Button variant="primary" size="sm" onClick={() => this.nextPath('/patientProfile/edit') }>
+                            <Button variant="primary" size="sm" onClick={() => this.nextPath('/clinicAdminProfile/edit') }>
                                 Edit
                             </Button>
                             <OverlayTrigger
                                 placement='top'
                                 overlay={
                                     <Tooltip id={`tooltip-top`}>
-                                        You cannot edit your email and social security number.
+                                        You cannot edit your email.
                                     </Tooltip>
                                 }
                             >
@@ -108,15 +111,9 @@ class PatientInfo extends React.Component{
                             <span>Email:</span>
                             <i>&nbsp;{email}</i>
                         </Container>
-                        <hr/>
-                        <h6>Personal information</h6>
-                        <Container>
-                        <span>Social security number:</span>
-                        <i>&nbsp;{socialSecurityNumber}</i>
-                        </Container>
                     </Card.Body>
                     <Card.Footer style={{display: 'flex', justifyContent: 'center'}}>
-                        <Button variant="primary" size="sm" onClick={() => this.nextPath('/patientProfile/password') }>
+                        <Button variant="primary" size="sm" onClick={() => this.nextPath('/clinicAdminProfile/password') }>
                             Change password
                         </Button>
                     </Card.Footer>
@@ -127,4 +124,4 @@ class PatientInfo extends React.Component{
     }
 }
 
-export default PatientInfo;
+export default ClinicAdminInfo;

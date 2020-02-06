@@ -3,22 +3,22 @@ import {Card, Container, FormControl, Button, Form, Col, Row, OverlayTrigger, To
 import {serviceConfig} from '../appSettings.js'
 import '../styles/PatientInfo.css';
 import Header from './Header';
-import GoogleMaps from 'simple-react-google-maps';
+import GoogleMaps from "simple-react-google-maps";
 
-class PatientInfo extends React.Component{
+class DoctorInfo extends React.Component{
     constructor(props){
         super(props);   
         this.state = {
-            patient : {
+            doctor : {
             }  
         }
     }
 
     componentDidMount(){
-        this.getPatientInfo();
+        this.getDoctorInfo();
     }
 
-    getPatientInfo(){
+    getDoctorInfo(){
         const token = JSON.parse(localStorage.getItem('token'));
     
         const requestOptions = {
@@ -30,7 +30,7 @@ class PatientInfo extends React.Component{
         };
 
 
-        fetch(`${serviceConfig.baseURL}/patient`, requestOptions)
+        fetch(`${serviceConfig.baseURL}/doctor`, requestOptions)
         .then((response) => {
             if (!response.ok) {
                 return Promise.reject(response);
@@ -38,7 +38,7 @@ class PatientInfo extends React.Component{
             return response.json();
         })
         .then((data) => {
-            this.setState({patient : data});
+            this.setState({doctor : data});
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());
@@ -55,7 +55,7 @@ class PatientInfo extends React.Component{
 
 
     render(){
-        const {name, surname, email, phoneNumber, street, streetNumber, city, postcode, country, socialSecurityNumber} = this.state.patient;
+        const {name, surname, email, phoneNumber, street, streetNumber, city, postcode, country, avgRating, specialization} = this.state.doctor;
 
 
         return(
@@ -64,16 +64,16 @@ class PatientInfo extends React.Component{
             <Container style={{display: 'flex', justifyContent: 'center', marginTop: '5rem'}}>
                 <Card style={{ width: '30rem'}}>
                     <Card.Header style={{display: 'flex', justifyContent: 'space-between'}}>
-                        Patient information
+                        Doctor information
                         <div>
-                            <Button variant="primary" size="sm" onClick={() => this.nextPath('/patientProfile/edit') }>
+                            <Button variant="primary" size="sm" onClick={() => this.nextPath('/doctorProfile/edit') }>
                                 Edit
                             </Button>
                             <OverlayTrigger
                                 placement='top'
                                 overlay={
                                     <Tooltip id={`tooltip-top`}>
-                                        You cannot edit your email and social security number.
+                                        You cannot edit your email.
                                     </Tooltip>
                                 }
                             >
@@ -111,12 +111,12 @@ class PatientInfo extends React.Component{
                         <hr/>
                         <h6>Personal information</h6>
                         <Container>
-                        <span>Social security number:</span>
-                        <i>&nbsp;{socialSecurityNumber}</i>
+                        <span>Average rating: </span>
+                        <i>&nbsp;{avgRating}</i>
                         </Container>
                     </Card.Body>
                     <Card.Footer style={{display: 'flex', justifyContent: 'center'}}>
-                        <Button variant="primary" size="sm" onClick={() => this.nextPath('/patientProfile/password') }>
+                        <Button variant="primary" size="sm" onClick={() => this.nextPath('/doctorProfile/password') }>
                             Change password
                         </Button>
                     </Card.Footer>
@@ -127,4 +127,4 @@ class PatientInfo extends React.Component{
     }
 }
 
-export default PatientInfo;
+export default DoctorInfo;
