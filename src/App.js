@@ -31,11 +31,8 @@ import ScheduleDoctor from './components/ScheduleDoctor'
 import PredefineCheckupPage from './components/PredefineCheckupPage.js';
 import ScheduleRoomPage from './components/ScheduleRoomPage';
 import PatientListNurse from './components/PatientListNurse';
-<<<<<<< Updated upstream
-=======
 import PatientList from './components/PatientList'
 import MedicalRecord from './components/MedicalRecord';
->>>>>>> Stashed changes
 
 function App() {
   return (
