@@ -3,6 +3,7 @@ import {Card, Container, FormControl, Button, Form, Col, Row, OverlayTrigger, To
 import {serviceConfig} from '../appSettings.js'
 import '../styles/PatientInfo.css';
 import Header from './Header';
+import GoogleMaps from "simple-react-google-maps";
 
 class DoctorInfo extends React.Component{
     constructor(props){
@@ -92,6 +93,14 @@ class DoctorInfo extends React.Component{
                             <span>Phone number:</span>
                             <i>&nbsp;{phoneNumber}</i>
                             <br/><br/>
+                            <GoogleMaps
+                                apiKey={"AIzaSyA7uok3wogOKBfDVmmi_5JbLcYQtIvzA20"}
+                                style={{height: "200px", width: "100%"}}
+                                zoom={6}
+                                center={{lat: 45.246520, lng: 19.851710}}
+                                // center={`https://maps.googleapis.com/maps/api/geocode/json?address=${streetNumber}+${street}+${city}+${postcode}&key=AIzaSyBpsiwUWy62woh9wkmdXLolzVTkPcJqzng`}
+                                // markers={`https://maps.googleapis.com/maps/api/geocode/json?address=${streetNumber}+${street}+${city}+${postcode}&key=AIzaSyBpsiwUWy62woh9wkmdXLolzVTkPcJqzng`} //optional
+                            />
                             <span>Address:</span>
                             <i>&nbsp;
                                 {street} {streetNumber}, {postcode} {city}, {country}</i>
