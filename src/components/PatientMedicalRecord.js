@@ -4,7 +4,7 @@ import {serviceConfig} from '../appSettings.js';
 import { Container, Col, Row, Jumbotron, Table } from 'react-bootstrap';
 import { render } from 'react-dom';
 
-function MedicalRecord(){
+function PatientMedicalRecord(){
 
     const [medicalRecord, setMedicalRecord] = useState({});
 
@@ -101,11 +101,13 @@ function MedicalRecord(){
                     <Col>
                         <h5>Medicine list</h5>
                         <Table bordered hover style={{marginTop:"2%"}}>
-                            <tr>
-                                <th>Code</th>
-                                <th>Description</th>
-                            </tr>
-                            {renderMedicines(report.medicines)}
+                            <tbody>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Description</th>
+                                </tr>
+                                {renderMedicines(report.medicines)}
+                            </tbody>
                         </Table>
                     </Col>
                     </Row>
@@ -147,4 +149,4 @@ function MedicalRecord(){
         </div>
     )
 
-} export default MedicalRecord
+} export default PatientMedicalRecord
