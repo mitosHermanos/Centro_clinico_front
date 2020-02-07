@@ -34,7 +34,6 @@ import PastCheckupsPatient from './components/PastCheckupsPatient';
 import ScheduleRoomPage from './components/ScheduleRoomPage';
 import PatientListNurse from './components/PatientListNurse';
 import PatientList from './components/PatientList'
-import MedicalRecord from './components/MedicalRecord';
 import DoctorInfo from './components/DoctorInfo';
 import EditDoctorInfo from './components/EditDoctorInfo';
 import EditDoctorPassword from './components/EditDoctorPassword';
@@ -44,6 +43,7 @@ import AbsenceRequestPage from './components/AbsenceRequestPage';
 import ApproveAbsenceRequestPage from './components/ApproveAbsenceRequestPage';
 import EditClinicAdminPassword from './components/EditClinicAdminPassword';
 import ClinicAdminInfo from './components/ClinicAdminInfo'
+import ScheduleOnCheckupEnd from './components/ScheduleOnCheckupEnd';
 
 function App() {
   return (
@@ -89,6 +89,7 @@ function App() {
       <Route path="/patientMedicalRecord" component={PatientMedicalRecord}/>
       <Route path="/createAbsenceRequest" component={AbsenceRequestPage}/>
       <Route path="/pendingAbsenceRequests" component={ApproveAbsenceRequestPage}/>
+      <Route path="/scheduleAnother/:id" component={ScheduleOnCheckupEnd}/>
 
       <Route
         path="/patientProfile"
