@@ -91,14 +91,14 @@ function PredefinedChekups() {
             if (!response.ok) {
                 return Promise.reject(response);
             }
-            return response.json();
-        })
-        .then((data) => {
-            
+            window.location.reload();
         })
         .catch(response => {
-            console.log(response)
+            console.log(response);
+            console.log("CATCH")
         })
+
+        
     }
 
     return(
