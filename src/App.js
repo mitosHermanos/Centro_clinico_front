@@ -44,6 +44,8 @@ import ApproveAbsenceRequestPage from './components/ApproveAbsenceRequestPage';
 import EditClinicAdminPassword from './components/EditClinicAdminPassword';
 import ClinicAdminInfo from './components/ClinicAdminInfo'
 import ScheduleOnCheckupEnd from './components/ScheduleOnCheckupEnd';
+import MedicalRecord from './components/MedicalRecord';
+import EditClinicAdminInfo from './components/EditClinicAdminInfo';
 
 function App() {
   return (
@@ -118,7 +120,7 @@ function App() {
         render={({ match: { url } }) => (
         <>
           <Route path={`${url}/`} component={ClinicAdminInfo} exact />
-          <Route path={`${url}/edit`} component={EditClinicAdminProfile} />
+          <Route path={`${url}/edit`} component={EditClinicAdminInfo} />
           <Route path={`${url}/password`} component={EditClinicAdminPassword} />
         </>
         )}
