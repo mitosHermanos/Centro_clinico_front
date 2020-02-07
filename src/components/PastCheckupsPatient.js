@@ -78,7 +78,7 @@ function PastCheckupsPatient() {
                 <Jumbotron className="bg-light text-dark" style={{margin:"1%"}} key={checkup.id}>
                     <Container>
                         <div style={{display:"flex", justifyContent:"space-between"}}>
-                        <h3>{checkup.checkupType}</h3>
+                            <h3>{checkup.checkupType} - {checkup.isOperation ? "Operation" : "Checkup"}</h3>
                         <h5>{checkup.checkupTimeStart} - {checkup.checkupTimeEnd}  {checkup.checkupDate}</h5>
                         </div>
                         <Container style={{marginTop:"2%"}}>
