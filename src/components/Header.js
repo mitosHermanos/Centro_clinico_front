@@ -137,6 +137,15 @@ class Header extends React.Component {
                         <Nav.Link>Schedule a checkup/operation</Nav.Link>	
                     </Row>	
                 }
+                {
+                    role === "NURSE" &&
+                    <Row>
+                        <Nav.Link onClick={() => this.nextPath('/patientList') >Patient list</Nav.Link>	
+                        <Nav.Link onClick={() => this.nextPath('/doctorCalendar') >Work calendar</Nav.Link>	
+                        <Nav.Link onClick={() => this.nextPath('/prescriptionTable') >Prescription certification</Nav.Link>	
+                        <Nav.Link onClick={() => this.nextPath('/prescriptionTable')>Request a vacation/leave</Nav.Link>
+                    </Row>
+                }
                 <Col>
                 </Col>
                 <Button size="sm" variant="outline-danger" onClick={this.logout}>Sign out</Button>             
