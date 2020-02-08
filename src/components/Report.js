@@ -9,10 +9,7 @@ class Report extends React.Component{
             listaDijagnoza: [],
             listaMedikamenata: [],
             recept: [ ],
-            dijagnoza: {
-                //code: '',
-                //description: ''
-            },
+            dijagnoza: null,
             _description: '', 
         };
         this.handleChange = this.handleChange.bind(this);
