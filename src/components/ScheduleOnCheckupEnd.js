@@ -28,7 +28,6 @@ class ScheduleOnCheckupEnd extends React.Component{
         e.preventDefault();
 
         this.register();
-
     }
 
     register(){
@@ -60,7 +59,7 @@ class ScheduleOnCheckupEnd extends React.Component{
         })
         .then(() => {
             alert("You have successfully scheduled another checkup/operation!");
-            // this.props.history.push('/editClinicProfile');
+            this.props.history.push(`/reportDiagnosis/${this.props.match.params.id}`);
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());
@@ -68,6 +67,7 @@ class ScheduleOnCheckupEnd extends React.Component{
                 alert(data.message);
             })            
         })
+
     }
     
     render(){
