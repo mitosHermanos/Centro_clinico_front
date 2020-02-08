@@ -175,6 +175,7 @@ class Report extends React.Component{
                 return Promise.reject(response);
             }
             console.log('chackup made');
+            this.props.history.push("/home");
             return response.statusText;
         })
     }
@@ -312,6 +313,8 @@ class Report extends React.Component{
                         </div>
                     </Form>
                     <Button variant="primary" onClick={()=> this.medRecord(this.props.match.params.id)}>Medical record</Button>
+                    <Button variant="secondary" onClick={()=> this.props.history.push(`/scheduleAnother/${this.props.match.params.id}`)}>Schedule another checkup</Button>
+
                 </div>
             </Container>
         );

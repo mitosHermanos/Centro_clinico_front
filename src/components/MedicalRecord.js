@@ -140,7 +140,7 @@ class MedicalRecord extends React.Component{
                 return Promise.reject(response);
             }
             console.log("then");
-            this.props.history.push('/home');
+            this.props.history.push(`/reportDiagnosis/${this.props.match.params.id}`);
         })
         .catch(response => {
              const promise = Promise.resolve(response.json());
