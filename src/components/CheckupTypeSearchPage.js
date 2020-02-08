@@ -58,7 +58,7 @@ function CheckupTypeSearchPage() {
         <div>
             <Header/>
             <Container>
-                <GenericTable columns={columns} data={data} fetchData={fetchData}/>
+                <GenericTable columns={columns} data={data} fetchData={fetchData} handleClick={e=>function(){}}/>
             </Container>
         </div>
     )
