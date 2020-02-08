@@ -44,6 +44,8 @@ import AbsenceRequestPage from './components/AbsenceRequestPage';
 import ApproveAbsenceRequestPage from './components/ApproveAbsenceRequestPage';
 import EditClinicAdminPassword from './components/EditClinicAdminPassword';
 import ClinicAdminInfo from './components/ClinicAdminInfo'
+import DoctorCalendar from './components/DoctorCalendar';
+import CheckupInfo from './components/CheckupInfo';
 
 function App() {
   return (
@@ -71,7 +73,10 @@ function App() {
 
       <Route path="/reportDiagnosis/:id" component={Report}/>
       <Route path="/medicalRecord/:id" component={MedicalRecord}/>
+      <Route path="/checkupInfo/:id" component={CheckupInfo}/>
+      <Route path="/doctorCalendar" component={DoctorCalendar}/>
       
+
       <Route path="/addToReport" component={ReportDiagnosis}/>
       <Route path="/home" component={Homepage}/>
       <Route path="/activated" component={AccountActivated}/>
