@@ -112,7 +112,8 @@ class Header extends React.Component {
                     <Nav.Link  onClick={() => this.nextPath('/searchCheckupDates') }>Search predefined checkups</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/searchCheckupTypes') }>Search checkup types</Nav.Link>
                     <Nav.Link  onClick={() => this.nextPath('/scheduleRooms') }>Schedule rooms</Nav.Link>
-                        <Nav.Link  onClick={() => this.nextPath('/pendingAbsenceRequests') }>Approve absence requests</Nav.Link>
+                    <Nav.Link  onClick={() => this.nextPath('/pendingAbsenceRequests') }>Approve absence requests</Nav.Link>
+                    <Nav.Link  onClick={() => this.nextPath('/viewBusinessReport') }>View business report</Nav.Link>
                 </Row>     
                 }
                 {
@@ -130,12 +131,19 @@ class Header extends React.Component {
                     role === "DOCTOR" && 	
                     <Row>	
                         <Nav.Link onClick={()=>this.nextPath('/doctorProfile')}>View profile</Nav.Link>	
-                        <Nav.Link>Start checkup</Nav.Link>	
                         <Nav.Link onClick={()=>this.nextPath('/searchPatients')}>Search patients</Nav.Link>	
-                        <Nav.Link>View work calendar</Nav.Link>	
+                        <Nav.Link onClick={() => this.nextPath('/doctorCalendar')}>View work calendar</Nav.Link>	
                         <Nav.Link onClick={()=>this.nextPath('/createAbsenceRequest')}>Request a vacation/leave</Nav.Link>	
-                        <Nav.Link>Schedule a checkup/operation</Nav.Link>	
                     </Row>	
+                }
+                {
+                    role === "NURSE" &&
+                    <Row>
+                        <Nav.Link onClick={() => this.nextPath('/patientList')} >Patient list</Nav.Link>	
+                        <Nav.Link onClick={() => this.nextPath('/doctorCalendar')} >Work calendar</Nav.Link>	
+                        <Nav.Link onClick={() => this.nextPath('/prescriptionTable')} >Prescription certification</Nav.Link>	
+                        <Nav.Link onClick={() => this.nextPath('/createAbsenceRequest')} >Request a vacation/leave</Nav.Link>
+                    </Row>
                 }
                 <Col>
                 </Col>

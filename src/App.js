@@ -33,7 +33,7 @@ import PredefinedCheckups from './components/PredefinedCheckups';
 import PastCheckupsPatient from './components/PastCheckupsPatient';
 import ScheduleRoomPage from './components/ScheduleRoomPage';
 import PatientListNurse from './components/PatientListNurse';
-import PatientList from './components/PatientList'
+import PatientList from './components/PatientList';
 import DoctorInfo from './components/DoctorInfo';
 import EditDoctorInfo from './components/EditDoctorInfo';
 import EditDoctorPassword from './components/EditDoctorPassword';
@@ -43,9 +43,12 @@ import AbsenceRequestPage from './components/AbsenceRequestPage';
 import ApproveAbsenceRequestPage from './components/ApproveAbsenceRequestPage';
 import EditClinicAdminPassword from './components/EditClinicAdminPassword';
 import ClinicAdminInfo from './components/ClinicAdminInfo'
+import DoctorCalendar from './components/DoctorCalendar';
+import CheckupInfo from './components/CheckupInfo';
 import ScheduleOnCheckupEnd from './components/ScheduleOnCheckupEnd';
 import MedicalRecord from './components/MedicalRecord';
 import EditClinicAdminInfo from './components/EditClinicAdminInfo';
+
 
 function App() {
   return (
@@ -73,7 +76,10 @@ function App() {
 
       <Route path="/reportDiagnosis/:id" component={Report}/>
       <Route path="/medicalRecord/:id" component={MedicalRecord}/>
+      <Route path="/checkupInfo/:id" component={CheckupInfo}/>
+      <Route path="/doctorCalendar" component={DoctorCalendar}/>
       
+
       <Route path="/addToReport" component={ReportDiagnosis}/>
       <Route path="/home" component={Homepage}/>
       <Route path="/activated" component={AccountActivated}/>
