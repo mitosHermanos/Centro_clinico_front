@@ -82,7 +82,7 @@ class AbsenceRequestPage extends React.Component{
             <Header/>
             <Container>
                 <div className='register-div'>
-                    <h2>Edit profile of the clinic</h2>
+                    <h2>Create absence request</h2>
                     <Form onSubmit={this.handleSubmit}>
                     <Form.Row>
                     <Form.Group as={Col} md="6">

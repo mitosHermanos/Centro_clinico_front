@@ -89,7 +89,7 @@ class LoginPage extends React.Component{
                 return Promise.reject(response);
             }
             this.setState({modalShow:false});
-            window.location.reloat();
+            window.location.reload();
         })
         .catch(response => {
             const promise = Promise.resolve(response.json());

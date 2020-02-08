@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Container, Form, Col, Button} from 'react-bootstrap'
 
 function EditClinicAdminProfile(){
-
+    
     return(
         <Container>
             <div className='register-div'>

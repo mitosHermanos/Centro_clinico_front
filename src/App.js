@@ -38,13 +38,17 @@ import DoctorInfo from './components/DoctorInfo';
 import EditDoctorInfo from './components/EditDoctorInfo';
 import EditDoctorPassword from './components/EditDoctorPassword';
 import PatientSearchPage from './components/PatientSearchPage';
-import MedicalRecord from './components/MedicalRecord'
+import PatientMedicalRecord from './components/PatientMedicalRecord'
 import AbsenceRequestPage from './components/AbsenceRequestPage';
 import ApproveAbsenceRequestPage from './components/ApproveAbsenceRequestPage';
 import EditClinicAdminPassword from './components/EditClinicAdminPassword';
 import ClinicAdminInfo from './components/ClinicAdminInfo'
 import DoctorCalendar from './components/DoctorCalendar';
 import CheckupInfo from './components/CheckupInfo';
+import ScheduleOnCheckupEnd from './components/ScheduleOnCheckupEnd';
+import MedicalRecord from './components/MedicalRecord';
+import EditClinicAdminInfo from './components/EditClinicAdminInfo';
+
 
 function App() {
   return (
@@ -90,8 +94,10 @@ function App() {
       <Route path="/pastCheckups" component={PastCheckupsPatient}/>
       <Route path="/scheduleRooms" component={ScheduleRoomPage}/>
       <Route path="/searchPatients" component={PatientSearchPage}/>
+      <Route path="/patientMedicalRecord" component={PatientMedicalRecord}/>
       <Route path="/createAbsenceRequest" component={AbsenceRequestPage}/>
       <Route path="/pendingAbsenceRequests" component={ApproveAbsenceRequestPage}/>
+      <Route path="/scheduleAnother/:id" component={ScheduleOnCheckupEnd}/>
 
       <Route
         path="/patientProfile"
@@ -120,7 +126,7 @@ function App() {
         render={({ match: { url } }) => (
         <>
           <Route path={`${url}/`} component={ClinicAdminInfo} exact />
-          <Route path={`${url}/edit`} component={EditClinicAdminProfile} />
+          <Route path={`${url}/edit`} component={EditClinicAdminInfo} />
           <Route path={`${url}/password`} component={EditClinicAdminPassword} />
         </>
         )}

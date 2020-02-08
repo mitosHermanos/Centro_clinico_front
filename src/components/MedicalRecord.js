@@ -244,4 +244,3 @@ class MedicalRecord extends React.Component{
     }
 }
 export default MedicalRecord;
-

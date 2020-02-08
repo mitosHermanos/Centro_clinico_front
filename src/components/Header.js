@@ -97,8 +97,8 @@ class Header extends React.Component {
                    role === "PATIENT" &&
                 <Row>
                     <Nav.Link onClick={() => this.nextPath('/clinicsList') }>Clinics list</Nav.Link>
-                    <Nav.Link onClick={() => this.nextPath('/pastCheckups') }>Examinations/Surgeries</Nav.Link>
-                    <Nav.Link onClick={() => this.nextPath('/medicalRecord') }>Medical record</Nav.Link>
+                    <Nav.Link onClick={() => this.nextPath('/pastCheckups') }>Checkup/Surgeries</Nav.Link>
+                    <Nav.Link onClick={() => this.nextPath('/patientMedicalRecord') }>Medical record</Nav.Link>
                     <Nav.Link onClick={() => this.nextPath('/patientProfile') }>Profile</Nav.Link>                    
                 </Row>     
                 } 
